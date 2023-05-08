@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Hey there, Now a days i was solving THM and HTB machines and thought  lets writehow i solved and where i failed and what i learned, i wil be writing on machines who i think i learned something new and">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TryHackMe WriteUp: Recovery">
+<meta property="og:url" content="https://sf4ult.github.io/2022/09/12/post1/thm-recovery/index.html">
+<meta property="og:site_name" content="sf4ult">
+<meta property="og:description" content="Hey there, Now a days i was solving THM and HTB machines and thought  lets writehow i solved and where i failed and what i learned, i wil be writing on machines who i think i learned something new and">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post1/machine-logo.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post1/nmap.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post1/msg.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post1/bashrcfile.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post1/flag0.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post1/strings.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post1/fixutil.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post1/cronstring.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post1/opt_dir.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post1/revshell.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post1/eternity.jpg">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post1/rootshell.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post1/flag1.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post1/backuptxt.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post1/fixutil2.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post1/logincorrectattempt.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post1/flag3.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post1/flag4.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post1/flag2.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post1/xorexplaining.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post1/weblocation.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post1/xoring.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post1/decryptedmsg.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post1/flag5.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post1/adminbin.png">
+<meta property="article:published_time" content="2022-09-12T03:40:15.000Z">
+<meta property="article:modified_time" content="2023-05-08T20:33:36.294Z">
+<meta property="article:author" content="Durgesh">
+<meta property="article:tag" content="Malware">
+<meta property="article:tag" content="Reverse">
+<meta property="article:tag" content="Analysis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://sf4ult.github.io/imgs/post1/machine-logo.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.png">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>TryHackMe WriteUp: Recovery</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 vazir">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archive">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/Durge5h/Projects">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2023/02/12/post2/pwn2own/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://sf4ult.github.io/2022/09/12/post1/thm-recovery/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://sf4ult.github.io/2022/09/12/post1/thm-recovery/&text=TryHackMe WriteUp: Recovery"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://sf4ult.github.io/2022/09/12/post1/thm-recovery/&title=TryHackMe WriteUp: Recovery"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://sf4ult.github.io/2022/09/12/post1/thm-recovery/&is_video=false&description=TryHackMe WriteUp: Recovery"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=TryHackMe WriteUp: Recovery&body=Check out this article: https://sf4ult.github.io/2022/09/12/post1/thm-recovery/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://sf4ult.github.io/2022/09/12/post1/thm-recovery/&title=TryHackMe WriteUp: Recovery"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://sf4ult.github.io/2022/09/12/post1/thm-recovery/&title=TryHackMe WriteUp: Recovery"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://sf4ult.github.io/2022/09/12/post1/thm-recovery/&title=TryHackMe WriteUp: Recovery"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://sf4ult.github.io/2022/09/12/post1/thm-recovery/&title=TryHackMe WriteUp: Recovery"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://sf4ult.github.io/2022/09/12/post1/thm-recovery/&name=TryHackMe WriteUp: Recovery&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://sf4ult.github.io/2022/09/12/post1/thm-recovery/&t=TryHackMe WriteUp: Recovery"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Hunting-Flag0"><span class="toc-number">1.</span> <span class="toc-text">Hunting Flag0</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Aproach-1-to-get-first-flag"><span class="toc-number">1.1.</span> <span class="toc-text">Aproach #1 to get first flag</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Aproach-2-to-get-first-flag"><span class="toc-number">1.2.</span> <span class="toc-text">Aproach #2 to get first flag</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hunting-Flag1"><span class="toc-number">2.</span> <span class="toc-text">Hunting Flag1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hunting-Flag3"><span class="toc-number">3.</span> <span class="toc-text">Hunting Flag3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hunting-Flag4"><span class="toc-number">4.</span> <span class="toc-text">Hunting Flag4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hunting-Flag2"><span class="toc-number">5.</span> <span class="toc-text">Hunting Flag2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hunting-Flag5"><span class="toc-number">6.</span> <span class="toc-text">Hunting Flag5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Summary"><span class="toc-number">7.</span> <span class="toc-text">Summary</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        TryHackMe WriteUp: Recovery
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Durgesh</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-09-12T03:40:15.000Z" class="dt-published" itemprop="datePublished">2022-09-12</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Analysis/" rel="tag">Analysis</a>, <a class="p-category" href="/tags/Malware/" rel="tag">Malware</a>, <a class="p-category" href="/tags/Reverse/" rel="tag">Reverse</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>Hey there, Now a days i was solving THM and HTB machines and thought  lets write<br>how i solved and where i failed and what i learned, i wil be writing on machines who i think i learned something new and different from others</p>
+<p>This time i am writing on Recovery machine , this is medium  level room if you haven’t try it yet i will not force you  but hey you should try first and if you are here just because you tried it and got stuck then just solve it together :) ya muchh talking :D </p>
+<p><img src="/imgs/post1/machine-logo.png" alt="alt text">  </p>
+<blockquote>
+<p>Note: Read the msg by alex from challenge description what exactly he is saying it will help you to recovery his system as he is the one who know better what exactly happend to him  .</p>
+</blockquote>
+<p>So as always first search for open ports and services running on this machine with nmap </p>
+<p><img src="/imgs/post1/nmap.png" alt="nmap result"></p>
+<p>and look at here ohmydash what i got :0 http and ssh are running simultaniously<br>that i already knew it as we have been told we can check our flags at http:&#x2F;&#x2F;$machine_ip:1337 and ssh login credentials to login in to alex’s system is </p>
+<p><code>username: alex</code><br><code>password: madeline</code></p>
+<p>After ssh ing a message was printing in a loop</p>
+<p><img src="/imgs/post1/msg.png" alt="crazy msg"></p>
+<h2 id="Hunting-Flag0"><a href="#Hunting-Flag0" class="headerlink" title="Hunting Flag0"></a>Hunting Flag0</h2><h3 id="Aproach-1-to-get-first-flag"><a href="#Aproach-1-to-get-first-flag" class="headerlink" title="Aproach #1 to get first flag"></a>Aproach #1 to get first flag</h3><p>Look like there is some script progrmmed or job shedule which run after booting the system  which is possilbe through .bashrc file or crontab  i looked for  .bashrc file and there was line written at the end of the file for looping that message</p>
+<p><img src="/imgs/post1/bashrcfile.png" alt="bashrc"></p>
+<blockquote>
+<p>?: how did i stop that msg while loop :  justing by hitting 5-10 times Enter and Ctrl^c :D thats how it worked for me give a try it’s fun :P .  actually i figurd it out later reading someone writeup i could just simply copy the my local machine .bashrc file with alex.</p>
+</blockquote>
+<p>after deleting the the line i got my first flag (you can che)</p>
+<p><img src="/imgs/post1/flag0.png" alt="first flag"></p>
+<h3 id="Aproach-2-to-get-first-flag"><a href="#Aproach-2-to-get-first-flag" class="headerlink" title="Aproach #2 to get first flag"></a>Aproach #2 to get first flag</h3><p>In home dir there was binary file <strong>fixutil</strong> and this is the file alex was talking about for better convenient i copied on my local system with <strong>scp</strong> utility .</p>
+<p>run on local system</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp alex@$IP:/home/alex/fixutil local/dir/</span><br></pre></td></tr></table></figure>
+
+<p>i looked for strings in binary to get idea about what this binary up to through <strong>strings</strong> utility i had an idea  what’s going on </p>
+<p><img src="/imgs/post1/strings.png" alt="stirngs"></p>
+<p>let’s open this binary in ghidra and decompile it into pseudocode and look into main() function ‘cause it’s main function</p>
+<p><img src="/imgs/post1/fixutil.png" alt="fixutil"></p>
+<p>pretty clean huh? , yeah in above image we can see that there is FILE variable <strong>pFvar1</strong> which containing the <strong>.bashrc</strong> file and writing some shell script into that var(.bashrc file) and ‘cause it’s .bashrc file we know that <strong>bashrc file is a script file that’s executed when a user logs in</strong> this ended up with looping message when i loggin into the system.<br>remove it from the file and this way i get the first flag . </p>
+<h2 id="Hunting-Flag1"><a href="#Hunting-Flag1" class="headerlink" title="Hunting Flag1"></a>Hunting Flag1</h2><p>meanwhile i faced issue that my loggin session is disconnecting automatially firstly thought that it was from my side but then remeber fix the fixutil strings i have seen earlier that there is job sheduled in crontab look at this image below .</p>
+<p><img src="/imgs/post1/cronstring.png" alt="crontab"></p>
+<p>&#x2F;opt&#x2F; dir listing </p>
+<p><img src="/imgs/post1/opt_dir.png" alt="opt dir"></p>
+<p>there is one dir <strong>.fixutil</strong> which has permission and as i am local user for now can’t access this dir and  a script <strong>brilliant_script.sh</strong> in <strong>&#x2F;opt&#x2F;</strong> directory wich is sheduled to run every minute<br>what we can figure out from this script that there <strong>for loop</strong> running on to get the process of bash shell using grep command and taking it’s PID to KILL with <strong>kill</strong> command so just overwrite it and now no more session breakation issue :D .</p>
+<p>but wait a minute did you  notice the file is a <strong>.sh</strong> file and with job sheduled in crontab as a root user it means i can get escalate our priviledge from alex to root </p>
+<p>here i use bash as python wasn’t there for reverse shell you can use <a target="_blank" rel="noopener" href="https://www.revshells.com/">revshell</a><br>for all type of reverse shell so writing bash revshell into brilliant_script.sh file </p>
+<p><img src="/imgs/post1/revshell.png" alt="revshell"></p>
+<p>and </p>
+<p><img src="/imgs/post1/eternity.jpg" alt="meme"></p>
+<p>I AM GROOT! . </p>
+<p><img src="/imgs/post1/rootshell.png" alt="rootshell"></p>
+<p>and captured the secod flag too. </p>
+<p><img src="/imgs/post1/flag1.png" alt="flag2"></p>
+<p>lets see the whats inside that <strong>.fixutil</strong> directory </p>
+<p><img src="/imgs/post1/backuptxt.png" alt="bakcup"></p>
+<p>hmm, some gibberish strings whas the use of this strings for that time i left as is as i didn’t have idea what to do with this file .</p>
+<blockquote>
+<p>Note: actually this room has total 6 flag and in my case while solving this room i captured the flags non sequentially and i am going to write as is , as  it will make more sense like a puzzle you get a random hint and trying to find flag relating to that hint at the last what it call CTF. </p>
+</blockquote>
+<h2 id="Hunting-Flag3"><a href="#Hunting-Flag3" class="headerlink" title="Hunting Flag3"></a>Hunting Flag3</h2><p>0kay, until now i have 2 flags and 4 remaining.<br>retrace the path and see what footprint i have (actually there is lot assuming just by the result of that fixutil binary strings resutl) .<br>hmm , fixutil reminded me that there was something too </p>
+<p><img src="/imgs/post1/fixutil2.png" alt="fixutil2"></p>
+<p>at 10th line there is system() function copying the <strong>liblogging.so</strong> file from &#x2F;lib&#x2F;x86_64-linux-gnu&#x2F; to &#x2F;tmp&#x2F; dir and fwrite() function writing that file and lastly there is another system() func echoing string ‘pwned’ and passing to a file through pipe </p>
+<p>here i have two file to look up </p>
+<ol>
+<li>liblogging.so</li>
+<li>admin</li>
+</ol>
+<p>copying the liblogging.so file to local directory using scp utility like i did for previous file and decomping it using ghidra lets see what i get<br>there are 2 interesting function </p>
+<p>1 logIncorrectAttempt<br>2 XorEncryptWebFile<br>    -  XORFile </p>
+<ol>
+<li>logIncorrectAttempt</li>
+</ol>
+<p><img src="/imgs/post1/logincorrectattempt.png" alt="liblogging"></p>
+<p>First Arrow :  moving the &#x2F;tmp&#x2F;logging.so fie to &#x2F;lib&#x2F;x86_64-linux-gnu&#x2F; as oldliblogging.so this is the previous file we have copied from &#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;liblogging to &#x2F;tmp&#x2F; as a logging.so </p>
+<p>Second Arrow : opening the authorized_keys file from &#x2F;root&#x2F;.ssh&#x2F; dir as writable permission and storing in pFVar2 var</p>
+<p>Curly Braces : writing public key to that pFVar2 var </p>
+<p>Third Arrow and square bracket : adding a new use ‘secuirty’ with passwd</p>
+<p>Last two arrow : we have figured it out already </p>
+<p>0kay , so  jumping to the Second Arrow as in first i had to go through that file<br>just opening the authorized_keys file and writing the public key look like attacker made it to escalate priviledge and as i have to recover the system i overwrited the  authorized_keys file with empty data&#x2F;deleted the public key from inside the file or can delete directly  and captured the flag3</p>
+<p><img src="/imgs/post1/flag3.png" alt="flag3"></p>
+<h2 id="Hunting-Flag4"><a href="#Hunting-Flag4" class="headerlink" title="Hunting Flag4"></a>Hunting Flag4</h2><p>Move to Third Arrow and square bracket attacker adding new user ‘security’ and pasword as well, removing this user from system using <strong>userdel</strong> command or can do it manually (removing entries from &#x2F;etc&#x2F;passwd and &#x2F;etc&#x2F;shadow)<br>and doing this  i got my flag4 </p>
+<p><img src="/imgs/post1/flag4.png" alt="flag4"></p>
+<p>Left with last two flag i.e flag2 and flag5 </p>
+<h2 id="Hunting-Flag2"><a href="#Hunting-Flag2" class="headerlink" title="Hunting Flag2"></a>Hunting Flag2</h2><p>First Arrow :  moving the &#x2F;tmp&#x2F;logging.so fie to &#x2F;lib&#x2F;x86_64-linux-gnu&#x2F; as oldliblogging.so this is the previous file we have copied from &#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;liblogging to &#x2F;tmp&#x2F; as a logging.so let just undo it to its realname .</p>
+<p>&#96;cd &#x2F;lib&#x2F;x86_64-linux-gnu&#x2F; &amp;&amp; mv &#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;oldliblogging liblogging.so </p>
+<p>and doing this  i got my flag2</p>
+<p><img src="/imgs/post1/flag2.png"></p>
+<h2 id="Hunting-Flag5"><a href="#Hunting-Flag5" class="headerlink" title="Hunting Flag5"></a>Hunting Flag5</h2><ol start="2">
+<li>XorEncryptWebFile</li>
+</ol>
+<p><img src="/imgs/post1/xorexplaining.png" alt="xorencwebfile"></p>
+<p>After reviewing the ghidra gernerated pseudo code what i get to know that this function this function generating the encryption key and storing that key into dir &#x2F;opt&#x2F;.fixutil&#x2F; as backup.txt and if dir doesn’t exist creating the new one and as i have already had cup of tea with this text file it does contain encryption key </p>
+<p>curly braces 2: function ‘GetWebFiles’ taking the all file from &#x2F;usr&#x2F;local&#x2F;apache2&#x2F;htdocs&#x2F; </p>
+<p><img src="/imgs/post1/weblocation.png" alt="getwebfiles"></p>
+<p>one by one and encrypting it with the xoring with encryption key</p>
+<p><img src="/imgs/post1/xoring.png" alt="xoring"></p>
+<p>so i copied all all encrypted file from &#x2F;usr&#x2F;local&#x2F;apache2&#x2F;htdocs&#x2F; to alex home dir as i require root permission and from then copied to my local machine using <strong>scp</strong> command<br>and decrypted all files with encryption key by reversing the encryption process using this python script</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#!/usr/bin/env python </span></span><br><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> cycle</span><br><span class="line"></span><br><span class="line">key = <span class="string">&quot;AdsipPewFlfkmll&quot;</span></span><br><span class="line"><span class="comment">#fname = &quot;index.&quot;</span></span><br><span class="line">data  = <span class="built_in">open</span>(<span class="string">&quot;./htdoc/reallyimportant.txt&quot;</span>, <span class="string">&quot;rb&quot;</span>).read()</span><br><span class="line">xor = [<span class="built_in">chr</span>(<span class="built_in">ord</span>(a) ^ <span class="built_in">ord</span>(b)) <span class="keyword">for</span> a,b <span class="keyword">in</span> <span class="built_in">zip</span>(data, cycle(key))]</span><br><span class="line">content = <span class="string">&#x27;&#x27;</span>.join(<span class="built_in">map</span>(<span class="built_in">str</span>, xor))</span><br><span class="line"><span class="built_in">print</span> content</span><br><span class="line">wome = <span class="built_in">open</span>(<span class="string">&quot;./decrypted/reallyimportant.txt&quot;</span>, <span class="string">&quot;w&quot;</span>) </span><br><span class="line">wome.write(content) </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>after decrypting the each file with same key </p>
+<p><img src="/imgs/post1/decryptedmsg.png" alt="exp result"></p>
+<p>as i have been undoing the all changes made by attacker i had to replace all files with decrypted one so.<br>i copied all files back to its dir and as it require root permission and althogh we have root shell but pass so copied to into alex home dir and then its residential dir from root shell<br>and i got my last flag with last enter .</p>
+<p><img src="/imgs/post1/flag5.png" alt="flag5"></p>
+<ol start="2">
+<li>admin</li>
+</ol>
+<p><img src="/imgs/post1/adminbin.png" alt="adminbin"></p>
+<p>still left with this binary  and nothing usefull, decompiling with ghidra we can see there is passphrase hardcoded using that we end up with msg “This section is currently under development, sorry” i was just rabbit hole .</p>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>Overall challenges in this room was quite good author designed room as real case scenerio compare to all othere room i have played so far as metioned not convetional CTF recovery all compromised system tracking all footprint left by attacker via reversing , analysing malware. </p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archive">Writing</a></li>
+        
+          <li><a href="/tags/">Tag</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/Durge5h/Projects">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Hunting-Flag0"><span class="toc-number">1.</span> <span class="toc-text">Hunting Flag0</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Aproach-1-to-get-first-flag"><span class="toc-number">1.1.</span> <span class="toc-text">Aproach #1 to get first flag</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Aproach-2-to-get-first-flag"><span class="toc-number">1.2.</span> <span class="toc-text">Aproach #2 to get first flag</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hunting-Flag1"><span class="toc-number">2.</span> <span class="toc-text">Hunting Flag1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hunting-Flag3"><span class="toc-number">3.</span> <span class="toc-text">Hunting Flag3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hunting-Flag4"><span class="toc-number">4.</span> <span class="toc-text">Hunting Flag4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hunting-Flag2"><span class="toc-number">5.</span> <span class="toc-text">Hunting Flag2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hunting-Flag5"><span class="toc-number">6.</span> <span class="toc-text">Hunting Flag5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Summary"><span class="toc-number">7.</span> <span class="toc-text">Summary</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://sf4ult.github.io/2022/09/12/post1/thm-recovery/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://sf4ult.github.io/2022/09/12/post1/thm-recovery/&text=TryHackMe WriteUp: Recovery"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://sf4ult.github.io/2022/09/12/post1/thm-recovery/&title=TryHackMe WriteUp: Recovery"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://sf4ult.github.io/2022/09/12/post1/thm-recovery/&is_video=false&description=TryHackMe WriteUp: Recovery"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=TryHackMe WriteUp: Recovery&body=Check out this article: https://sf4ult.github.io/2022/09/12/post1/thm-recovery/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://sf4ult.github.io/2022/09/12/post1/thm-recovery/&title=TryHackMe WriteUp: Recovery"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://sf4ult.github.io/2022/09/12/post1/thm-recovery/&title=TryHackMe WriteUp: Recovery"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://sf4ult.github.io/2022/09/12/post1/thm-recovery/&title=TryHackMe WriteUp: Recovery"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://sf4ult.github.io/2022/09/12/post1/thm-recovery/&title=TryHackMe WriteUp: Recovery"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://sf4ult.github.io/2022/09/12/post1/thm-recovery/&name=TryHackMe WriteUp: Recovery&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://sf4ult.github.io/2022/09/12/post1/thm-recovery/&t=TryHackMe WriteUp: Recovery"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023
+    Durgesh
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archive">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/Durge5h/Projects">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
