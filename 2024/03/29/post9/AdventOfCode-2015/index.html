@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="I spent some time to solve programming puzzles from AdventOfCode-2015 as it checks ones scripting&#x2F;programming skills by providing numerous programming challenges level wise, it has total 25 days">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Honing The Scripting: AdventOfCode-2015[:5]">
+<meta property="og:url" content="https://sf4ult.github.io/2024/03/29/post9/AdventOfCode-2015/index.html">
+<meta property="og:site_name" content="sf4ult">
+<meta property="og:description" content="I spent some time to solve programming puzzles from AdventOfCode-2015 as it checks ones scripting&#x2F;programming skills by providing numerous programming challenges level wise, it has total 25 days">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post9/banner2.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post9/day1_desc.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post9/day2_desc.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post9/day3_desc.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post9/day4_desc.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post9/day5_desc.png">
+<meta property="article:published_time" content="2024-03-29T15:20:08.607Z">
+<meta property="article:modified_time" content="2024-03-30T21:30:24.968Z">
+<meta property="article:author" content="Durgesh">
+<meta property="article:tag" content="Scripting">
+<meta property="article:tag" content="Programming">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://sf4ult.github.io/imgs/post9/banner2.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.png">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Honing The Scripting: AdventOfCode-2015[:5]</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 vazir">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archive">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/Durge5h/Projects">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/03/19/post8/Pentathon_2024/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://sf4ult.github.io/2024/03/29/post9/AdventOfCode-2015/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://sf4ult.github.io/2024/03/29/post9/AdventOfCode-2015/&text=Honing The Scripting: AdventOfCode-2015[:5]"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://sf4ult.github.io/2024/03/29/post9/AdventOfCode-2015/&title=Honing The Scripting: AdventOfCode-2015[:5]"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://sf4ult.github.io/2024/03/29/post9/AdventOfCode-2015/&is_video=false&description=Honing The Scripting: AdventOfCode-2015[:5]"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Honing The Scripting: AdventOfCode-2015[:5]&body=Check out this article: https://sf4ult.github.io/2024/03/29/post9/AdventOfCode-2015/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://sf4ult.github.io/2024/03/29/post9/AdventOfCode-2015/&title=Honing The Scripting: AdventOfCode-2015[:5]"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://sf4ult.github.io/2024/03/29/post9/AdventOfCode-2015/&title=Honing The Scripting: AdventOfCode-2015[:5]"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://sf4ult.github.io/2024/03/29/post9/AdventOfCode-2015/&title=Honing The Scripting: AdventOfCode-2015[:5]"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://sf4ult.github.io/2024/03/29/post9/AdventOfCode-2015/&title=Honing The Scripting: AdventOfCode-2015[:5]"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://sf4ult.github.io/2024/03/29/post9/AdventOfCode-2015/&name=Honing The Scripting: AdventOfCode-2015[:5]&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://sf4ult.github.io/2024/03/29/post9/AdventOfCode-2015/&t=Honing The Scripting: AdventOfCode-2015[:5]"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Day-1-Not-Quite-Lisp"><span class="toc-number">1.</span> <span class="toc-text">Day 1: Not Quite Lisp</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Description"><span class="toc-number">1.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Solve"><span class="toc-number">1.2.</span> <span class="toc-text">Solve</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Day-2-I-Was-Told-There-Would-Be-No-Math"><span class="toc-number">2.</span> <span class="toc-text">Day 2: I Was Told There Would Be No Math</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Description-1"><span class="toc-number">2.1.</span> <span class="toc-text">Description</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Approach"><span class="toc-number">2.1.1.</span> <span class="toc-text">Approach</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Solve-1"><span class="toc-number">2.2.</span> <span class="toc-text">Solve</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OneLiner"><span class="toc-number">2.3.</span> <span class="toc-text">OneLiner</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Day-3-Perfectly-Spherical-Houses-in-a-Vacuum"><span class="toc-number">3.</span> <span class="toc-text">Day 3: Perfectly Spherical Houses in a Vacuum</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Description-2"><span class="toc-number">3.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Solve-2"><span class="toc-number">3.2.</span> <span class="toc-text">Solve</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Day-4-The-Ideal-Stocking-Stuffer"><span class="toc-number">4.</span> <span class="toc-text">Day 4: The Ideal Stocking Stuffer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Description-3"><span class="toc-number">4.1.</span> <span class="toc-text">Description</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Approach-1"><span class="toc-number">4.1.1.</span> <span class="toc-text">Approach</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Solve-3"><span class="toc-number">4.2.</span> <span class="toc-text">Solve</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Day-5-Doesn%E2%80%99t-He-Have-Intern-Elves-For-This"><span class="toc-number">5.</span> <span class="toc-text">Day 5: Doesn’t He Have Intern-Elves For This?</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Description-4"><span class="toc-number">5.1.</span> <span class="toc-text">Description</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Approach-2"><span class="toc-number">5.1.1.</span> <span class="toc-text">Approach</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Solve-4"><span class="toc-number">5.2.</span> <span class="toc-text">Solve</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Summary"><span class="toc-number">5.3.</span> <span class="toc-text">Summary</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Honing The Scripting: AdventOfCode-2015[:5]
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Durgesh</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-03-29T15:20:08.607Z" class="dt-published" itemprop="datePublished">2024-03-29</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Programming/" rel="tag">Programming</a>, <a class="p-category" href="/tags/Python/" rel="tag">Python</a>, <a class="p-category" href="/tags/Scripting/" rel="tag">Scripting</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p><img src="/imgs/post9/banner2.png" alt="banner1.png"></p>
+<p>I spent some time to solve programming puzzles from AdventOfCode-2015 as it checks ones scripting&#x2F;programming skills by providing numerous programming challenges level wise, it has total 25 days of challenges this paritcular blog has first 5 challengs that i managed to solve.</p>
+<p>All Puzzle’s scripts can be found <a target="_blank" rel="noopener" href="https://github.com/durge5h/CTFs/tree/main/AdventOfCode/2015">here</a></p>
+<h2 id="Day-1-Not-Quite-Lisp"><a href="#Day-1-Not-Quite-Lisp" class="headerlink" title="Day 1: Not Quite Lisp"></a>Day 1: Not Quite Lisp</h2><h3 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h3><p><img src="/imgs/post9/day1_desc.png" alt="day1_desc.png"></p>
+<ol>
+<li>Initialize a variable to keep track of the current floor, starting at floor 0.</li>
+<li>Iterate through each character in the instructions.</li>
+<li>If the character is an opening parenthesis ‘(‘, increment the current floor by 1.</li>
+<li>If the character is a closing parenthesis ‘)’, decrement the current floor by 1.</li>
+<li>After processing all characters, the current floor will be the result.</li>
+</ol>
+<h3 id="Solve"><a href="#Solve" class="headerlink" title="Solve"></a>Solve</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">PuzzleSolver</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, file_input</span>):</span><br><span class="line">        self.file_input = file_input</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">solve</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(self.file_input, <span class="string">&quot;r&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            data = f.read()</span><br><span class="line">            data_len = <span class="built_in">len</span>(data)</span><br><span class="line">            flag = <span class="number">0</span> + <span class="number">1</span>  <span class="comment"># as loop start from 0</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(data_len):</span><br><span class="line">                <span class="keyword">if</span> data[i] == <span class="string">&#x27;(&#x27;</span>:</span><br><span class="line">                    flag += <span class="number">1</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    flag -= <span class="number">1</span></span><br><span class="line">            <span class="keyword">return</span> flag</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    file_input = <span class="string">&quot;./input.txt&quot;</span></span><br><span class="line">    solver = PuzzleSolver(file_input)</span><br><span class="line">    result = solver.solve()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;\033[1;32mResult:\033[0m&quot;</span>,result)</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Day-2-I-Was-Told-There-Would-Be-No-Math"><a href="#Day-2-I-Was-Told-There-Would-Be-No-Math" class="headerlink" title="Day 2: I Was Told There Would Be No Math"></a>Day 2: I Was Told There Would Be No Math</h2><h3 id="Description-1"><a href="#Description-1" class="headerlink" title="Description"></a>Description</h3><p><img src="/imgs/post9/day2_desc.png" alt="day2_desc.png"></p>
+<h4 id="Approach"><a href="#Approach" class="headerlink" title="Approach"></a>Approach</h4><ol>
+<li>Read the dimensions (length, width, and height) of each present from the input.</li>
+<li>For each present, calculate the surface area of the box using the formula: 2lw+2wh+2hl2lw+2wh+2hl.</li>
+<li>Determine the area of the smallest side of the box.</li>
+<li>Add the surface area and the area of the smallest side to get the total required wrapping paper for each present.</li>
+<li>Sum up the total required wrapping paper for all presents to find the total square feet of wrapping paper needed.</li>
+</ol>
+<h3 id="Solve-1"><a href="#Solve-1" class="headerlink" title="Solve"></a>Solve</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">PuzzleSolver</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, file_input</span>):</span><br><span class="line">        self.file_input = file_input</span><br><span class="line">        self.finalSA = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">surfaceArea</span>(<span class="params">self,data</span>):</span><br><span class="line">        self.data = data</span><br><span class="line">        <span class="comment">#sa = 2*l*w + 2*w*h + 2*h*l</span></span><br><span class="line">        l,w,h = <span class="built_in">map</span>(<span class="built_in">int</span>, self.data.split(<span class="string">&#x27;x&#x27;</span>))</span><br><span class="line">        <span class="comment"># self.data = str(self.data.replace(&#x27;x&#x27;,&#x27;*&#x27;))</span></span><br><span class="line">        sa = (<span class="number">2</span>*l*w + <span class="number">2</span>*w*h + <span class="number">2</span>*h*l) </span><br><span class="line">        sa = sa + <span class="built_in">min</span>(l*w,w*h,h*l)  <span class="comment"># the area of the smallest side(took time).</span></span><br><span class="line">        <span class="comment"># sa = math.sqrt(sa) # thought have to convert feet to sfeet, but SA has sfeet value already</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;flag: <span class="subst">&#123;sa&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> sa</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">solve</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(self.file_input, <span class="string">&quot;r&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            data = f.read().strip().split(<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">            <span class="comment"># data_len = len(data)</span></span><br><span class="line">            <span class="keyword">for</span> index,val <span class="keyword">in</span> <span class="built_in">enumerate</span>(data):</span><br><span class="line">                self.finalSA += self.surfaceArea(data[index])</span><br><span class="line">                <span class="comment"># print(f&quot;finalSA: &#123;self.finalSA&#125;&quot;)</span></span><br><span class="line">                <span class="comment"># exit()</span></span><br><span class="line">        <span class="built_in">print</span>(self.finalSA)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    file_input = <span class="string">&quot;./input.txt&quot;</span></span><br><span class="line">    solver = PuzzleSolver(file_input)</span><br><span class="line">    result = solver.solve()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;\033[1;32mResult:\033[0m&quot;</span>,result)</span><br></pre></td></tr></table></figure>
+
+<h3 id="OneLiner"><a href="#OneLiner" class="headerlink" title="OneLiner"></a>OneLiner</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="built_in">sum</span>(<span class="number">2</span> * (l*w + w*h + h*l) + <span class="built_in">min</span>(l*w, w*h, h*l) <span class="keyword">for</span> l, w, h <span class="keyword">in</span> (<span class="built_in">map</span>(<span class="built_in">int</span>, line.strip().split(<span class="string">&#x27;x&#x27;</span>)) <span class="keyword">for</span> line <span class="keyword">in</span> <span class="built_in">open</span>(<span class="string">&quot;./input.txt&quot;</span>))))</span><br></pre></td></tr></table></figure>
+
+<h2 id="Day-3-Perfectly-Spherical-Houses-in-a-Vacuum"><a href="#Day-3-Perfectly-Spherical-Houses-in-a-Vacuum" class="headerlink" title="Day 3: Perfectly Spherical Houses in a Vacuum"></a>Day 3: Perfectly Spherical Houses in a Vacuum</h2><h3 id="Description-2"><a href="#Description-2" class="headerlink" title="Description"></a>Description</h3><p><img src="/imgs/post9/day3_desc.png" alt="day3_desc.png"></p>
+<p>In the puzzle, Santa is moving around on a two-dimensional grid. The grid represents the map of houses in which Santa is delivering presents. Each house is identified by its coordinates on the grid. For simplicity, we can consider the grid as a Cartesian coordinate system, where each house is located at a unique pair of x and y coordinates.</p>
+<p>When we initialize Santa’s starting position at <code>(0, 0)</code>, we’re placing him at the center of the grid. This point serves as the starting point from which Santa begins his delivery route. The <code>(0, 0)</code> point represents the origin of the grid, where the x and y coordinates are both zero.</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">		 Y&#x27; (South)</span><br><span class="line">		 ^  </span><br><span class="line">		 |</span><br><span class="line">		 |</span><br><span class="line">		 |        🏠  (<span class="number">0</span>, <span class="number">2</span>)</span><br><span class="line">		 |      /   \</span><br><span class="line">		 |     /     \</span><br><span class="line">		 |    /   🎅  \  (<span class="number">0</span>, <span class="number">1</span>)</span><br><span class="line">		 |   /         \</span><br><span class="line">(West) X&#x27;&lt;--------+---🏠---🏠---🏠--<span class="punctuation">-&gt;</span> <span class="title function_ invoke__">X</span> (East)  (-<span class="number">1</span>, <span class="number">0</span>)  (<span class="number">0</span>, <span class="number">0</span>)  (<span class="number">1</span>, <span class="number">0</span>)</span><br><span class="line">		 |   \         /  </span><br><span class="line">		 |    \   🏠  /   (<span class="number">0</span>,-<span class="number">1</span>)</span><br><span class="line">		 |     \     /</span><br><span class="line">		 |      \   /</span><br><span class="line">		 |        🏠  (<span class="number">0</span>, -<span class="number">2</span>)</span><br><span class="line">		 |			  </span><br><span class="line">		 v			</span><br><span class="line">		 Y</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>As Santa moves around the grid according to the given directions (north, south, east, west), his position on the grid changes. Each movement in a particular direction (e.g., one step to the north) results in a change of Santa’s coordinates on the grid.</p>
+<ul>
+<li>Moving one step to the north increases Santa’s y-coordinate by 1.</li>
+<li>Moving one step to the south decreases Santa’s y-coordinate by 1.</li>
+<li>Moving one step to the east increases Santa’s x-coordinate by 1.</li>
+<li>Moving one step to the west decreases Santa’s x-coordinate by 1.</li>
+</ul>
+<p>So if:</p>
+<ul>
+<li>If Santa moves north from <code>(0, 0)</code>, he reaches <code>(0, 1)</code>.</li>
+<li>If Santa moves east from <code>(0, 0)</code>, he reaches <code>(1, 0)</code>.</li>
+<li>If Santa moves south from <code>(1, 0)</code>, he returns to <code>(0, 0)</code>.</li>
+</ul>
+<p>For Example:</p>
+<ul>
+<li><p>for string <code>^&gt;v&lt;</code>:</p>
+</li>
+<li><p>Santa starts at (0,0) and moves north, delivering a present to (0,1).</p>
+</li>
+<li><p>Then he moves east, delivering a present to (1,1).</p>
+</li>
+<li><p>Next, he moves south, delivering a present to (1,0).</p>
+</li>
+<li><p>Finally, he moves west, delivering a present to (0,0) again (his starting location).</p>
+</li>
+</ul>
+<p>In this case, Santa ends up visiting four houses:</p>
+<ul>
+<li>(0,0) - visited twice</li>
+<li>(0,1)</li>
+<li>(1,0)</li>
+<li>(1,1)</li>
+</ul>
+<p>Even though Santa revisits his starting location, it still counts as a unique house visited. Therefore, in total, four houses receive at least one present.</p>
+<p>To solve this puzzle, you’ll need to simulate Santa’s movements and keep track of the houses he visits. Here’s a high-level guide on how you can proceed:</p>
+<ol>
+<li><p><strong>Initialize Santa’s starting position</strong>: Santa starts at the origin (0, 0) on the grid.</p>
+</li>
+<li><p><strong>Read the input directions</strong>: Read the input directions provided in the puzzle.</p>
+</li>
+<li><p><strong>Iterate over each direction</strong>: For each direction (north, south, east, or west), update Santa’s position accordingly.</p>
+</li>
+<li><p><strong>Keep track of visited houses</strong>: Maintain a set or dictionary to keep track of the houses Santa has visited. Add each visited house to the set or dictionary.</p>
+</li>
+<li><p><strong>Count unique visited houses</strong>: After iterating through all directions, count the number of unique houses visited by Santa. This count represents the number of houses that receive at least one present.</p>
+</li>
+</ol>
+<h3 id="Solve-2"><a href="#Solve-2" class="headerlink" title="Solve"></a>Solve</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">PuzzleSolver</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, file_input</span>):</span><br><span class="line">        self.file_input = file_input</span><br><span class="line">        self.flag = <span class="built_in">set</span>() <span class="comment">#visited house, Use a set to keep track of visited houses</span></span><br><span class="line">        self.currentMoves = (<span class="number">0</span>, <span class="number">0</span>) </span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">gettingDemensions</span>(<span class="params">self,move</span>):</span><br><span class="line">        direction = move</span><br><span class="line">        <span class="comment"># self.currentMoves = (self.currentMoves[0] +1, self.currentMoves[1] + 1)</span></span><br><span class="line">        <span class="keyword">if</span> direction == <span class="string">&quot;&gt;&quot;</span>:</span><br><span class="line">            self.currentMoves = (self.currentMoves[<span class="number">0</span>] + <span class="number">1</span>, self.currentMoves[<span class="number">1</span>])</span><br><span class="line">        <span class="keyword">elif</span> direction == <span class="string">&quot;&lt;&quot;</span>:</span><br><span class="line">            self.currentMoves = (self.currentMoves[<span class="number">0</span>] - <span class="number">1</span>, self.currentMoves[<span class="number">1</span>])</span><br><span class="line">        <span class="keyword">elif</span> direction == <span class="string">&quot;^&quot;</span>:</span><br><span class="line">            self.currentMoves = (self.currentMoves[<span class="number">0</span>], self.currentMoves[<span class="number">1</span>] + <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">elif</span> direction == <span class="string">&quot;v&quot;</span>:</span><br><span class="line">            self.currentMoves = (self.currentMoves[<span class="number">0</span>], self.currentMoves[<span class="number">1</span>] - <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">housesReceived</span>(<span class="params">self, move</span>):</span><br><span class="line">        <span class="comment"># self.move = move</span></span><br><span class="line">        self.gettingDemensions(move)</span><br><span class="line">        <span class="comment"># print(f&quot;currentMoves: &#123;self.currentMoves, type(self.currentMoves)&#125;&quot;)</span></span><br><span class="line">        self.flag.add(self.currentMoves)</span><br><span class="line">        <span class="comment"># print(f&quot;Houses visited: &#123;self.flag&#125;&quot;)</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">solve</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(self.file_input, <span class="string">&quot;r&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            <span class="comment"># moves = f.readline()</span></span><br><span class="line">            <span class="comment"># print(type(moves[1]))</span></span><br><span class="line">            moves = <span class="string">&quot;^&gt;v&lt;&quot;</span></span><br><span class="line">            self.flag.add((<span class="number">0</span>, <span class="number">0</span>)) <span class="comment"># was tricky for me for no reason, adding before as Santa start at his starting location</span></span><br><span class="line">            <span class="keyword">for</span> move <span class="keyword">in</span> moves:</span><br><span class="line">                self.housesReceived(move)</span><br><span class="line">                <span class="comment"># exit()</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;Houses visited: <span class="subst">&#123;self.flag&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    file_input = <span class="string">&quot;./input.txt&quot;</span></span><br><span class="line">    solver = PuzzleSolver(file_input)</span><br><span class="line">    result = solver.solve()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;\033[1;32mHouses Visited by Santa is:\033[0m&quot;</span>,<span class="built_in">len</span>(solver.flag))</span><br></pre></td></tr></table></figure>
+
+<h2 id="Day-4-The-Ideal-Stocking-Stuffer"><a href="#Day-4-The-Ideal-Stocking-Stuffer" class="headerlink" title="Day 4: The Ideal Stocking Stuffer"></a>Day 4: The Ideal Stocking Stuffer</h2><h3 id="Description-3"><a href="#Description-3" class="headerlink" title="Description"></a>Description</h3><p><img src="/imgs/post9/day4_desc.png" alt="day4_desc.png"></p>
+<p>This one is pretty simple we just have to brute force the puzzle input with combining sereies of positive number seuentially and check if its hash converted strings is starting with <strong>00000</strong> </p>
+<h4 id="Approach-1"><a href="#Approach-1" class="headerlink" title="Approach"></a>Approach</h4><ul>
+<li>Choose libraries or built-in functions for calculating MD5 hashes.</li>
+<li>Define a function to calculate the MD5 hash of a given string.</li>
+<li>Create a loop to iterate over increasing numbers starting from 1 (or any other starting value you prefer).</li>
+<li>Append each number to the secret key.</li>
+<li>Calculate the MD5 hash of the combined string.</li>
+<li>Check if the hash starts with at least five zeroes.</li>
+</ul>
+<h3 id="Solve-3"><a href="#Solve-3" class="headerlink" title="Solve"></a>Solve</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">PuzzleSolver</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, puzzle_input</span>):</span><br><span class="line">        self.puzzle_input = puzzle_input</span><br><span class="line">        self.flag = <span class="string">&#x27;&#x27;</span> <span class="comment">#positive number</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">hashingInp</span>(<span class="params">self,hme</span>):</span><br><span class="line">        md5 = hashlib.md5(hme.encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">        <span class="keyword">return</span> md5.hexdigest()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">miningCoin</span>(<span class="params">self,puzzle_input</span>):</span><br><span class="line">        i = <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            hme = puzzle_input + <span class="built_in">str</span>(i)</span><br><span class="line">            <span class="comment"># print(f&quot;hme: &#123;hme&#125;&quot;)</span></span><br><span class="line">            hvalue = self.hashingInp(hme)</span><br><span class="line">            <span class="keyword">if</span> hvalue.startswith(<span class="string">&quot;00000&quot;</span>):</span><br><span class="line">                <span class="keyword">return</span> i </span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">solve</span>(<span class="params">self</span>):</span><br><span class="line">        self.flag = self.miningCoin(self.puzzle_input)</span><br><span class="line">        <span class="keyword">return</span> self.flag</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    puzzle_input = <span class="string">&quot;yzbqklnj&quot;</span></span><br><span class="line">    solver = PuzzleSolver(puzzle_input)</span><br><span class="line">    result = solver.solve()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;\033[1;32mLowest Positive Number:\033[0m&quot;</span>,result)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Day-5-Doesn’t-He-Have-Intern-Elves-For-This"><a href="#Day-5-Doesn’t-He-Have-Intern-Elves-For-This" class="headerlink" title="Day 5: Doesn’t He Have Intern-Elves For This?"></a>Day 5: Doesn’t He Have Intern-Elves For This?</h2><h3 id="Description-4"><a href="#Description-4" class="headerlink" title="Description"></a>Description</h3><p><img src="/imgs/post9/day5_desc.png" alt="day5_desc.png"></p>
+<h4 id="Approach-2"><a href="#Approach-2" class="headerlink" title="Approach"></a>Approach</h4><ol>
+<li>Read the strings from the text file.</li>
+<li>Define a function to check if a string is “nice” according to the given criteria.</li>
+<li>Iterate through each string and use the function to determine if it’s “nice” or “naughty”.</li>
+<li>Keep count of the number of “nice” strings found.</li>
+<li>Print the total count of “nice” strings.</li>
+</ol>
+<h3 id="Solve-4"><a href="#Solve-4" class="headerlink" title="Solve"></a>Solve</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> string</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">PuzzleSolver</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, file_input</span>):</span><br><span class="line">        self.file_input = file_input</span><br><span class="line">        self.flag = [] <span class="comment"># nice string</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">worker</span>(<span class="params">self,santaString</span>):</span><br><span class="line">        vowels = <span class="string">&#x27;aeiou&#x27;</span></span><br><span class="line">        disallowed = [<span class="string">&#x27;ab&#x27;</span>, <span class="string">&#x27;cd&#x27;</span>, <span class="string">&#x27;pq&#x27;</span>, <span class="string">&#x27;xy&#x27;</span>]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">sum</span>(<span class="number">1</span> <span class="keyword">for</span> line <span class="keyword">in</span> santaString <span class="keyword">if</span> line <span class="keyword">in</span> vowels) &lt; <span class="number">3</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> <span class="built_in">any</span>(santaString[i] == santaString[i+<span class="number">1</span>] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(santaString) - <span class="number">1</span>)):</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="comment"># if all(substring not in variable for substring in disallowed)</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">any</span>(substring <span class="keyword">in</span> santaString <span class="keyword">for</span> substring <span class="keyword">in</span> disallowed):   </span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">naughtyOrnice</span>(<span class="params">self,santaString</span>):</span><br><span class="line">        <span class="keyword">if</span> self.worker(santaString):</span><br><span class="line">            self.flag.append(santaString)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">solve</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(self.file_input, <span class="string">&quot;r&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            data = f.read().strip().split(<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">            <span class="keyword">for</span> line <span class="keyword">in</span> data:</span><br><span class="line">                self.naughtyOrnice(line)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    file_input = <span class="string">&quot;./input.txt&quot;</span></span><br><span class="line">    solver = PuzzleSolver(file_input)</span><br><span class="line">    result = solver.solve()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;\033[1;32mNumber Of Nice String:\033[0m&quot;</span>,<span class="built_in">len</span>(solver.flag))</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>The challenges were a good warm-up, with some tricky parts to keep things interesting specially puzzle 3 that took me more time to solve, i would like to try other puzzle as well and post writeup.</p>
+<p>One key takeaway is the importance of efficiency in problem-solving. By implementing wrapper functions, we can save time and avoid redundant code, ultimately enhancing our overall productivity. This approach streamlined the solving process and prepared me to tackle more complex challenges efficiently.</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archive">Writing</a></li>
+        
+          <li><a href="/tags/">Tag</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/Durge5h/Projects">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Day-1-Not-Quite-Lisp"><span class="toc-number">1.</span> <span class="toc-text">Day 1: Not Quite Lisp</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Description"><span class="toc-number">1.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Solve"><span class="toc-number">1.2.</span> <span class="toc-text">Solve</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Day-2-I-Was-Told-There-Would-Be-No-Math"><span class="toc-number">2.</span> <span class="toc-text">Day 2: I Was Told There Would Be No Math</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Description-1"><span class="toc-number">2.1.</span> <span class="toc-text">Description</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Approach"><span class="toc-number">2.1.1.</span> <span class="toc-text">Approach</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Solve-1"><span class="toc-number">2.2.</span> <span class="toc-text">Solve</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OneLiner"><span class="toc-number">2.3.</span> <span class="toc-text">OneLiner</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Day-3-Perfectly-Spherical-Houses-in-a-Vacuum"><span class="toc-number">3.</span> <span class="toc-text">Day 3: Perfectly Spherical Houses in a Vacuum</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Description-2"><span class="toc-number">3.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Solve-2"><span class="toc-number">3.2.</span> <span class="toc-text">Solve</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Day-4-The-Ideal-Stocking-Stuffer"><span class="toc-number">4.</span> <span class="toc-text">Day 4: The Ideal Stocking Stuffer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Description-3"><span class="toc-number">4.1.</span> <span class="toc-text">Description</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Approach-1"><span class="toc-number">4.1.1.</span> <span class="toc-text">Approach</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Solve-3"><span class="toc-number">4.2.</span> <span class="toc-text">Solve</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Day-5-Doesn%E2%80%99t-He-Have-Intern-Elves-For-This"><span class="toc-number">5.</span> <span class="toc-text">Day 5: Doesn’t He Have Intern-Elves For This?</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Description-4"><span class="toc-number">5.1.</span> <span class="toc-text">Description</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Approach-2"><span class="toc-number">5.1.1.</span> <span class="toc-text">Approach</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Solve-4"><span class="toc-number">5.2.</span> <span class="toc-text">Solve</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Summary"><span class="toc-number">5.3.</span> <span class="toc-text">Summary</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://sf4ult.github.io/2024/03/29/post9/AdventOfCode-2015/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://sf4ult.github.io/2024/03/29/post9/AdventOfCode-2015/&text=Honing The Scripting: AdventOfCode-2015[:5]"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://sf4ult.github.io/2024/03/29/post9/AdventOfCode-2015/&title=Honing The Scripting: AdventOfCode-2015[:5]"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://sf4ult.github.io/2024/03/29/post9/AdventOfCode-2015/&is_video=false&description=Honing The Scripting: AdventOfCode-2015[:5]"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Honing The Scripting: AdventOfCode-2015[:5]&body=Check out this article: https://sf4ult.github.io/2024/03/29/post9/AdventOfCode-2015/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://sf4ult.github.io/2024/03/29/post9/AdventOfCode-2015/&title=Honing The Scripting: AdventOfCode-2015[:5]"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://sf4ult.github.io/2024/03/29/post9/AdventOfCode-2015/&title=Honing The Scripting: AdventOfCode-2015[:5]"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://sf4ult.github.io/2024/03/29/post9/AdventOfCode-2015/&title=Honing The Scripting: AdventOfCode-2015[:5]"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://sf4ult.github.io/2024/03/29/post9/AdventOfCode-2015/&title=Honing The Scripting: AdventOfCode-2015[:5]"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://sf4ult.github.io/2024/03/29/post9/AdventOfCode-2015/&name=Honing The Scripting: AdventOfCode-2015[:5]&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://sf4ult.github.io/2024/03/29/post9/AdventOfCode-2015/&t=Honing The Scripting: AdventOfCode-2015[:5]"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2024
+    Durgesh
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archive">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/Durge5h/Projects">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
