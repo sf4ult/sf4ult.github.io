@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Hello y’all, i was recently learning about DevSecOps and came across this CICD GOAT that is a CTF challenge and as its essential part of DevSecops i decided to give a try where i tried to solve some">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTF Writeup: CICD GOAT | Part 1">
+<meta property="og:url" content="https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/index.html">
+<meta property="og:site_name" content="sf4ult">
+<meta property="og:description" content="Hello y’all, i was recently learning about DevSecOps and came across this CICD GOAT that is a CTF challenge and as its essential part of DevSecops i decided to give a try where i tried to solve some">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/banner.jpeg">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/diagram1.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/diagram2.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/chl1/white-rabbit.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/chl1/gitea.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/chl1/jenkin_edit0.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/chl1/jenkin_edit_1.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/chl1/jenkin_edit_2.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/chl1/jenkin_edit_3.gif">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/chl1/jenkin_edit_5.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/chl1/credential_masking.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/chl1/jenkin_edit_6.gif">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/chl1/D-PPE.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/chl1/PPE-Mitigations.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/chl1/ICH.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/chl1/ICH-Mitigations.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/chl2/chl2_desc.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/chl2/mad-hatter-search.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/chl2/push_failed1.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/chl2/push_failed2.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/chl2/makefile.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/chl2/push_success.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/chl2/chl2_flag.gif">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/chl2/I-PPE.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/chl3/duchess_desc.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/chl3/commits.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/chl3/duchess_flag.gif">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/chl3/gitleaks.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post10/chl3/Insecure-sys-config.png">
+<meta property="article:published_time" content="2024-06-27T13:22:19.715Z">
+<meta property="article:modified_time" content="2024-06-27T13:38:35.335Z">
+<meta property="article:author" content="Durgesh">
+<meta property="article:tag" content="CICD Security">
+<meta property="article:tag" content="DevSecops">
+<meta property="article:tag" content="AppSec">
+<meta property="article:tag" content="SupplyChain">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://sf4ult.github.io/imgs/post10/banner.jpeg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.png">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>CTF Writeup: CICD GOAT | Part 1</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 vazir">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archive">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/Durge5h/Projects">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/03/29/post9/AdventOfCode-2015/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/&text=CTF Writeup: CICD GOAT | Part 1"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/&title=CTF Writeup: CICD GOAT | Part 1"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/&is_video=false&description=CTF Writeup: CICD GOAT | Part 1"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CTF Writeup: CICD GOAT | Part 1&body=Check out this article: https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/&title=CTF Writeup: CICD GOAT | Part 1"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/&title=CTF Writeup: CICD GOAT | Part 1"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/&title=CTF Writeup: CICD GOAT | Part 1"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/&title=CTF Writeup: CICD GOAT | Part 1"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/&name=CTF Writeup: CICD GOAT | Part 1&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/&t=CTF Writeup: CICD GOAT | Part 1"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CICD-GOAT"><span class="toc-number">1.</span> <span class="toc-text">CICD GOAT?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Installation"><span class="toc-number">2.</span> <span class="toc-text">Installation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux-Mac"><span class="toc-number">2.1.</span> <span class="toc-text">Linux &amp; Mac</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows-Powershell"><span class="toc-number">2.2.</span> <span class="toc-text">Windows (Powershell)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Prerequisite"><span class="toc-number">3.</span> <span class="toc-text">Prerequisite</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DevSecOps-and-Secure-CICD"><span class="toc-number">3.1.</span> <span class="toc-text">DevSecOps and Secure CICD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OWASP-Top-10-CI-CD-Security-Risks"><span class="toc-number">3.2.</span> <span class="toc-text">OWASP Top 10 CI&#x2F;CD Security Risks</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Access-Credentials"><span class="toc-number">4.</span> <span class="toc-text">Access Credentials</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Note"><span class="toc-number">5.</span> <span class="toc-text">Note</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Challenges-Easy"><span class="toc-number">6.</span> <span class="toc-text">Challenges - Easy</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#White-Rabbit"><span class="toc-number">6.1.</span> <span class="toc-text">White Rabbit</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description"><span class="toc-number">6.1.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Jenkinsfile"><span class="toc-number">6.1.2.</span> <span class="toc-text">Jenkinsfile</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Learning-Takeaway"><span class="toc-number">6.2.</span> <span class="toc-text">Learning Takeaway</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-CICD-SEC-4-Poisoned-Pipeline-Execution-PPE"><span class="toc-number">6.2.0.1.</span> <span class="toc-text">1.  CICD-SEC-4: Poisoned Pipeline Execution (PPE):</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Mitigation"><span class="toc-number">6.2.1.</span> <span class="toc-text">Mitigation</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-CICD-SEC-6-Insufficient-Credential-Hygiene"><span class="toc-number">6.2.1.1.</span> <span class="toc-text">2. CICD-SEC-6: Insufficient Credential Hygiene:</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Mitigation-1"><span class="toc-number">6.2.2.</span> <span class="toc-text">Mitigation</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mad-Hatter"><span class="toc-number">6.3.</span> <span class="toc-text">Mad Hatter</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Jenkinfile"><span class="toc-number">6.3.0.1.</span> <span class="toc-text">Jenkinfile</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Learning-Takeaway-1"><span class="toc-number">6.4.</span> <span class="toc-text">Learning Takeaway</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mitigation-2"><span class="toc-number">6.5.</span> <span class="toc-text">Mitigation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Duchess"><span class="toc-number">6.6.</span> <span class="toc-text">Duchess</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-1"><span class="toc-number">6.6.1.</span> <span class="toc-text">Description</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Learning-Takeaway-2"><span class="toc-number">6.7.</span> <span class="toc-text">Learning Takeaway</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#CICD-SEC-7-Insecure-System-Configuration"><span class="toc-number">6.7.0.1.</span> <span class="toc-text"># CICD-SEC-7: Insecure System Configuration</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mitigations"><span class="toc-number">6.8.</span> <span class="toc-text">Mitigations</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        CTF Writeup: CICD GOAT | Part 1
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Durgesh</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-06-27T13:22:19.715Z" class="dt-published" itemprop="datePublished">2024-06-27</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/AppSec/" rel="tag">AppSec</a>, <a class="p-category" href="/tags/CICD-Security/" rel="tag">CICD Security</a>, <a class="p-category" href="/tags/DevSecops/" rel="tag">DevSecops</a>, <a class="p-category" href="/tags/SupplyChain/" rel="tag">SupplyChain</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p><img src="/imgs/post10/banner.jpeg" alt="banner1.png"></p>
+<p>Hello y’all, i was recently learning about DevSecOps and came across this CICD GOAT that is a CTF challenge and as its essential part of DevSecops i decided to give a try where i tried to solve some challenges by myself and also took help from other resources as purpose is to learn CICD security therefore i’ll try to write this blog as comprehensive as possilbe. </p>
+<h2 id="CICD-GOAT"><a href="#CICD-GOAT" class="headerlink" title="CICD GOAT?"></a>CICD GOAT?</h2><p>its a CTF platform developed by <a target="_blank" rel="noopener" href="https://github.com/cider-security-research/">cider-secuirty-research</a> that cover OWASP Top 10 CICD(Continuous Integration and Continuous Deployment (or Continuous Delivery)) vulnerability&#x2F;misconfiguration that being made deribately vulnerable, where they covered compromising the security of Build Server, Pipeline, Environment and Secrets.</p>
+<h2 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h2><p>Follow the steps from <a target="_blank" rel="noopener" href="https://github.com/cider-security-research/cicd-goat">here</a>, or</p>
+<blockquote>
+<p>Make sure to update docker and compose.</p>
+</blockquote>
+<h3 id="Linux-Mac"><a href="#Linux-Mac" class="headerlink" title="Linux &amp; Mac"></a>Linux &amp; Mac</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -o cicd-goat/docker-compose.yaml --create-dirs https://raw.githubusercontent.com/cider-security-research/cicd-goat/main/docker-compose.yaml</span><br><span class="line"><span class="built_in">cd</span> cicd-goat &amp;&amp; docker compose up -d</span><br></pre></td></tr></table></figure>
+
+<h3 id="Windows-Powershell"><a href="#Windows-Powershell" class="headerlink" title="Windows (Powershell)"></a>Windows (Powershell)</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> cicd-goat; <span class="built_in">cd</span> cicd-goat</span><br><span class="line">curl -o docker-compose.yaml https://raw.githubusercontent.com/cider-security-research/cicd-goat/main/docker-compose.yaml</span><br><span class="line">get-content docker-compose.yaml | %&#123;<span class="variable">$_</span> -replace <span class="string">&quot;bridge&quot;</span>,<span class="string">&quot;nat&quot;</span>&#125;</span><br><span class="line">docker compose up -d</span><br></pre></td></tr></table></figure>
+
+<h2 id="Prerequisite"><a href="#Prerequisite" class="headerlink" title="Prerequisite"></a>Prerequisite</h2><p>It must to have knowledge about DevSecOps and CICD Pipeline i’ll recommend you to go through this path&#x2F;learning materials:</p>
+<h3 id="DevSecOps-and-Secure-CICD"><a href="#DevSecOps-and-Secure-CICD" class="headerlink" title="DevSecOps and Secure CICD"></a>DevSecOps and Secure CICD</h3><p><a target="_blank" rel="noopener" href="https://tryhackme.com/path/outline/devsecops">https://tryhackme.com/path/outline/devsecops</a><br><a target="_blank" rel="noopener" href="https://www.youtube.com/playlist?list=PLjNII-Jkdjfz5EXWlGMBRk63PC8uJsHMo">https://www.youtube.com/playlist?list=PLjNII-Jkdjfz5EXWlGMBRk63PC8uJsHMo</a></p>
+<h3 id="OWASP-Top-10-CI-CD-Security-Risks"><a href="#OWASP-Top-10-CI-CD-Security-Risks" class="headerlink" title="OWASP Top 10 CI&#x2F;CD Security Risks"></a>OWASP Top 10 CI&#x2F;CD Security Risks</h3><p><a target="_blank" rel="noopener" href="https://owasp.org/www-project-top-10-ci-cd-security-risks/">https://owasp.org/www-project-top-10-ci-cd-security-risks/</a></p>
+<h2 id="Access-Credentials"><a href="#Access-Credentials" class="headerlink" title="Access Credentials"></a>Access Credentials</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">CTFd at http://localhost:8000</span><br><span class="line">	- Username: alice</span><br><span class="line">    - Password: alice</span><br><span class="line"></span><br><span class="line">Jenkins at http://localhost:8080</span><br><span class="line">	- Username: alice</span><br><span class="line">	- Password: alice</span><br><span class="line"></span><br><span class="line">Gitea at http://localhost:3000</span><br><span class="line">	- Username: thealice</span><br><span class="line">	- Password: thealice</span><br><span class="line"></span><br><span class="line">GitLab at http://localhost:4000</span><br><span class="line">	- Username: alice</span><br><span class="line">	- Password: alice1234</span><br></pre></td></tr></table></figure>
+
+<h2 id="Note"><a href="#Note" class="headerlink" title="Note"></a>Note</h2><p>This CTF is designed considering we have already gained our foothold as  or compromised developer position or we are the developer with evil mind set 💀.<br>as we will be having read&#x2F;write permission in VCS(Version Control System) i.e. Gitea here and read permission in Jenkin to perfrom the attacks.</p>
+<p>so initial diagram of entire platform is like</p>
+<p><img src="/imgs/post10/diagram1.png" alt="diagram1"></p>
+<p>compromised platform diagram:</p>
+<p><img src="/imgs/post10/diagram2.png" alt="diagram2"></p>
+<h2 id="Challenges-Easy"><a href="#Challenges-Easy" class="headerlink" title="Challenges - Easy"></a>Challenges - Easy</h2><h3 id="White-Rabbit"><a href="#White-Rabbit" class="headerlink" title="White Rabbit"></a>White Rabbit</h3><h4 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h4><p><img src="/imgs/post10/chl1/white-rabbit.png" alt="white-rabbit.png"></p>
+<blockquote>
+<p>Hint 1 : Try to trigger a pipeline through the repository.<br>Hint 2 : How can you access credentials using the Jenkinsfile?</p>
+</blockquote>
+<p>From description its clear that we have to get the secret i.e. <strong>flag1</strong> by triggering a pipeline through the repository <strong>Wonderland&#x2F;white-rabbit</strong> using our access as alice stored in the Jenkins credential store.</p>
+<p>after logging in Gitea as alice we can see there some repositories where our use one is <strong>white-rabbit</strong> </p>
+<p><img src="/imgs/post10/chl1/gitea.png" alt="gitea"></p>
+<p>and then <strong>jenkinfile</strong> that contain the entire script for automate the pipeline.</p>
+<h4 id="Jenkinsfile"><a href="#Jenkinsfile" class="headerlink" title="Jenkinsfile"></a>Jenkinsfile</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    environment &#123;</span><br><span class="line">        PROJECT = <span class="string">&quot;src/urllib3&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    stages &#123;</span><br><span class="line">        stage (<span class="string">&#x27;Install_Requirements&#x27;</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                sh <span class="string">&quot;&quot;</span><span class="string">&quot;</span></span><br><span class="line"><span class="string">                    virtualenv venv</span></span><br><span class="line"><span class="string">                    pip3 install -r requirements.txt || true</span></span><br><span class="line"><span class="string">                &quot;</span><span class="string">&quot;&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        stage (<span class="string">&#x27;Lint&#x27;</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                sh <span class="string">&quot;pylint <span class="variable">$&#123;PROJECT&#125;</span> || true&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        stage (<span class="string">&#x27;Unit Tests&#x27;</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                sh <span class="string">&quot;pytest&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    post &#123; </span><br><span class="line">        always &#123; </span><br><span class="line">            cleanWs()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>If you are not familiar with syntax then you can refer this <a target="_blank" rel="noopener" href="https://www.jenkins.io/doc/book/pipeline/jenkinsfile/">link</a></p>
+</blockquote>
+<p>there are several stages in the script that seems to no use for us, as we have are tasked to get the flag1 from <strong>Jenkin credential storage</strong>, i came across <a target="_blank" rel="noopener" href="https://www.jenkins.io/doc/book/using/using-credentials/#configuring-credentials">this</a> doc that contain <a target="_blank" rel="noopener" href="https://www.jenkins.io/doc/book/pipeline/jenkinsfile/#handling-credentials">this</a> section that explain the usage of credentials i.e. </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent &#123;</span><br><span class="line">        // Define agent details here</span><br><span class="line">    &#125;</span><br><span class="line">    environment &#123;</span><br><span class="line">        AWS_ACCESS_KEY_ID     = credentials(<span class="string">&#x27;jenkins-aws-secret-key-id&#x27;</span>)</span><br><span class="line">        AWS_SECRET_ACCESS_KEY = credentials(<span class="string">&#x27;jenkins-aws-secret-access-key&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">&#x27;Example stage 1&#x27;</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                //</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(<span class="string">&#x27;Example stage 2&#x27;</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                //</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>we can change our Jenkingfile to get the flag1 secret that may misconfigured and visible to other job or user as well.</p>
+<p>We can do it manually or using <strong>git</strong> utility, so i created a new branch and after making changes to script pushed the file.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    environment &#123;</span><br><span class="line">        PROJECT = <span class="string">&quot;src/urllib3&quot;</span></span><br><span class="line">        SECRET = credentials(<span class="string">&quot;flag1&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    stages &#123;</span><br><span class="line">        stage (<span class="string">&#x27;Printing the secret&#x27;</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                sh <span class="string">&quot;&quot;</span><span class="string">&quot;</span></span><br><span class="line"><span class="string">						echo <span class="variable">$SECRET</span></span></span><br><span class="line"><span class="string">                &quot;</span><span class="string">&quot;&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    post &#123; </span><br><span class="line">        always &#123; </span><br><span class="line">            cleanWs()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/imgs/post10/chl1/jenkin_edit0.png" alt="jenkin_edit0"></p>
+<p>and as we can see it Gitea repo there is another branch created with name <strong>zr0x</strong> with our committed changes </p>
+<p><img src="/imgs/post10/chl1/jenkin_edit_1.png" alt="jenkin_edit_1"><br><img src="/imgs/post10/chl1/jenkin_edit_2.png" alt="jenkin_edit_2"></p>
+<p>now we have to trigger the pipeline by creating the PR(Pull Request) to the main branch so that we can get the secret on jenkin console as we have read access to it</p>
+<p><img src="/imgs/post10/chl1/jenkin_edit_3.gif" alt="jenkin_edit_3"></p>
+<p>now we’ll gonna see pull request in Jenkin that automaticlly have gone through pipeline stages where we can look at console for secret</p>
+<p><img src="/imgs/post10/chl1/jenkin_edit_5.png" alt="jenkin_edit_5"></p>
+<p>Unfortunately, its not visible or being masked by jenkin because of <a target="_blank" rel="noopener" href="https://plugins.jenkins.io/mask-passwords/">this</a> Masks Passwords plugin features</p>
+<p><img src="/imgs/post10/chl1/credential_masking.png" alt="credential_masking.png"></p>
+<p>We circumvent printing it in encoded format i.e. <code>echo $SECRET | base64</code> </p>
+<p><img src="/imgs/post10/chl1/jenkin_edit_6.gif" alt="jenkin_edit_6"></p>
+<p>and we got the flag.</p>
+<h3 id="Learning-Takeaway"><a href="#Learning-Takeaway" class="headerlink" title="Learning Takeaway"></a>Learning Takeaway</h3><p>So what was vunlerability&#x2F;misconfiguration and why it was possible to perform the attack.</p>
+<h5 id="1-CICD-SEC-4-Poisoned-Pipeline-Execution-PPE"><a href="#1-CICD-SEC-4-Poisoned-Pipeline-Execution-PPE" class="headerlink" title="1.  CICD-SEC-4: Poisoned Pipeline Execution (PPE):"></a>1.  <a target="_blank" rel="noopener" href="https://owasp.org/www-project-top-10-ci-cd-security-risks/CICD-SEC-04-Poisoned-Pipeline-Execution">CICD-SEC-4: Poisoned Pipeline Execution (PPE)</a>:</h5><p><em><strong>Poisoned Pipeline Execution (PPE) risks refer to the ability of an attacker with access to source control systems - and without access to the build environment, to manipulate the build process by injecting malicious code&#x2F;commands into the build pipeline configuration, essentially ‘poisoning’ the pipeline and running malicious code as part of the build process.</strong></em></p>
+<p>we did able to make changes to the pipeline i.e. Jenkinfile by forking&#x2F;cloning with unkown branch and successfully created a PR that triggered the pipeline end up getting secret from the jenkin credential store and as we did it directly to the repository file its called <strong>D-PPE</strong></p>
+<p><img src="/imgs/post10/chl1/D-PPE.png" alt="D-PPE"></p>
+<p>Instead, the preferred configuration or security practice would be to prevent the pipeline from being modified and triggered by pull requests originating from unknown branches. Only trusted or protected branches should be allowed to trigger the pipeline.</p>
+<h4 id="Mitigation"><a href="#Mitigation" class="headerlink" title="Mitigation"></a>Mitigation</h4><p><img src="/imgs/post10/chl1/PPE-Mitigations.png" alt="PPI-Mitigations.png"></p>
+<h5 id="2-CICD-SEC-6-Insufficient-Credential-Hygiene"><a href="#2-CICD-SEC-6-Insufficient-Credential-Hygiene" class="headerlink" title="2. CICD-SEC-6: Insufficient Credential Hygiene:"></a>2. <a target="_blank" rel="noopener" href="https://owasp.org/www-project-top-10-ci-cd-security-risks/CICD-SEC-06-Insufficient-Credential-Hygiene">CICD-SEC-6: Insufficient Credential Hygiene</a>:</h5><p>Although we did able to perform <strong>PPE</strong> successfully it was not necessarily possible to print the credential the in the console and that lead another misconfiguration i.e. <strong>Insufficient Credential Hygiene</strong></p>
+<p><img src="/imgs/post10/chl1/ICH.png" alt="ICH.png"></p>
+<p>It might be the secret(flag) is stored in the Jenkins credential store with the Global scope, which makes it accessible to any pipeline on the Jenkins instance.</p>
+<h4 id="Mitigation-1"><a href="#Mitigation-1" class="headerlink" title="Mitigation"></a>Mitigation</h4><p><img src="/imgs/post10/chl1/ICH-Mitigations.png" alt="ICH-Mitigations.png"></p>
+<blockquote>
+<p>As in this particular case its been set to Global Scope - refer <a target="_blank" rel="noopener" href="https://docs.prismacloud.io/en/enterprise-edition/policy-reference/ci-cd-pipeline-policies/jenkins-cicd-pipeline-policies/jenkins-credentials-stored-global-scope">Jenkins credentials stored with global scope</a></p>
+</blockquote>
+<h3 id="Mad-Hatter"><a href="#Mad-Hatter" class="headerlink" title="Mad Hatter"></a>Mad Hatter</h3><p><img src="/imgs/post10/chl2/chl2_desc.png" alt="chl2_desc.png"></p>
+<blockquote>
+<p>Hint 1: Where’s the Jenkinsfile stored? Search for the repo name in the Wonderland organization, you might find some helpful repos.<br>Hint 2: What commands are run by the Jenkinsfile?</p>
+</blockquote>
+<p>Looking for Jenkinfile in <strong>mad-hatter</strong> repo is visible no visible that reminded me of Hint1 tha says Jenkinfile is stored in somewhere else, did the same and found it </p>
+<p><img src="/imgs/post10/chl2/mad-hatter-search.png" alt="mad-hatter-search.png"></p>
+<p>that shows real life example that you may come across that its been stored sperate from repository for security purpose, lets read the file.</p>
+<h5 id="Jenkinfile"><a href="#Jenkinfile" class="headerlink" title="Jenkinfile"></a>Jenkinfile</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    environment &#123;</span><br><span class="line">        PROJECT = <span class="string">&quot;yagmail&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage (<span class="string">&#x27;Install_Requirements&#x27;</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                sh <span class="string">&quot;&quot;</span><span class="string">&quot;</span></span><br><span class="line"><span class="string">                    virtualenv venv</span></span><br><span class="line"><span class="string">                    pip3 install -r requirements.txt || true</span></span><br><span class="line"><span class="string">                &quot;</span><span class="string">&quot;&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage (<span class="string">&#x27;Lint&#x27;</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                sh <span class="string">&quot;pylint <span class="variable">$&#123;PROJECT&#125;</span> || true&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage (<span class="string">&#x27;Unit Tests&#x27;</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                sh <span class="string">&quot;pytest || true&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(<span class="string">&#x27;make&#x27;</span>)&#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">              withCredentials([usernamePassword(credentialsId: <span class="string">&#x27;flag3&#x27;</span>, usernameVariable: <span class="string">&#x27;USERNAME&#x27;</span>, passwordVariable: <span class="string">&#x27;FLAG&#x27;</span>)]) &#123;</span><br><span class="line">                sh <span class="string">&#x27;make || true&#x27;</span></span><br><span class="line">              &#125;</span><br><span class="line">            &#125;           </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    post &#123; </span><br><span class="line">        always &#123; </span><br><span class="line">            cleanWs()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Make stage seems to interesting lets look at it</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">stage(<span class="string">&#x27;make&#x27;</span>)&#123;</span><br><span class="line">    steps &#123;</span><br><span class="line">      withCredentials([usernamePassword(credentialsId: <span class="string">&#x27;flag3&#x27;</span>, usernameVariable: <span class="string">&#x27;USERNAME&#x27;</span>, passwordVariable: <span class="string">&#x27;FLAG&#x27;</span>)]) &#123;</span><br><span class="line">        sh <span class="string">&#x27;make || true&#x27;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;           </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>its using <strong><a target="_blank" rel="noopener" href="https://plugins.jenkins.io/credentials-binding/">Credential Binding</a></strong> technique that allows credentials to be bound to environment variables for use from miscellaneous build steps.</p>
+<p>and <code>sh &#39;make || true&#39;</code> command that cause the pipeline to ignore any errors that occur during the <code>make</code> step. This means that even if the <code>make</code> command fails, the pipeline will continue running.</p>
+<p>lets the repeat the same technique to print the flag to the console and if see if it works or not, so i created new branch and make changes to jenkinfile</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    environment &#123;</span><br><span class="line">        flag3 = credential(<span class="string">&quot;flag3&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">        stage(<span class="string">&#x27;Printing the flag&#x27;</span>)&#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">              withCredentials([usernamePassword(credentialsId: <span class="string">&#x27;flag3&#x27;</span>, usernameVariable: <span class="string">&#x27;USERNAME&#x27;</span>, passwordVariable: <span class="string">&#x27;FLAG&#x27;</span>)]) &#123;</span><br><span class="line">                sh <span class="string">&#x27;echo $FLAG | base64&#x27;</span></span><br><span class="line"></span><br><span class="line">              &#125;</span><br><span class="line">            &#125;           </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    post &#123; </span><br><span class="line">        always &#123; </span><br><span class="line">            cleanWs()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/imgs/post10/chl2/push_failed1.png" alt="push_failed1.png"></p>
+<p>but this time we have no luck, as this time it has implemented branch security even not allowed to push the code.</p>
+<p>trying with main branch gives us the same error</p>
+<p><img src="/imgs/post10/chl2/push_failed2.png" alt="push_failed2.png"></p>
+<p>and this made us to perform <strong>[I-PPE]</strong> Poisonig attack by trigerring the pipeline indirectly without modifying the Jenkinfile </p>
+<p>As we saw that Jenkinfile taking use of <strong>Makefile</strong> that means it runs the all the command that Makefile contain so this time we will gonna poison the Make file rather than Jenkin one, where we can simply print the <strong>Environment Variable</strong> that Credentials Binding plugin bind.</p>
+<p>so i created new branch and committed the makefile there</p>
+<p><img src="/imgs/post10/chl2/makefile.png" alt="makefile.png"></p>
+<p><img src="/imgs/post10/chl2/push_success.png" alt="push_success.png"> </p>
+<p>And it worked, so the pipeline was triggered and we can get the flag in the console now</p>
+<p><img src="/imgs/post10/chl2/chl2_flag.gif" alt="chl2_flag.gif"></p>
+<h3 id="Learning-Takeaway-1"><a href="#Learning-Takeaway-1" class="headerlink" title="Learning Takeaway"></a>Learning Takeaway</h3><p>We leveraged the misconfiguration of one of PPE attack i.e. <a target="_blank" rel="noopener" href="https://owasp.org/www-project-top-10-ci-cd-security-risks/CICD-SEC-04-Poisoned-Pipeline-Execution">I-PPE(Indeirect Pipeline Posion Execution)</a> </p>
+<p><img src="/imgs/post10/chl2/I-PPE.png" alt="I-PPE.png"></p>
+<h3 id="Mitigation-2"><a href="#Mitigation-2" class="headerlink" title="Mitigation"></a>Mitigation</h3><ol>
+<li><strong>Branch Protection Rules:</strong></li>
+</ol>
+<ul>
+<li>Implement branch protection rules in your Source Code Management (SCM) system (e.g., Git).</li>
+<li>Enforce mandatory code reviews for any changes to the Jenkinfile or Makefile before merging them into a branch that triggers the pipeline.</li>
+<li>Restrict who can push directly to branches that trigger pipelines. Consider requiring merges from a protected branch reviewed by a trusted developer.</li>
+</ul>
+<ol start="2">
+<li><strong>Separate Configuration Files:</strong></li>
+</ol>
+<ul>
+<li>Store the Makefile in a separate repository that’s not publicly accessible or easily modifiable.</li>
+<li>Reference the Makefile location within the Jenkinfile using a secure mechanism like environment variables or secrets management tools.</li>
+</ul>
+<p>Here developer could have follow Proper Credential Hanlding technique e.g. Using <code>withCredentials</code> blocks and ensure sensitive information is not printed. Use Jenkins’ masking feature to hide sensitive information.</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">withCredentials([usernamePassword(<span class="attr">credentialsId:</span> <span class="string">&#x27;flag3&#x27;</span>, <span class="attr">usernameVariable:</span> <span class="string">&#x27;USERNAME&#x27;</span>, <span class="attr">passwordVariable:</span> <span class="string">&#x27;FLAG&#x27;</span>)]) &#123;</span><br><span class="line">    sh <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">        set +x  # Disable command echoing</span></span><br><span class="line"><span class="string">        make || true</span></span><br><span class="line"><span class="string">        set -x  # Enable command echoing</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>and Limit access to the Jenkins environment and critical files to only those who absolutely need it.</p>
+<h3 id="Duchess"><a href="#Duchess" class="headerlink" title="Duchess"></a>Duchess</h3><h4 id="Description-1"><a href="#Description-1" class="headerlink" title="Description"></a>Description</h4><p><img src="/imgs/post10/chl3/duchess_desc.png" alt="duchess_desc.png"></p>
+<blockquote>
+<p>Hint1 : A PyPi token has a prefix of “pypi-”.<br>Hint2 : Mistakes could have been made in the past.</p>
+</blockquote>
+<p>Well did here this quote ever?</p>
+<p><em><strong>Once a secret is committed to Git, it can never be considered secret again</strong></em></p>
+<p>if yes you got the challenge solution or else lets see what this challege is about</p>
+<p>Reading description its clearify that developer&#x2F;s made some mistake that they leftover any credential i.e. token i.e. <strong>PyPi token</strong> in repository that may present in SCM history i.e. commit history if proper&#x2F;any mitigation has not been applied, So our job is to find the token that is most likely the flag?</p>
+<p>hoping into repository we can see that there are <strong>696</strong> commits</p>
+<p><img src="/imgs/post10/chl3/commits.png" alt="commits.png"></p>
+<p>we can look for that particular commit that contain the token manually by checking it one by one that is obviously tedious or we can use keyword that Hint1 gave us </p>
+<p><img src="/imgs/post10/chl3/duchess_flag.gif" alt="duchess_flag.gif"></p>
+<p>and here we go we got the flag!!</p>
+<p>BTW there is more efficient way to search for leaked credentials that is by using automated tools like - TruffleHog, GitGuardian, or Gitleaks.</p>
+<p>Here we are going to use Gitleaks, lets see how to get the flag by using it</p>
+<p><img src="/imgs/post10/chl3/gitleaks.png" alt="gitleaks.png"></p>
+<h3 id="Learning-Takeaway-2"><a href="#Learning-Takeaway-2" class="headerlink" title="Learning Takeaway"></a>Learning Takeaway</h3><h5 id="CICD-SEC-7-Insecure-System-Configuration"><a href="#CICD-SEC-7-Insecure-System-Configuration" class="headerlink" title="# CICD-SEC-7: Insecure System Configuration"></a><a target="_blank" rel="noopener" href="https://owasp.org/www-project-top-10-ci-cd-security-risks/CICD-SEC-07-Insecure-System-Configuration"># CICD-SEC-7: Insecure System Configuration</a></h5><p> As i said earlier <strong>Once a secret is committed to Git, it can never be considered secret again</strong> this particular misconfiguration falls into <em>Insecure System Configuration</em> type that says </p>
+<p> <img src="/imgs/post10/chl3/Insecure-sys-config.png" alt="Insecure-sys-config.png"></p>
+<p> Exposing sensitive information such as tokens, passwords, API keys, or other confidential data in the version control history.</p>
+<h3 id="Mitigations"><a href="#Mitigations" class="headerlink" title="Mitigations"></a>Mitigations</h3><p>To mitigate this type of vulnerability, you can take several steps:</p>
+<p><strong>Secrets Management:</strong><br>    - Use secret management tools to handle sensitive information. Tools like HashiCorp Vault, AWS Secrets Manager, or Azure Key Vault can help securely store and manage secrets.</p>
+<p><strong>Pre-commit Hooks:</strong><br>    - Implement pre-commit hooks to prevent committing sensitive data. Tools like <code>git-secrets</code> or <code>pre-commit</code> can be configured to scan for sensitive data before commits are made.</p>
+<p><strong>Scanning for Secrets:</strong><br>    - Regularly scan your repository for exposed secrets using tools like TruffleHog, GitGuardian, or Gitleaks. These tools can detect and alert you to the presence of sensitive information in your repository.</p>
+<p><strong>Removing Secrets from History:</strong><br>    - If secrets have already been committed, remove them from the repository history using tools like <code>git filter-branch</code> or <code>BFG Repo-Cleaner</code>. This process rewrites the commit history to remove the sensitive data.</p>
+<p><strong>Rotating Credentials:</strong><br>    - If a secret has been exposed, immediately rotate the affected credentials. This involves generating new tokens or passwords and updating any systems that use the old credentials.</p>
+<p><strong>Educating Developers:</strong><br>    - Train developers on the importance of not committing sensitive information to version control and on best practices for managing secrets.</p>
+<p><strong>Monitoring and Alerts:</strong><br>    - Set up monitoring and alerting to detect any unauthorized access or misuse of credentials that might have been exposed.</p>
+<p><strong>Will do remaining in other next parts</strong></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archive">Writing</a></li>
+        
+          <li><a href="/tags/">Tag</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/Durge5h/Projects">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CICD-GOAT"><span class="toc-number">1.</span> <span class="toc-text">CICD GOAT?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Installation"><span class="toc-number">2.</span> <span class="toc-text">Installation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux-Mac"><span class="toc-number">2.1.</span> <span class="toc-text">Linux &amp; Mac</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows-Powershell"><span class="toc-number">2.2.</span> <span class="toc-text">Windows (Powershell)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Prerequisite"><span class="toc-number">3.</span> <span class="toc-text">Prerequisite</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DevSecOps-and-Secure-CICD"><span class="toc-number">3.1.</span> <span class="toc-text">DevSecOps and Secure CICD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OWASP-Top-10-CI-CD-Security-Risks"><span class="toc-number">3.2.</span> <span class="toc-text">OWASP Top 10 CI&#x2F;CD Security Risks</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Access-Credentials"><span class="toc-number">4.</span> <span class="toc-text">Access Credentials</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Note"><span class="toc-number">5.</span> <span class="toc-text">Note</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Challenges-Easy"><span class="toc-number">6.</span> <span class="toc-text">Challenges - Easy</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#White-Rabbit"><span class="toc-number">6.1.</span> <span class="toc-text">White Rabbit</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description"><span class="toc-number">6.1.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Jenkinsfile"><span class="toc-number">6.1.2.</span> <span class="toc-text">Jenkinsfile</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Learning-Takeaway"><span class="toc-number">6.2.</span> <span class="toc-text">Learning Takeaway</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-CICD-SEC-4-Poisoned-Pipeline-Execution-PPE"><span class="toc-number">6.2.0.1.</span> <span class="toc-text">1.  CICD-SEC-4: Poisoned Pipeline Execution (PPE):</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Mitigation"><span class="toc-number">6.2.1.</span> <span class="toc-text">Mitigation</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-CICD-SEC-6-Insufficient-Credential-Hygiene"><span class="toc-number">6.2.1.1.</span> <span class="toc-text">2. CICD-SEC-6: Insufficient Credential Hygiene:</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Mitigation-1"><span class="toc-number">6.2.2.</span> <span class="toc-text">Mitigation</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mad-Hatter"><span class="toc-number">6.3.</span> <span class="toc-text">Mad Hatter</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Jenkinfile"><span class="toc-number">6.3.0.1.</span> <span class="toc-text">Jenkinfile</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Learning-Takeaway-1"><span class="toc-number">6.4.</span> <span class="toc-text">Learning Takeaway</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mitigation-2"><span class="toc-number">6.5.</span> <span class="toc-text">Mitigation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Duchess"><span class="toc-number">6.6.</span> <span class="toc-text">Duchess</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-1"><span class="toc-number">6.6.1.</span> <span class="toc-text">Description</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Learning-Takeaway-2"><span class="toc-number">6.7.</span> <span class="toc-text">Learning Takeaway</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#CICD-SEC-7-Insecure-System-Configuration"><span class="toc-number">6.7.0.1.</span> <span class="toc-text"># CICD-SEC-7: Insecure System Configuration</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mitigations"><span class="toc-number">6.8.</span> <span class="toc-text">Mitigations</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/&text=CTF Writeup: CICD GOAT | Part 1"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/&title=CTF Writeup: CICD GOAT | Part 1"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/&is_video=false&description=CTF Writeup: CICD GOAT | Part 1"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CTF Writeup: CICD GOAT | Part 1&body=Check out this article: https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/&title=CTF Writeup: CICD GOAT | Part 1"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/&title=CTF Writeup: CICD GOAT | Part 1"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/&title=CTF Writeup: CICD GOAT | Part 1"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/&title=CTF Writeup: CICD GOAT | Part 1"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/&name=CTF Writeup: CICD GOAT | Part 1&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/&t=CTF Writeup: CICD GOAT | Part 1"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2024
+    Durgesh
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archive">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/Durge5h/Projects">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
