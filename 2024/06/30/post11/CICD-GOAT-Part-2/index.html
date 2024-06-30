@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="We already covered easy challenges in Part 1, In this part we are going to tackle moderate ones so if you have not read Part 1 of this writeup you can read it here Challenges - ModerateCaterpillarDes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTF Writeup: CICD GOAT | Part 2">
+<meta property="og:url" content="https://sf4ult.github.io/2024/06/30/post11/CICD-GOAT-Part-2/index.html">
+<meta property="og:site_name" content="sf4ult">
+<meta property="og:description" content="We already covered easy challenges in Part 1, In this part we are going to tackle moderate ones so if you have not read Part 1 of this writeup you can read it here Challenges - ModerateCaterpillarDes">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/banner.jpg">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl4/chl4_desc.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl4/print_token.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl4/no_flag.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl4/no_flag2.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl4/two_env.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl4/pipeline_env.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl4/print_envs.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl4/gitea_token.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl4/gpt_ans.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl4/print_token.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl4/git_commit1.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl4/chl4_flag.gif">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl4/3PE.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl5/chl5_desc.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl5/commit3.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl5/commit1.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl5/jenkin_build-in.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl5/chl5_flag.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl5/IPBAC.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl5/IPBAC_Mitigation.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl6/chl6_desc.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl6/depedency.gif">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl6/repos.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl6/twiddle_pipe.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl6/index1.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl6/index.gif">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl6/index2.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl6/dependency_c_dia.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl6/new_version.gif">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl6/flag1.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl6/index3.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl6/flag2.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl6/dependency_confusion_owasp.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl6/chl6_miti.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl7/chl7_desc.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl7/checkov_poison.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl7/dodo_pipeline.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl7/checkov1.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl7/checkov2.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl7/main_tf.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl7/guide_link.gif">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl7/chl7_flag.gif">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl7/IFC.png">
+<meta property="og:image" content="https://sf4ult.github.io/imgs/post11/chl7/IFC_Miti.png">
+<meta property="article:published_time" content="2024-06-30T07:17:08.861Z">
+<meta property="article:modified_time" content="2024-06-30T07:31:03.303Z">
+<meta property="article:author" content="Durgesh">
+<meta property="article:tag" content="CICD Security">
+<meta property="article:tag" content="DevSecops">
+<meta property="article:tag" content="AppSec">
+<meta property="article:tag" content="SupplyChain">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://sf4ult.github.io/imgs/post11/banner.jpg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.png">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>CTF Writeup: CICD GOAT | Part 2</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 vazir">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archive">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/Durge5h/Projects">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/06/27/post10/CICD-GOAT-Part-1/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://sf4ult.github.io/2024/06/30/post11/CICD-GOAT-Part-2/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://sf4ult.github.io/2024/06/30/post11/CICD-GOAT-Part-2/&text=CTF Writeup: CICD GOAT | Part 2"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://sf4ult.github.io/2024/06/30/post11/CICD-GOAT-Part-2/&title=CTF Writeup: CICD GOAT | Part 2"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://sf4ult.github.io/2024/06/30/post11/CICD-GOAT-Part-2/&is_video=false&description=CTF Writeup: CICD GOAT | Part 2"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CTF Writeup: CICD GOAT | Part 2&body=Check out this article: https://sf4ult.github.io/2024/06/30/post11/CICD-GOAT-Part-2/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://sf4ult.github.io/2024/06/30/post11/CICD-GOAT-Part-2/&title=CTF Writeup: CICD GOAT | Part 2"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://sf4ult.github.io/2024/06/30/post11/CICD-GOAT-Part-2/&title=CTF Writeup: CICD GOAT | Part 2"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://sf4ult.github.io/2024/06/30/post11/CICD-GOAT-Part-2/&title=CTF Writeup: CICD GOAT | Part 2"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://sf4ult.github.io/2024/06/30/post11/CICD-GOAT-Part-2/&title=CTF Writeup: CICD GOAT | Part 2"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://sf4ult.github.io/2024/06/30/post11/CICD-GOAT-Part-2/&name=CTF Writeup: CICD GOAT | Part 2&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://sf4ult.github.io/2024/06/30/post11/CICD-GOAT-Part-2/&t=CTF Writeup: CICD GOAT | Part 2"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Challenges-Moderate"><span class="toc-number">1.</span> <span class="toc-text">Challenges - Moderate</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Caterpillar"><span class="toc-number">1.1.</span> <span class="toc-text">Caterpillar</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Jenkinfile"><span class="toc-number">1.1.0.2.</span> <span class="toc-text">Jenkinfile</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-Authentication-and-Authorization"><span class="toc-number">1.1.0.2.1.</span> <span class="toc-text">1. Authentication and Authorization</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Learning-Takeaway"><span class="toc-number">1.1.1.</span> <span class="toc-text">Learning Takeaway</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-Public-PPE-3PE"><span class="toc-number">1.1.1.0.1.</span> <span class="toc-text">1. Public-PPE (3PE)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cheshire-Cat"><span class="toc-number">1.1.2.</span> <span class="toc-text">Cheshire Cat</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-1"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">Description</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Learning-Takeaway-1"><span class="toc-number">1.1.3.</span> <span class="toc-text">Learning Takeaway</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-D-PPE"><span class="toc-number">1.1.3.0.1.</span> <span class="toc-text">1. D-PPE</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-CICD-SEC-5-Insufficient-PBAC-Pipeline-Based-Access-Controls"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">2. CICD-SEC-5: Insufficient PBAC (Pipeline-Based Access Controls)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mitigations"><span class="toc-number">1.1.4.</span> <span class="toc-text">Mitigations</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Twiddledum"><span class="toc-number">1.1.5.</span> <span class="toc-text">Twiddledum</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-2"><span class="toc-number">1.1.5.1.</span> <span class="toc-text">Description</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Learning-Takeaway-2"><span class="toc-number">1.1.6.</span> <span class="toc-text">Learning Takeaway</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#CICD-SEC-3-Dependency-Chain-Abuse-CICD-SEC-3-Dependency-Chain-Abuse"><span class="toc-number">1.1.6.0.1.</span> <span class="toc-text">[CICD-SEC-3: Dependency Chain Abuse](# CICD-SEC-3: Dependency Chain Abuse)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mitigations-1"><span class="toc-number">1.1.7.</span> <span class="toc-text">Mitigations</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dodo"><span class="toc-number">1.2.</span> <span class="toc-text">Dodo</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-3"><span class="toc-number">1.2.0.1.</span> <span class="toc-text">Description</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Learning-Takeaway-3"><span class="toc-number">1.2.1.</span> <span class="toc-text">Learning Takeaway</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#CICD-SEC-1-Insufficient-Flow-Control-Mechanisms"><span class="toc-number">1.2.1.0.1.</span> <span class="toc-text">CICD-SEC-1: Insufficient Flow Control Mechanisms</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mitigation"><span class="toc-number">1.2.2.</span> <span class="toc-text">Mitigation</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        CTF Writeup: CICD GOAT | Part 2
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Durgesh</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-06-30T07:17:08.861Z" class="dt-published" itemprop="datePublished">2024-06-30</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/AppSec/" rel="tag">AppSec</a>, <a class="p-category" href="/tags/CICD-Security/" rel="tag">CICD Security</a>, <a class="p-category" href="/tags/DevSecops/" rel="tag">DevSecops</a>, <a class="p-category" href="/tags/SupplyChain/" rel="tag">SupplyChain</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p><img src="/imgs/post11/banner.jpg" alt="banner1.png"></p>
+<p>We already covered easy challenges in <a href="https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/">Part 1</a>, In this part we are going to tackle moderate ones so if you have not read Part 1 of this writeup you can read it <a href="https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/">here</a></p>
+<h1 id="Challenges-Moderate"><a href="#Challenges-Moderate" class="headerlink" title="Challenges - Moderate"></a>Challenges - Moderate</h1><h2 id="Caterpillar"><a href="#Caterpillar" class="headerlink" title="Caterpillar"></a>Caterpillar</h2><h4 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h4><p><img src="/imgs/post11/chl4/chl4_desc.png" alt="chl4_desc.png"></p>
+<blockquote>
+<p>Hint 1: Fork the repository and create a pull request to trigger a malicious pipeline.<br>Hint 2: After you execute your malicious code in the Jenkins job, what environment variables can help you move forward?<br>Hint 3: Found that Gitea access token from the pipeline? Great. There’s another pipeline which is triggered by pushing to the main branch. Maybe you can access the flag from there!</p>
+</blockquote>
+<h4 id="Jenkinfile"><a href="#Jenkinfile" class="headerlink" title="Jenkinfile"></a>Jenkinfile</h4><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    environment &#123;</span><br><span class="line">        PROJECT = <span class="string">&quot;loguru&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            stage (<span class="string">&#x27;Print Environment Variables&#x27;</span>) &#123;</span><br><span class="line">                steps&#123;</span><br><span class="line">                <span class="comment">// Print all environment variables</span></span><br><span class="line">                sh <span class="string">&#x27;printenv&#x27;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        stage (<span class="string">&#x27;Lint&#x27;</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                sh <span class="string">&quot;pylint $&#123;PROJECT&#125; || true&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        stage (<span class="string">&#x27;Unit Tests&#x27;</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                sh <span class="string">&quot;pytest || true&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        stage(<span class="string">&#x27;deploy&#x27;</span>) &#123;</span><br><span class="line">            when &#123;</span><br><span class="line">                expression &#123;</span><br><span class="line">                    env.BRANCH_NAME == <span class="string">&#x27;main&#x27;</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            steps &#123;</span><br><span class="line">                withCredentials([usernamePassword(<span class="attr">credentialsId:</span> <span class="string">&#x27;flag2&#x27;</span>, <span class="attr">usernameVariable:</span> <span class="string">&#x27;flag2&#x27;</span>, <span class="attr">passwordVariable:</span> <span class="string">&#x27;TOKEN&#x27;</span>)]) &#123;</span><br><span class="line">                    sh <span class="string">&#x27;curl -isSL &quot;http://wonderland:1234/api/user&quot; -H &quot;Authorization: Token $&#123;TOKEN&#125;&quot; -H &quot;Content-Type: application/json&quot; || true&#x27;</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    post &#123; </span><br><span class="line">        always &#123; </span><br><span class="line">            cleanWs()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>After cloning the repository i tried to poison the flag2 i.e. <code>sh &#39;echo &quot;$&#123;TOKEN&#125;&quot; | base64&#39;</code> but we dont have persmission to modify the Jenkinfile as <strong>Description</strong> also says we don’t have write permission but only read </p>
+<p>And following Hint1 i forked the repository with default user&#x2F;dev <strong>alice</strong> and modified the pipeline script </p>
+<p><img src="/imgs/post11/chl4/print_token.png" alt="print_token.png"></p>
+<p>and it indeed trigger the pipeline but no result in hand</p>
+<p><img src="/imgs/post11/chl4/no_flag.png" alt="no_flag.png"></p>
+<p>i tried multiple time thinking i am messing up with groovy syntax or what not, but i ignored something in Jenkinfile i.e. there is a condition before credential binding code in deploy stage i.e.</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">when &#123;</span><br><span class="line">	expression &#123;</span><br><span class="line">		env.BRANCH_NAME == <span class="string">&#x27;main&#x27;</span></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>so its basically preventing us to build deploy phase as our PR is not from main branch so we have to amend it(just delete the condition) and send PR again </p>
+<p><img src="/imgs/post11/chl4/no_flag2.png" alt="no_flag2.png"></p>
+<p><strong>Could not find credentials entry with ID ‘flag2’</strong> hmm, or it might be there is flag2 present there but because branch security we are not able to get it and after looking at Jenkin it got clear that there is two environment for pipeline i.e.</p>
+<p><img src="/imgs/post11/chl4/two_env.png" alt="two_env.png"></p>
+<p>and its cruical security step for branch security often most pipelines have several environments. Each of these environments has a specific use case, and their security posture often differs. </p>
+<p>and here we have test and prod, where test is used to test the application or select features before they are pushed to production and prod is the PROD environment is the most sensitive. This is the current active environment that serves users or customers. To ensure that our users have the best experience, this environment must be kept stable. No updates should be performed here without proper change management.</p>
+<p><img src="/imgs/post11/chl4/pipeline_env.png" alt="pipeline_env.png"></p>
+<p>if you have gone through the path&#x2F;materials i shared in Part 1 you must be knowing about it or else you can learn more about pipeline environment and automation you can refer <a target="_blank" rel="noopener" href="https://tryhackme.com/r/room/introtopipelineautomation">this</a> THM lab.</p>
+<p>Okay so in a nutshell <code>wonderland-caterpillar-test</code> is used to assess incoming PRs and do not posses priviledges to see the credentials</p>
+<p>so we have to somehow to trigger the pipeline that run prod environment and for that we need higher priviledge i.e. main, controller here.</p>
+<p>after wondering little bit Hint 2 got my attention that says <strong>After you execute your malicious code in the Jenkins job, what environment variables can help you move forward?</strong> </p>
+<p>there must be something with environment variables, We can print all env vars for current runner i.e. test </p>
+<p><img src="/imgs/post11/chl4/print_envs.png" alt="print_envs.png"></p>
+<blockquote>
+<p>Initially i added the command in deploy staget that end up giving me result so i placed it before deploy</p>
+</blockquote>
+<p>and after pipeline triggered we got this result</p>
+<p><img src="/imgs/post11/chl4/gitea_token.png" alt="gitea_token.png"></p>
+<p>and it took my attention ‘cause Hint 3 mention about <strong>Gitea access token</strong></p>
+<p>well no we have acess token that is being use for several purpose in pipeline but no limit to:</p>
+<h5 id="1-Authentication-and-Authorization"><a href="#1-Authentication-and-Authorization" class="headerlink" title="1. Authentication and Authorization"></a>1. Authentication and Authorization</h5><ul>
+<li><strong>Secure Access to Repositories</strong>: Use the Gitea token to authenticate and authorize access to repositories, ensuring that only authorized users and services can interact with your code repositories during the CI&#x2F;CD process.</li>
+<li><strong>Limited Scope Tokens</strong>: Generate tokens with limited scopes to minimize the permissions granted. For example, a token might only have read access to repositories, preventing any write operations.</li>
+</ul>
+<p>and i asked to chatGPT how acess token in pipeline security is used and one of the usage was like this</p>
+<p><img src="/imgs/post11/chl4/gpt_ans.png" alt="gpt_ans.png"></p>
+<p>So most probably, this PAT (Personal Access Token) belongs to a higher privileged user who has write permissions on the branch, as required by the pipeline.</p>
+<p>so lets clone the repo and using PAT and try to modify thes Jenkinfile for accessing TOKEN i.e. flag2 and see if it works</p>
+<p><img src="/imgs/post11/chl4/print_token.png" alt="print_token.png"></p>
+<p><img src="/imgs/post11/chl4/git_commit1.png" alt="git_commit1.png"></p>
+<p>and indeed we did able to so trigger the pipeine and got the flag!</p>
+<p><img src="/imgs/post11/chl4/chl4_flag.gif" alt="chl4_flag.gif"></p>
+<h3 id="Learning-Takeaway"><a href="#Learning-Takeaway" class="headerlink" title="Learning Takeaway"></a>Learning Takeaway</h3><h5 id="1-Public-PPE-3PE"><a href="#1-Public-PPE-3PE" class="headerlink" title="1. Public-PPE (3PE)"></a>1. <a target="_blank" rel="noopener" href="https://owasp.org/www-project-top-10-ci-cd-security-risks/CICD-SEC-04-Poisoned-Pipeline-Execution">Public-PPE (3PE)</a></h5><p><img src="/imgs/post11/chl4/3PE.png" alt="3PE.png"></p>
+<p>Unlike <a href="https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/#White-Rabbit">White Rabbit</a> and <a href="https://sf4ult.github.io/2024/06/27/post10/CICD-GOAT-Part-1/#Mad-Hatter">Mad Hatter</a> this time we dont have direct or indirect write access to repository but we did able to modify jenkinfile and trigger pipeline by forking it where good protection would have been to run the jekinfile from the specified branch(main)&#x2F;repository here not from the unkown forked PR and end up escalting our priviledge.</p>
+<p>A good example of this attack - 3PE <a target="_blank" rel="noopener" href="https://johnstawinski.com/2024/01/11/playing-with-fire-how-we-executed-a-critical-supply-chain-attack-on-pytorch/">found in PyTorch</a> machine learning library that was huge supply chain attack.</p>
+<p>Here are misconfiguration that was in place and that can mitigated using follwoigng solutions</p>
+<ol>
+<li><p>Here secret were exposed to PRs from forks<br> Mitigation - Prevent access to secrets from forks </p>
+</li>
+<li><p>Access token is set as environment variable on an agent and accessible for all jobs<br> Mitigation - Limit access to secrets as much as possible</p>
+</li>
+<li><p>Acess token had write permission<br> Mitigation - Don’t create access tokens with write permission if there is no need for it.</p>
+</li>
+<li><p>No review required before pushing to main<br> Mitigation - Configure branch protection rules to require reviews.</p>
+</li>
+</ol>
+<h3 id="Cheshire-Cat"><a href="#Cheshire-Cat" class="headerlink" title="Cheshire Cat"></a>Cheshire Cat</h3><h4 id="Description-1"><a href="#Description-1" class="headerlink" title="Description"></a>Description</h4><p><img src="/imgs/post11/chl5/chl5_desc.png" alt="chl5_desc.png"></p>
+<blockquote>
+<p>Hint1 : Try executing a <a target="_blank" rel="noopener" href="https://www.cidersecurity.io/top-10-cicd-security-risks/poisoned-pipeline-execution-ppe/?utm_source=github&utm_medium=github_page&utm_campaign=ci/cd%20goat_100422">Direct-PPE</a> attack.<br>Hint2 : How can a Jenkinsfile instruct Jenkins to run the job on the Controller?<br>Hint3 : Try finding the label of the Controller - the “Built-In Node”.</p>
+</blockquote>
+<p>Its clear from description that we have to execute code on the Jenkins Controller(master) to get the flag5 by using D-PPE(from Hint1).</p>
+<p>so cloned the repository poison the pipleline by adding following script</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent &#123; label <span class="string">&#x27;master&#x27;</span> &#125; <span class="comment">// This specifies the job will run on the Jenkins Controller</span></span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">&#x27;Read and Print File&#x27;</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                script &#123;</span><br><span class="line">                    <span class="keyword">def</span> flagContent = sh(<span class="attr">script:</span> <span class="string">&#x27;cat ~/flag5.txt&#x27;</span>, <span class="attr">returnStdout:</span> <span class="literal">true</span>).trim()</span><br><span class="line">                    echo <span class="string">&quot;The content of ~/flag5.txt is: $&#123;flagContent&#125;&quot;</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>and PR that tigger the pipeline but we instead flag we got this</p>
+<p><img src="/imgs/post11/chl5/commit3.png" alt="commit3.png"></p>
+<p>so i changed label to <strong>controller</strong></p>
+<p><img src="/imgs/post11/chl5/commit1.png" alt="commit1.png"></p>
+<p>and that didn’t work as well, and doing some google search i got this </p>
+<p><img src="/imgs/post11/chl5/jenkin_build-in.png" alt="jenkin_build-in.png"></p>
+<p>so we have to change the lable to <code>built-in</code></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent &#123; label <span class="string">&#x27;built-in&#x27;</span> &#125; <span class="comment">// This specifies the job will run on the Jenkins Controller</span></span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">&#x27;Read and Print File&#x27;</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                script &#123;</span><br><span class="line">                    <span class="keyword">def</span> flagContent = sh(<span class="attr">script:</span> <span class="string">&#x27;cat ~/flag5.txt&#x27;</span>, <span class="attr">returnStdout:</span> <span class="literal">true</span>).trim()</span><br><span class="line">                    echo <span class="string">&quot;The content of ~/flag5.txt is: $&#123;flagContent&#125;&quot;</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>and we got the flag! ezz.</p>
+<p><img src="/imgs/post11/chl5/chl5_flag.png" alt="chl5_flag.png"></p>
+<h3 id="Learning-Takeaway-1"><a href="#Learning-Takeaway-1" class="headerlink" title="Learning Takeaway"></a>Learning Takeaway</h3><h5 id="1-D-PPE"><a href="#1-D-PPE" class="headerlink" title="1. D-PPE"></a>1. <a target="_blank" rel="noopener" href="https://owasp.org/www-project-top-10-ci-cd-security-risks/CICD-SEC-04-Poisoned-Pipeline-Execution">D-PPE</a></h5><h4 id="2-CICD-SEC-5-Insufficient-PBAC-Pipeline-Based-Access-Controls"><a href="#2-CICD-SEC-5-Insufficient-PBAC-Pipeline-Based-Access-Controls" class="headerlink" title="2. CICD-SEC-5: Insufficient PBAC (Pipeline-Based Access Controls)"></a>2. <a target="_blank" rel="noopener" href="https://owasp.org/www-project-top-10-ci-cd-security-risks/CICD-SEC-05-Insufficient-PBAC">CICD-SEC-5: Insufficient PBAC (Pipeline-Based Access Controls)</a></h4><p><img src="/imgs/post11/chl5/IPBAC.png" alt="IPBAC.png">	</p>
+<h3 id="Mitigations"><a href="#Mitigations" class="headerlink" title="Mitigations"></a>Mitigations</h3><p><img src="/imgs/post11/chl5/IPBAC_Mitigation.png" alt="IPBAC_Mitigation.png.png">	</p>
+<h3 id="Twiddledum"><a href="#Twiddledum" class="headerlink" title="Twiddledum"></a>Twiddledum</h3><h4 id="Description-2"><a href="#Description-2" class="headerlink" title="Description"></a>Description</h4><p><img src="/imgs/post11/chl6/chl6_desc.png" alt="chl6_desc.png"></p>
+<blockquote>
+<p>Hint1 : What dependencies are used by the twiddledum app?<br>Hint2 : The twiddledee package is a dependency. Use it to execute malicious code in the twiddledum pipeline.</p>
+</blockquote>
+<p>By reading the description and Hint i got some intuition about this challenge as i have studied about this one while completing <a target="_blank" rel="noopener" href="https://tryhackme.com/path/outline/devsecops">THM DevSecOps</a> path.</p>
+<p>Okay, so most probably Twiddledum repo using dependency and we can see that here</p>
+<p><img src="/imgs/post11/chl6/depedency.gif" alt="depedency.gif"></p>
+<p>and we have access to that dependecny repo i.e.</p>
+<p><img src="/imgs/post11/chl6/repos.png" alt="repos.png"></p>
+<p>and as we have don not have Jenkinfile in any of these repo i am assuming it will tigger automatically after changes made to the repos?</p>
+<p>as we have access to Jenkins we can confirm if any pipeline there and indeed there was</p>
+<p><img src="/imgs/post11/chl6/twiddle_pipe.png" alt="twiddle_pipe.png"></p>
+<p>hmm, so now have dependency that being used by project repository and we have pipeline in jenkins all we have to do is somehow poision or inject our code in the dependency that cause pipeline to trigger therefore so does our malicious code </p>
+<p>but the question is where to place the code? as we are not aware which part of code&#x2F;file we should be targeting for.</p>
+<p>maybe <strong>index.js</strong> that is from the intuition of index.html is <strong>used to serves as the home page for a website</strong>.</p>
+<p>and even after looking for it i finally got clear that we have to target index.js e.g. </p>
+<p><strong>package.json</strong> file </p>
+<p><img src="/imgs/post11/chl6/index1.png" alt="index1.png"></p>
+<p>and running pipeline manually </p>
+<p><img src="/imgs/post11/chl6/index.gif" alt="index.gif"></p>
+<p>so like last challenge i tried to print all the environment variable from the agent </p>
+<p><img src="/imgs/post11/chl6/index2.png" alt="index2.png"></p>
+<p>and i waited for long but pipeline did not trigger, but why?</p>
+<p>So theory behind it is - I asked to chatGPT as i am bit tiered :P</p>
+<p>Changing the dependency version to a higher number can make a dependency confusion attack successful due to the way many package management systems resolve and prioritize dependencies. Here’s a breakdown of why this happens:</p>
+<p><em><strong>Package Resolution Logic</strong></em></p>
+<ol>
+<li><p><strong>Version Preference</strong>: Many package managers (like npm, pip, etc.) are configured to prefer the latest version of a package. When a build system or developer requests a dependency, the package manager will often fetch the highest available version that satisfies the dependency requirements.</p>
+</li>
+<li><p><strong>External Repositories Priority</strong>: In some cases, package managers might prioritize fetching packages from external repositories over internal ones unless explicitly configured otherwise. This is because external repositories are typically assumed to be the primary source of packages.</p>
+</li>
+</ol>
+<p><em><strong>Attack Scenario</strong></em></p>
+<ol>
+<li><p><strong>Internal Dependency Name</strong>: Suppose an organization uses an internal package named <code>example-package</code> with version <code>1.2.3</code>.</p>
+</li>
+<li><p><strong>Attacker’s Strategy</strong>: The attacker discovers the name of this internal dependency and publishes a malicious package with the same name, <code>example-package</code>, but with a higher version number, say <code>2.0.0</code>, on a public repository like npm or PyPI.</p>
+</li>
+<li><p><strong>Version Resolution</strong>: When the organization’s build system runs and attempts to resolve <code>example-package</code>, it checks both the internal repository and the external public repository. Seeing the higher version number <code>2.0.0</code> from the public repository, the package manager might choose this version over the internal <code>1.2.3</code>.</p>
+</li>
+<li><p><strong>Malicious Code Execution</strong>: The malicious version <code>2.0.0</code> gets installed, potentially executing harmful code or compromising the application, because it contains the attacker’s payload.</p>
+</li>
+</ol>
+<p><em><strong>Example in Practice</strong></em></p>
+<p>Consider a simplified example with npm (Node Package Manager):</p>
+<ul>
+<li><strong>Internal Package</strong>: <code>example-package</code> version <code>1.2.3</code> hosted on a private registry.</li>
+<li><strong>Malicious Package</strong>: <code>example-package</code> version <code>2.0.0</code> hosted on the public npm registry.</li>
+</ul>
+<p>If the <code>package.json</code> of the application specifies a dependency like this:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;dependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;example-package&quot;</span><span class="punctuation">:</span> <span class="string">&quot;*&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>Or even:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;dependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;example-package&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^1.0.0&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>The package manager might fetch the higher version <code>2.0.0</code> from the public registry because it is the highest version available that meets the specified criteria. The build system could end up installing the attacker’s malicious package, leading to a successful dependency confusion attack :D.</p>
+<p><img src="/imgs/post11/chl6/dependency_c_dia.png" alt="dependency_c_dia.png"></p>
+<p><em>Image credit: TryHackMe</em></p>
+<p>you can learn full attack from this <a target="_blank" rel="noopener" href="https://tryhackme.com/r/room/dependencymanagement">THM Lab</a></p>
+<p>so i released new version with higher number </p>
+<p><img src="/imgs/post11/chl6/new_version.gif" alt="new_version.gif"></p>
+<p>and after building pipeline manually we got the all env vars including <strong>flag</strong></p>
+<p><img src="/imgs/post11/chl6/flag1.png" alt="flag1.png"></p>
+<p>but redacted one that we can print by encoding it</p>
+<p><img src="/imgs/post11/chl6/index3.png" alt="index3.png"></p>
+<p>and after releasing new version, building pipeline we got the flag!</p>
+<p><img src="/imgs/post11/chl6/flag2.png" alt="flag2.png"></p>
+<h3 id="Learning-Takeaway-2"><a href="#Learning-Takeaway-2" class="headerlink" title="Learning Takeaway"></a>Learning Takeaway</h3><h5 id="CICD-SEC-3-Dependency-Chain-Abuse-CICD-SEC-3-Dependency-Chain-Abuse"><a href="#CICD-SEC-3-Dependency-Chain-Abuse-CICD-SEC-3-Dependency-Chain-Abuse" class="headerlink" title="[CICD-SEC-3: Dependency Chain Abuse](# CICD-SEC-3: Dependency Chain Abuse)"></a>[CICD-SEC-3: Dependency Chain Abuse](# CICD-SEC-3: Dependency Chain Abuse)</h5><p><img src="/imgs/post11/chl6/dependency_confusion_owasp.png" alt="dependency_confusion_owasp.png"></p>
+<h3 id="Mitigations-1"><a href="#Mitigations-1" class="headerlink" title="Mitigations"></a>Mitigations</h3><p><img src="/imgs/post11/chl6/chl6_miti.png" alt="chl6_miti.png"></p>
+<h2 id="Dodo"><a href="#Dodo" class="headerlink" title="Dodo"></a>Dodo</h2><h4 id="Description-3"><a href="#Description-3" class="headerlink" title="Description"></a>Description</h4><p><img src="/imgs/post11/chl7/chl7_desc.png" alt="chl7_desc.png"></p>
+<blockquote>
+<p>Hint1 : Read about Checkov, which is the scanner that stops you from making a mess.	<br>Hint2 : Read about <a target="_blank" rel="noopener" href="https://medium.com/cider-sec/malicious-code-analysis-abusing-sast-mis-configurations-to-hack-ci-systems-13d5c1b37ffe">Malicious Code Analysis</a>.	</p>
+</blockquote>
+<p> Our mission is to make the S3 bucket public-readable without getting caught, i looked at both hint where reading given aritcle about <a target="_blank" rel="noopener" href="https://medium.com/cider-sec/malicious-code-analysis-abusing-sast-mis-configurations-to-hack-ci-systems-13d5c1b37ffe">Malicious Code Analysis</a> and checkov i understood my work.</p>
+<p> So before going to solve the challenge lets get familiar with these tools:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/bridgecrewio/checkov">Checkov</a> : Checkov is an open-source static analysis tool designed to help developers and DevOps teams find and fix security and compliance issues in infrastructure as code (IaC). Developed by Bridgecrew, Checkov supports a variety of IaC frameworks including Terraform, CloudFormation, Kubernetes, ARM templates, and others. It scans IaC files to identify misconfigurations, potential vulnerabilities, and adherence to best practices.</li>
+<li><a target="_blank" rel="noopener" href="https://developer.hashicorp.com/terraform/intro">Terraform</a>: Terraform is an open-source infrastructure as code (IaC) tool developed by HashiCorp. It allows users to define and provision data center infrastructure using a high-level configuration language known as HashiCorp Configuration Language (HCL) or optionally JSON.</li>
+</ul>
+<p> <strong>What we got from article - research?</strong></p>
+<p>Attackers can abuse misconfigurations in these tools to bypass security scans or even run malicious code on the CI system. This can be done by adding a configuration file(<strong><em>.checkov.yml</em></strong>) that tells the scanner to ignore certain rules or to execute custom code.</p>
+<p><img src="/imgs/post11/chl7/checkov_poison.png" alt="checkov_poison.png"></p>
+<p>So basically our mission is to make the S3 bucket public-readable that being created by terraform without getting caught from checkov.</p>
+<p>i proceded by manually building pipeline in Jenkin </p>
+<p><img src="/imgs/post11/chl7/dodo_pipeline.png" alt="dodo_pipeline.png"></p>
+<p>where we got this output in console where in sage: <strong>Scan and Deploy</strong> checkov in charge going through specified rule. </p>
+<p><img src="/imgs/post11/chl7/checkov1.png" alt="checkov1.png"></p>
+<p>where Checkov instructed to scan the current directory (and its subdirectories) for IaC configurations and apply these specific AWS-related checks(CKV2_AWS_39,CKV2_AWS_38,CKV_AWS_20,CKV_AWS_57). The tool will analyze the configurations and report any findings related to the specified rules. This is useful for ensuring that your IaC code adheres to security best practices and compliance requirements, thereby reducing the risk of security vulnerabilities in your infrastructure.</p>
+<p><img src="/imgs/post11/chl7/checkov2.png" alt="checkov2.png"></p>
+<p>and file to be scan is <strong>File: &#x2F;main.tf</strong> and code to scan lies within <strong>112-132</strong> lines i.e.</p>
+<p><img src="/imgs/post11/chl7/main_tf.png" alt="main_tf.png"></p>
+<p>here we chekcout <a target="_blank" rel="noopener" href="https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/s3-1-acl-read-permissions-everyone">guide reference</a> given in console result where specific misconfiguration is being checked for.</p>
+<p><img src="/imgs/post11/chl7/guide_link.gif" alt="guide_link.gif"></p>
+<p>where <strong>Arguments:</strong> acl suppose to be <strong>private</strong> as its good practice</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">resource <span class="string">&quot;aws_s3_bucket_acl&quot;</span> <span class="string">&quot;data&quot;</span> <span class="punctuation">&#123;</span></span><br><span class="line">  bucket = aws_s3_bucket.private_acl_v4.id</span><br><span class="line">-  acl    = <span class="string">&quot;public-read&quot;</span></span><br><span class="line">+  acl    = <span class="string">&quot;private&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>to better understand AWS s3 bucket configuration file <a target="_blank" rel="noopener" href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket">check here</a></p>
+</blockquote>
+<p>So now what we have to do is just change the acl value to <strong>public-read</strong> from <strong>private</strong> in <strong>main.tf</strong> file and create a file <code>.checkov.yaml</code> in <strong>dodo</strong> parent directory and ofcourse we know the reason behind it, push the changes to main and ultimatley kick off build in Jenkins hoping for flag to print in the console!</p>
+<p><img src="/imgs/post11/chl7/chl7_flag.gif" alt="chl7_flag.gif"></p>
+<h3 id="Learning-Takeaway-3"><a href="#Learning-Takeaway-3" class="headerlink" title="Learning Takeaway"></a>Learning Takeaway</h3><h5 id="CICD-SEC-1-Insufficient-Flow-Control-Mechanisms"><a href="#CICD-SEC-1-Insufficient-Flow-Control-Mechanisms" class="headerlink" title="CICD-SEC-1: Insufficient Flow Control Mechanisms"></a><a target="_blank" rel="noopener" href="https://owasp.org/www-project-top-10-ci-cd-security-risks/CICD-SEC-01-Insufficient-Flow-Control-Mechanisms">CICD-SEC-1: Insufficient Flow Control Mechanisms</a></h5><p><img src="/imgs/post11/chl7/IFC.png" alt="IFC.png"></p>
+<h3 id="Mitigation"><a href="#Mitigation" class="headerlink" title="Mitigation"></a>Mitigation</h3><p><img src="/imgs/post11/chl7/IFC_Miti.png" alt="IFC_Miti.png"></p>
+<p><strong>Stay tuned last part yet to come :)</strong></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archive">Writing</a></li>
+        
+          <li><a href="/tags/">Tag</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/Durge5h/Projects">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Challenges-Moderate"><span class="toc-number">1.</span> <span class="toc-text">Challenges - Moderate</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Caterpillar"><span class="toc-number">1.1.</span> <span class="toc-text">Caterpillar</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Jenkinfile"><span class="toc-number">1.1.0.2.</span> <span class="toc-text">Jenkinfile</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-Authentication-and-Authorization"><span class="toc-number">1.1.0.2.1.</span> <span class="toc-text">1. Authentication and Authorization</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Learning-Takeaway"><span class="toc-number">1.1.1.</span> <span class="toc-text">Learning Takeaway</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-Public-PPE-3PE"><span class="toc-number">1.1.1.0.1.</span> <span class="toc-text">1. Public-PPE (3PE)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cheshire-Cat"><span class="toc-number">1.1.2.</span> <span class="toc-text">Cheshire Cat</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-1"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">Description</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Learning-Takeaway-1"><span class="toc-number">1.1.3.</span> <span class="toc-text">Learning Takeaway</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-D-PPE"><span class="toc-number">1.1.3.0.1.</span> <span class="toc-text">1. D-PPE</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-CICD-SEC-5-Insufficient-PBAC-Pipeline-Based-Access-Controls"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">2. CICD-SEC-5: Insufficient PBAC (Pipeline-Based Access Controls)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mitigations"><span class="toc-number">1.1.4.</span> <span class="toc-text">Mitigations</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Twiddledum"><span class="toc-number">1.1.5.</span> <span class="toc-text">Twiddledum</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-2"><span class="toc-number">1.1.5.1.</span> <span class="toc-text">Description</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Learning-Takeaway-2"><span class="toc-number">1.1.6.</span> <span class="toc-text">Learning Takeaway</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#CICD-SEC-3-Dependency-Chain-Abuse-CICD-SEC-3-Dependency-Chain-Abuse"><span class="toc-number">1.1.6.0.1.</span> <span class="toc-text">[CICD-SEC-3: Dependency Chain Abuse](# CICD-SEC-3: Dependency Chain Abuse)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mitigations-1"><span class="toc-number">1.1.7.</span> <span class="toc-text">Mitigations</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dodo"><span class="toc-number">1.2.</span> <span class="toc-text">Dodo</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Description-3"><span class="toc-number">1.2.0.1.</span> <span class="toc-text">Description</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Learning-Takeaway-3"><span class="toc-number">1.2.1.</span> <span class="toc-text">Learning Takeaway</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#CICD-SEC-1-Insufficient-Flow-Control-Mechanisms"><span class="toc-number">1.2.1.0.1.</span> <span class="toc-text">CICD-SEC-1: Insufficient Flow Control Mechanisms</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mitigation"><span class="toc-number">1.2.2.</span> <span class="toc-text">Mitigation</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://sf4ult.github.io/2024/06/30/post11/CICD-GOAT-Part-2/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://sf4ult.github.io/2024/06/30/post11/CICD-GOAT-Part-2/&text=CTF Writeup: CICD GOAT | Part 2"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://sf4ult.github.io/2024/06/30/post11/CICD-GOAT-Part-2/&title=CTF Writeup: CICD GOAT | Part 2"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://sf4ult.github.io/2024/06/30/post11/CICD-GOAT-Part-2/&is_video=false&description=CTF Writeup: CICD GOAT | Part 2"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CTF Writeup: CICD GOAT | Part 2&body=Check out this article: https://sf4ult.github.io/2024/06/30/post11/CICD-GOAT-Part-2/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://sf4ult.github.io/2024/06/30/post11/CICD-GOAT-Part-2/&title=CTF Writeup: CICD GOAT | Part 2"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://sf4ult.github.io/2024/06/30/post11/CICD-GOAT-Part-2/&title=CTF Writeup: CICD GOAT | Part 2"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://sf4ult.github.io/2024/06/30/post11/CICD-GOAT-Part-2/&title=CTF Writeup: CICD GOAT | Part 2"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://sf4ult.github.io/2024/06/30/post11/CICD-GOAT-Part-2/&title=CTF Writeup: CICD GOAT | Part 2"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://sf4ult.github.io/2024/06/30/post11/CICD-GOAT-Part-2/&name=CTF Writeup: CICD GOAT | Part 2&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://sf4ult.github.io/2024/06/30/post11/CICD-GOAT-Part-2/&t=CTF Writeup: CICD GOAT | Part 2"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2024
+    Durgesh
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archive">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/Durge5h/Projects">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
